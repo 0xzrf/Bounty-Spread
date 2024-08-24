@@ -35,6 +35,7 @@ function Products() {
   }
 
   return (
+    
     <div className="mt-20 bg-red relative">
       {
         vars.map((elem, i) => {
@@ -59,25 +60,25 @@ function Products() {
           animate={{y: -pos+"rem"}}
           transition={{ease: [0.76, 0, 0.24, 1], duration: 0.5}}
           className="w-full -translate-x-[50%] h-full ">
-            <img className="w-full object-cover" src="https://images.unsplash.com/photo-1717295248358-4b8f2c8989d6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHx8" alt="" />
+            <img className="w-full object-cover" src="https://www.hackthebox.com/images/landingv3/mega-menu-login-academy.png" alt="" />
           </motion.div>
           <motion.div
           animate={{y: -pos+"rem"}}
           transition={{ease: [0.76, 0, 0.24, 1], duration: 0.5}}
           className="w-full -translate-x-[50%] h-full ">
-            <img className="w-full object-cover" src="https://images.unsplash.com/photo-1715314117855-3f070860d47f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxNHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+            <img className="w-full object-cover" src="https://assets.tryhackme.com/img/paths/redteaming.svg" alt="" />
           </motion.div>
           <motion.div
           animate={{y: -pos+"rem"}}
           transition={{ease: [0.76, 0, 0.24, 1], duration: 0.5}}
           className="w-full -translate-x-[50%] h-full">
-            <img className="w-full object-cover" src="https://images.unsplash.com/photo-1717200997603-097f16adf0de?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzNnx8fGVufDB8fHx8fA%3D%3D" alt="" />
+            <img className="w-full object-cover" src="https://assets.tryhackme.com/img/paths/offensivepentesting.jpg" alt="" />
           </motion.div>
           <motion.div
           animate={{y: -pos+"rem"}}
           transition={{ease: [0.76, 0, 0.24, 1], duration: 0.5}}
           className="w-full -translate-x-[50%] h-full ">
-            <img className="w-full object-cover" src="https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YW5pbWV8ZW58MHx8MHx8fDA%3D" alt="" />
+            <img className="w-full object-cover" src="https://assets.tryhackme.com/img/paths/SOCL1.svg" alt="" />
           </motion.div>
         </motion.div>
         :

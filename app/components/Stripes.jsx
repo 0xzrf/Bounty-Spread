@@ -1,24 +1,17 @@
-import React from 'react'
-import Stripe from './Stripe'
+'use client';
 
-function Stripes() {
-    var arr = [
-        {url: "https://assets-global.website-files.com/6334198f239547d0f9cd84b3/63c9ce90a51cd7cf6b3689fb_css-design-awards-logos-id1L9L8Yvp%201.svg", number: 12},
-        {url: "https://assets-global.website-files.com/6334198f239547d0f9cd84b3/63c9ce90a51cd75d563689fd_Awwards-logotype-2018%201.svg", number: 42},
-        {url: "https://assets-global.website-files.com/6334198f239547d0f9cd84b3/63c9ce90a51cd75d563689fd_Awwards-logotype-2018%201.svg", number: 12},
-        {url: "https://assets-global.website-files.com/6334198f239547d0f9cd84b3/63c9ce90a51cd75d563689fd_Awwards-logotype-2018%201.svg", number: 54},
-        {url: "https://assets-global.website-files.com/6334198f239547d0f9cd84b3/63c9ce90a51cd75d563689fd_Awwards-logotype-2018%201.svg", number: 12},
-        {url: "https://assets-global.website-files.com/6334198f239547d0f9cd84b3/63c9ce90a51cd75d563689fd_Awwards-logotype-2018%201.svg", number: 54},
-    ]
-  return (
-    <div className='flex'>
-      {
-        arr.map((elem) => (
-            <Stripe url={elem.url} length={arr.length} num={elem.number}/>
-        ))
-      }
-    </div>
-  )
+import React from 'react';
+
+function Subheading() {
+    return (
+        <div className="w-full bg-zinc-900 mt-[-120px] flex justify-center items-center py-10">
+            <div className="text-center max-w-screen-lg mx-auto px-4">
+                <h2 className="text-white font-mono text-[1.2rem] leading-relaxed tracking-normal">
+                    With Blinks, you get results instantly. Our platform ensures bounties are converted into actionable blinks in just minutes.
+                </h2>
+            </div>
+        </div>
+    );
 }
 
-export default Stripes
+export default Subheading;

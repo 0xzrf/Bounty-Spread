@@ -2,16 +2,13 @@ import React from 'react';
 
 const BountySpreadLogo = () => {
   return (
-    <div className="flex items-center">
-      <div className="bg-slate-500 text-black rounded-full w-10 h-10 flex justify-center items-center">
-        <span className="text-lg font-bold">B</span>
-      </div>
-      <div className="ml-2 text-white font-semibold font-sans">
-        <span className="text-sm">Bounty</span>
-        <br />
-        <span className="text-sm">Spread</span>
-      </div>
-    </div>
+<div className="flex items-center">
+  <div className="font-sans">
+    <h1 className="text-3xl font-bold tracking-tight">
+      <span className="text-white">Bounty</span><span className="text-emerald-400">Spread</span>
+    </h1>
+  </div>
+</div>
   );
 };
 
