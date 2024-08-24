@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+export const runtime = "edge";
+
 function Subheading() {
     return (
         <div className="w-full bg-zinc-900 mt-[-120px] flex justify-center items-center py-10">

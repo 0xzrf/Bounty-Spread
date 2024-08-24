@@ -1,5 +1,7 @@
 import React from 'react';
 
+export const runtime = "edge";
+
 const BountySpreadLogo = () => {
   return (
 <div className="flex items-center">

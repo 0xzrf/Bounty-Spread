@@ -1,6 +1,8 @@
 import React from 'react'
 import { useRouter } from 'next/navigation'
 
+export const runtime = "edge";
+
 function Button({text,link}) {
   const router = useRouter();
   return (

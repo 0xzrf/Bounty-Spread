@@ -1,5 +1,7 @@
 import React from 'react'
 
+export const runtime = "edge";
+
 function Stripe({url,length, num}) {
   return (
     <div className=" w-[16.44%] p-4 border-[0.2px] border-zinc-700 flex justify-between text-white ">

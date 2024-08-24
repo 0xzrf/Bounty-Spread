@@ -9,6 +9,8 @@ import Cards from "./components/Cards";
 import Footer from "./components/Footer";
 import { useEffect } from "react";
 
+export const runtime = "edge";
+
 export default function Home() {
   useEffect(() => {
     let scroll;

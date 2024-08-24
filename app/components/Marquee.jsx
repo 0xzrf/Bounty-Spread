@@ -1,6 +1,8 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 
+export const runtime = "edge";
+
 function Marquee({items, direction}) {
   return (
       <div className="flex justify-around py-4 whitespace-nowrap overflow-hidden">

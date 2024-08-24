@@ -1,6 +1,8 @@
 import React from 'react'
 import Marquee from './Marquee'
 
+export const runtime = "edge";
+
 function Marquees() {
     var images = [
         [

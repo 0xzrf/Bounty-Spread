@@ -1,6 +1,8 @@
 import React from 'react'
 import Button from './Button'
 
+export const runtime = "edge";
+
 function Product({val, mover, count, setPos}) {
   return (
     <div onMouseEnter={() => {mover(count)}} onMouseLeave={() => {

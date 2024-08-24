@@ -1,5 +1,8 @@
 import React from 'react'
 import {motion} from "framer-motion"
+
+export const runtime = "edge";
+
 function Card({ width, text, isHeading=false, isButton = false, isFooter=false, hover= "" }) {
   return (
     <motion.div whileHover={{backgroundColor: hover === "true" && "#7443ff" }} className={`w-${width} p-4 py-6 mb-10 bg-[#323339]  text-white rounded-md  h-[30vh]`}>

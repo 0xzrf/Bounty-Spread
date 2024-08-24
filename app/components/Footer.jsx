@@ -1,5 +1,8 @@
 import React from 'react'
 import Icon from "./Icon"
+
+export const runtime = "edge";
+
 function Footer() {
   return (
     <div className="h-[40vh] mt-10">

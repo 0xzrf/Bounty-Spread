@@ -2,6 +2,8 @@ import React from 'react'
 import Card from './Card'
 import { motion } from 'framer-motion';
 
+export const runtime = "edge";
+
 function Cards() {
   return (
     <div className='w-full'>

@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
+export const runtime = "edge";
+
 function Tagline() {
     const [index, setIndex] = useState(0);
     const words = ["Faster", "Smarter", "In minutes"];

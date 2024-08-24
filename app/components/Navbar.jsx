@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import Button from './Button';
 import BountySpreadLogo from './Icon';
 
+export const runtime = "edge";
+
 function Navbar() {
     const [index, setIndex] = useState(0);
     const [isScrolled, setIsScrolled] = useState(false);
