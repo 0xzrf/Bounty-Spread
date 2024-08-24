@@ -53,7 +53,7 @@ function Navbar() {
                         }
                     </div>
                     <div className="w-1/3 flex justify-end items-center h-[100%]">
-                        <Button text="Create a bounty" />
+                        <Button text="Create a bounty" link={"/signin"} />
                     </div>
                 </div>
             </div>

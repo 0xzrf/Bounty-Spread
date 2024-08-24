@@ -4,28 +4,37 @@ import { motion } from 'framer-motion'
 function Products() {
   const vars = [
     {
-      title: "Arqitel",
-      description: "This is my biggest confession that I don't know wth is wrong with me",
-      caseStudy: false,
-      live: true
+      title: <div>Bounty-to-Blink <span className='block'>Conversion</span></div>,
+      description: <div className="w-full bg-zinc-900 font-sans">
+      <div className="text-center text-white">
+          <h3 className="text-sm text-left md:text-xl font-semibold mb-4">Why Create Blinks Out of Bounties?</h3>
+          <ul className="text-xl text-left  font-light leading-relaxed space-y-4">
+              <li>📡 Share it on a distributed network like X.</li>
+              <li>🚀 Better than ads & can reach larger audiences.</li>
+              <li>🔗 In-app participation without leaving X</li>
+          </ul>
+      </div>
+  </div>,
+      buttonText: '',
+      buttonLink: ''
     },
     {
-      title: "TTR",
-      description: "This is my biggest confession that I don't know wth is wrong with me",
-      caseStudy: false,
-      live: true
+      title: <div>Create <span className='block'>Blinks-- Faster!!</span></div>,
+      description: <div className='text-xl'>Registering and verifying a blink takes upto 48 hours, we can help you create a blink in up to 2 hours(And 5 if you're pro user ;))</div>,
+      buttonText: 'Make it now ->',
+      buttonLink: '/makeBlink'
     },
     {
-      title: "YIR 2024",
-      description: "This is my biggest confession that I don't know wth is wrong with me",
-      caseStudy: false,
-      live: true
+      title: <div>Bounty Dispense <span className='block'>made easy</span></div>,
+      description: <div className='text-xl'>Distributing bounties made easier through blinks, letting winners claim their bounty within X itself, by interacticting with the blink</div>,
+      buttonText: '',
+      buttonLink: ''
     },
     {
-      title: "Yahoo!",
-      description: "This is my biggest confession that I don't know wth is wrong with me",
-      caseStudy: true,
-      live: true
+      title: <div>Dedicated <span className='block'>dashboard</span></div>,
+      description: <div className='text-xl'>A place to track submissions and all participants.</div>,
+      buttonText: 'sign-in now',
+      buttonLink: '/signin'
     },
   ]
 
@@ -36,7 +45,11 @@ function Products() {
 
   return (
     
-    <div className="mt-20 bg-red relative">
+    <div className="mt-20 relative">
+    <p class="text-[3vw] text-white mx-auto text-center ">
+        FEATURES
+    </p>
+
       {
         vars.map((elem, i) => {
           return (
@@ -50,7 +63,7 @@ function Products() {
         })
       }
       <div className="absolute top-0 w-full h-full pointer-events-none ">
-   { (pos !== null) ?
+   {/* { (pos !== null) ?
         <motion.div 
         initial={{y: pos, x: "-50%"}}
         animate={{y: pos+"rem"}}
@@ -83,7 +96,7 @@ function Products() {
         </motion.div>
         :
         null
-}
+} */}
       </div>
     </div>
   )

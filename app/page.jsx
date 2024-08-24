@@ -26,7 +26,7 @@ export default function Home() {
       <Work/>
       <Stripes/>
       <Products/>
-      <Marquees/>
+      {/* <Marquees/> */}
       <Cards/>
       <Footer/>
     </div>
