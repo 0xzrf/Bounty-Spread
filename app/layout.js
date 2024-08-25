@@ -1,5 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
+import AppWalletProvider from "./components/AppWalletProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,12 +13,14 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-      <link
-        href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
-        rel="stylesheet"
-      />
+        <link
+          href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+          rel="stylesheet"
+        />
       </head>
-      <body className={inter.className}>{children}</body>
+      <AppWalletProvider>
+        <body className={inter.className}>{children}</body>
+      </AppWalletProvider>
     </html>
   );
 }
