@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from './Button';
 import BountySpreadLogo from './Icon';
-
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
 export const runtime = "edge";
 
@@ -34,7 +34,7 @@ function Navbar() {
                     <div className="flex gap-12 font-extralight text-sm justify-center">
                         <BountySpreadLogo />
                         {
-                            ["Home", "Leaderboard", "About", '', "Explore Bounties"].map((elem, i) => {
+                            ["Home",  '', "Explore Bounties"].map((elem, i) => {
                                 return (
                                     <React.Fragment key={i}>
                                         {elem.length ? (
@@ -55,7 +55,17 @@ function Navbar() {
                             })
                         }
                     </div>
-                    <div className="w-1/3 flex justify-end items-center h-[100%]">
+                    <div className="w-1/3 flex justify-betw items-center h-[100%]">
+                        <WalletMultiButton style={{
+                             marginRight:'0.2rem',
+                             backgroundColor: 'white',
+                             color:'black',
+                             fontFamily:'monospace',
+                             height: '2em',
+                             borderRadius: '9999px',
+                             fontWeight:'100',
+                             fontSize:''
+                        }}/>
                         <Button text="Create a bounty" link={"/signup"} />
                     </div>
                 </div>
