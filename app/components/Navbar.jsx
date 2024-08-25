@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Button from './Button';
 import BountySpreadLogo from './Icon';
 
+
 export const runtime = "edge";
 
 function Navbar() {
@@ -55,7 +56,7 @@ function Navbar() {
                         }
                     </div>
                     <div className="w-1/3 flex justify-end items-center h-[100%]">
-                        <Button text="Create a bounty" link={"/signin"} />
+                        <Button text="Create a bounty" link={"/signup"} />
                     </div>
                 </div>
             </div>
