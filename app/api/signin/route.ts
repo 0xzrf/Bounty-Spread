@@ -1,20 +1,20 @@
 import jwt from "jsonwebtoken"
-import {prisma} from "@/lib/utils"
+import { prisma } from "@/lib/utils"
 import nacl from "tweetnacl"
-import {verifySignature} from "@/helperFuncs/functions"
-import {cookies} from "next/headers"
-const JWT_SECRET= process.env.JWT_SECRET 
+import { verifySignature } from "@/helperFuncs/functions"
+import { cookies } from "next/headers"
+const JWT_SECRET = process.env.JWT_SECRET
 
 export const POST = async (req: Request) => {
-    const {pubKey, signature} : any = await req.json();
+    const { pubKey, signature }: any = await req.json();
 
     if (!pubKey || !signature) {
         return Response.json({
-            msg:"Please provide valid inputs"
+            msg: "Please provide valid inputs"
         })
     }
 
-    const {isSuccess, msg} = verifySignature(pubKey, signature)
+    const { isSuccess, msg } = verifySignature(pubKey, signature)
     if (!isSuccess) {
         return Response.json({
             msg
@@ -36,14 +36,15 @@ export const POST = async (req: Request) => {
         })
     }
 
-    const token = jwt.sign({email: isUser.email}, JWT_SECRET as string)
+    const token = jwt.sign({ email: isUser.email }, JWT_SECRET as string)
 
     cookies().set("userToken", token)
 
     return Response.json({
-        msg:"Successfully Signed in"
+        msg: "Successfully Signed in",
+        success: true
     }, {
-        status: 403
+        status: 200
     })
 
 }

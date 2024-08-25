@@ -2,16 +2,17 @@
 
 import React,{useState} from 'react';
 import axios from 'axios';
+import { cookies } from 'next/headers';
 import { useRouter } from 'next/navigation';
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-
+import { useWallet } from '@solana/wallet-adapter-react';
 
 const signUpForm = () =>{
     const router = useRouter();
+    const {publicKey,signMessage} = useWallet();
     const [form, setForm] = useState({
         email:'',
-        password:'',
-        username:''
+        username:'',
     });
     //fxn to handle individual changes
     const handleChange = (e:any) =>{
@@ -21,23 +22,35 @@ const signUpForm = () =>{
             [name]:value
         })
     }
+
     //fxn to submit form
     const handleSubmit = async (e:any) =>{
         e.preventDefault();
 
+
+        const message = new TextEncoder().encode(
+          "You're signing-up to BountySpread"
+        );
+        const signature = await signMessage?.(message);
         //backend route
-        const response = await axios.post("http://localhost:3000/api/signup",form);
+        const response = await axios.post("http://localhost:3000/api/signup",{
+          email: form.email,
+          username: form.username,
+          publicKey,
+          signature
+        });
+
         if(!response.data.success){
             alert("axios sign-in request failed!")
         }else{
-            router.push("/chat-interface")
+            router.push("/dashboard")
         }    
     }
 
     return(
         <div className="min-h-screen bg-gradient-to-br from-zinc-700 via-zinc-800 to-zinc-900 flex items-center justify-center p-4 relative overflow-hidden">
        
-  {/* Animated subtle patterns */}
+
   <div className="absolute inset-0 z-0">
     <div className="absolute inset-0 opacity-10 animate-pulse">
       <div className="h-full w-full bg-gradient-to-br from-zinc-700 via-zinc-800 to-zinc-900 blur-3xl"></div>

@@ -8,20 +8,21 @@ import { verifySignature } from "@/helperFuncs/functions"
 const JWT_SECRET = process.env.JWT_SECRET as string
 console.log("jwtsecret:", JWT_SECRET);
 
-async function POST(req: NextRequest) {
-    const { email, username, publicKey, signature }: { 
-        email: string, 
-        username: string, 
-        publicKey: any, 
-        signature: any } = await req.json();
+export async function POST(req: NextRequest) {
+    const { email, username, publicKey, signature }: {
+        email: string,
+        username: string,
+        publicKey: any,
+        signature: any
+    } = await req.json();
 
     // If publickey & signature or either are null & correct as well
-    if(!publicKey || !signature){
-        return NextResponse.json({msg:"Check your wallet credentials please."})
+    if (!publicKey || !signature) {
+        return NextResponse.json({ msg: "Check your wallet credentials please." })
     }
 
-    const {isSuccess,msg} = verifySignature(publicKey,signature);
-    if(!isSuccess){
+    const { isSuccess, msg } = verifySignature(publicKey, signature);
+    if (!isSuccess) {
         return NextResponse.json({
             msg
         })
@@ -35,7 +36,7 @@ async function POST(req: NextRequest) {
     })
 
     if (user) {
-        return NextResponse.json({msg:"User exists already!",status:411})
+        return NextResponse.json({ msg: "User exists already!" }, { status: 400 })
     }
 
     try {
@@ -47,16 +48,18 @@ async function POST(req: NextRequest) {
             }
         })
 
-        const token = jwt.sign({email},JWT_SECRET);     
-        cookies().set("token",token);
+        const token = jwt.sign({ email }, JWT_SECRET);
+        cookies().set("token", token);
     } catch (err: any) {
         console.log(err);
         return NextResponse.json({ msg: err.message })
     }
 
     return NextResponse.json({
-        msg:"Signed in successful",
-        status:200
+        msg: "Signed in successful",
+        success: true
+    }, {
+        status: 200
     })
 }
 
