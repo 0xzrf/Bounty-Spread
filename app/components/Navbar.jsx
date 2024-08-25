@@ -64,7 +64,7 @@ function Navbar() {
                              height: '2em',
                              borderRadius: '9999px',
                              fontWeight:'100',
-                             fontSize:''
+                             fontSize:'14.8px'
                         }}/>
                         <Button text="Create a bounty" link={"/signup"} />
                     </div>
