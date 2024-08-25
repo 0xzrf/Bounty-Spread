@@ -99,8 +99,8 @@ function Products() {
           intergrate the data wherever you want.
         </div>
       ),
-      buttonText: "sign-in now",
-      buttonLink: "/signin",
+      buttonText: "",
+      buttonLink: "",
     },
   ];
 

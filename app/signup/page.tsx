@@ -25,9 +25,6 @@ const signUpForm = () =>{
     const handleSubmit = async (e:any) =>{
         e.preventDefault();
 
-        // 
-
-
         //backend route
         const response = await axios.post("http://localhost:3000/api/signup",form);
         if(!response.data.success){
