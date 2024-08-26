@@ -95,7 +95,7 @@ function Navbar() {
                   signAndSend();
                 }
               }}
-            >
+            > 
               <WalletMultiButton
                 style={{
                   marginRight: "0.2rem",

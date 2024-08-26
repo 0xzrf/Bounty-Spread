@@ -20,6 +20,7 @@
     "@solana/wallet-adapter-wallets": "^0.19.32",
     "@solana/web3.js": "^1.95.3",
     "clsx": "^2.1.1",
+    "crypto": "^1.0.1",
     "dotenv": "^16.4.5",
     "flowbite": "^2.5.1",
     "flowbite-react": "^0.10.1",
