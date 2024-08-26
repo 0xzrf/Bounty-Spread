@@ -31,7 +31,7 @@ model Bounties {
   description String
   createdAt   DateTime            @default(now())
   isActive    Boolean             @default(true)
-  Interval    DateTime
+  interval    DateTime
   hostId      Int
   hostRel     Host                @relation(fields: [hostId], references: [id])
   questions   String[]

@@ -36,64 +36,20 @@ export const POST = async (req: NextRequest) => {
     const questionsArr = questions.map((item) => item.question)
     const typeArr = questions.map((item) => item.type)
 
-    if (type == "Project") {
-        await prisma.projects.create({
-            data: {
-                name,
-                description,
-                Interval: interval,
-                question: questionsArr,
-                hostId: userId as number,
-                type: typeArr
-            }
-        })
+    await prisma.bounties.create({
+        data: {
+            description,
+            name,
+            interval,
+            type,
+            questions: questionsArr,
+            hostId: userId as number,
+            types: typeArr,
+        }
+    })
 
-        return NextResponse.json({
-            success: true,
-            msg: "Successfully created"
-        }, {
-            status: 403
-        })
-    }
-    if (type == "Grant") {
-        await prisma.grants.create({
-            data: {
-                name,
-                description,
-                Interval: interval,
-                question: questionsArr,
-                hostId: userId as number,
-                type: typeArr,
-                
-            }
-        })
-
-        return NextResponse.json({
-            success: true,
-            msg: "Successfully created"
-        }, {
-            status: 403
-        })
-    }
-    if (type == "Bounty") {
-        await prisma.projects.create({
-            data: {
-                name,
-                description,
-                Interval: interval,
-                question: questionsArr,
-                hostId: userId as number,
-                type: typeArr
-            }
-        })
-
-        return NextResponse.json({
-            success: true,
-            msg: "Successfully created"
-        }, {
-            status: 403
-        })
-    }
-
-
+    return NextResponse.json({
+        success: true,
+        msg: "Successfully created a blink"
+    })
 }
