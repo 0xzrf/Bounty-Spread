@@ -32,7 +32,6 @@ model Bounties {
   createdAt   DateTime            @default(now())
   isActive    Boolean             @default(true)
   Interval    DateTime
-  hostId      Int
   hostRel     Host                @relation(fields: [id], references: [id])
 }
 
@@ -89,8 +88,7 @@ model GrantInput {
   otherInfo       String
   projDescription String
   question        Questions?
-  grantSubId      Int              @unique
-  grantSub        GrantSubmisisons @relation(fields: [grantSubId], references: [id])
+  grantSub        GrantSubmisisons @relation(fields: [id], references: [id])
 }
 
 model Projects {
@@ -100,26 +98,23 @@ model Projects {
   isActive    Boolean              @default(true)
   Interval    DateTime
   submissions ProjectSubmissions[]
-  hostId      Int
-  host        Host                 @relation(fields: [hostId], references: [id])
+  host        Host                 @relation(fields: [id], references: [id])
 }
 
 model ProjectSubmissions {
   id            Int            @id @default(autoincrement())
   userId        Int
   user          User           @relation(fields: [userId], references: [id])
-  projectId     Int
   projectInputs ProjectInputs?
-  project       Projects       @relation(fields: [projectId], references: [id])
+  project       Projects       @relation(fields: [id], references: [id])
 }
 
 model ProjectInputs {
-  id           Int                @id @default(autoincrement())
-  name         String
-  amount       Int
-  projectSubId Int                @unique
-  projSub      ProjectSubmissions @relation(fields: [projectSubId], references: [id])
-  question     Questions?
+  id       Int                @id @default(autoincrement())
+  name     String
+  amount   Int
+  projSub  ProjectSubmissions @relation(fields: [id], references: [id])
+  question Questions?
 }
 
 model User {
