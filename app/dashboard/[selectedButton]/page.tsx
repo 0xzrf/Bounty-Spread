@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Sidebar from "../../components/app/Sidebar";
 import MainContent from "../../components/app/MainContent";
 import { useParams } from "next/navigation";
 function Dashboard() {
@@ -18,7 +17,6 @@ function Dashboard() {
   }
   return (
     <div>
-      <Sidebar selectedButton={selectedButton} />
       <MainContent selectedButton={selectedButton} />
     </div>
   );

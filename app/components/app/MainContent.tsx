@@ -18,8 +18,6 @@ export default function MainContent({
         return <NewBounty />;
       case "proMember":
         return <ProMember />;
-      default:
-        return <Welcome />;
     }
   };
 

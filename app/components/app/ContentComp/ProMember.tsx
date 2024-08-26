@@ -1,9 +1,3 @@
-
-
 export default function ProMember() {
-    return (
-        <div>
-            
-        </div>
-    )
+  return <div className="min-h-screen"></div>;
 }

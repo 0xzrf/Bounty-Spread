@@ -1,9 +1,3 @@
-
-
 export default function CurrentBounties() {
-    return (
-        <div>
-            
-        </div>
-    )
+  return <div className="min-h-screen"></div>;
 }
