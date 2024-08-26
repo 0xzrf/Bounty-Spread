@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ msg: "Check your wallet credentials please." })
     }
 
-    const { isSuccess, msg } = verifySignature(publicKey, signature);
+    const { isSuccess, msg } = await verifySignature(publicKey, signature);
     if (!isSuccess) {
         return NextResponse.json({
             msg

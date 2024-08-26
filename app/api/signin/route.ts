@@ -6,18 +6,19 @@ import { cookies } from "next/headers"
 const JWT_SECRET = process.env.JWT_SECRET
 
 export const POST = async (req: Request) => {
-    const { pubKey, signature }: any = await req.json();
-
-    if (!pubKey || !signature) {
+    const { pubKey, signature }: any = await req.json();    
+        if (!pubKey || !signature) {
         return Response.json({
             msg: "Please provide valid inputs"
-        })
+        })  
     }
 
-    const { isSuccess, msg } = verifySignature(pubKey, signature)
+    const { isSuccess, msg } = await verifySignature(pubKey, signature)
     if (!isSuccess) {
         return Response.json({
             msg
+        }, {
+            status: 403
         })
     }
 
@@ -38,7 +39,7 @@ export const POST = async (req: Request) => {
 
     const token = jwt.sign({ email: isUser.email }, JWT_SECRET as string)
 
-    cookies().set("userToken", token)
+    cookies().set("token", token)
 
     return Response.json({
         msg: "Successfully Signed in",

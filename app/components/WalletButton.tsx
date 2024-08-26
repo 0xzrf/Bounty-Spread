@@ -4,7 +4,7 @@ import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
  
 export default function WalletButton() {
   return (
-    <main className="flex items-center justify-center min-h-screen">
+    <main className="flex items-center justify-center">
       <div className="border hover:border-slate-900 rounded">
         <WalletMultiButton style={{}} />
       </div>

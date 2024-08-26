@@ -28,10 +28,12 @@ function Navbar() {
       });
 
       if (!response.data.success) {
-        alert("Invalid user, please sign in ");
-        router.push("/signin");
-      }
-      router.push("/dashboard");
+        alert("Invalid user creds")
+        router.push('/signup')
+        return
+      } 
+      alert(response.data.msg)
+      router.push("/dashboard")
     } catch (err) {
       alert("Unable to verify User");
       return;
