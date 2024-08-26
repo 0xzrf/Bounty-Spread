@@ -252,6 +252,20 @@ export default function NewBounty() {
           )}
         </div>
       </div>
+      <div className="w-full h-full  text-center">
+        <button
+          className="h-1/2 w-1/6 rounded-lg bg-emerald-400"
+          disabled={
+            !selectedValue ||
+            questions.length == 0 ||
+            textInput == "" ||
+            description == "" ||
+            dateTime == ""
+          }
+        >
+          Submit
+        </button>
+      </div>
     </div>
   );
 }
