@@ -1,16 +1,25 @@
-'use client'
+"use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/app/Sidebar";
 import MainContent from "../../components/app/MainContent";
 import { useParams } from "next/navigation";
 function Dashboard() {
-  const {selectedButton} = useParams();
+  const [loading, isLoading] = useState(false);
 
+  useEffect(() => {
+    isLoading(true);
+  }, []);
+
+  const { selectedButton } = useParams();
+
+  if (!loading) {
+    return null;
+  }
   return (
     <div>
       <Sidebar selectedButton={selectedButton} />
-      <MainContent  selectedButton={selectedButton} />
+      <MainContent selectedButton={selectedButton} />
     </div>
   );
 }

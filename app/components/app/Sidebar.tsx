@@ -47,11 +47,9 @@ export default function Sidebar({
           <ul className="space-y-4 font-medium">
             <li>
               <div
-                className={
-                  selectedButton == "currentBounties"
-                    ? "flex items-center p-3 rounded-lg text-white transition bg-emerald-400 group"
-                    : "flex items-center p-3 rounded-lg text-white transition group"
-                }
+                className={`flex hover:cursor-pointer items-center p-3 rounded-lg text-white transition group ${
+                  selectedButton == "currentBounties" && "bg-emerald-400"
+                }`}
                 onClick={() => router.push("/dashboard/currentBounties")}
               >
                 <svg
@@ -69,11 +67,9 @@ export default function Sidebar({
             </li>
             <li>
               <div
-                className={
-                  selectedButton == "newBounty"
-                    ? "flex items-center p-3 rounded-lg text-white transition bg-emerald-400 group"
-                    : "flex items-center p-3 rounded-lg text-white transition group"
-                }
+                className={`flex items-center hover:cursor-pointer p-3 rounded-lg text-white transition group ${
+                  selectedButton == "newBounty" && "bg-emerald-400"
+                }`}
                 onClick={() => router.push("/dashboard/newBounty")}
               >
                 <svg
@@ -90,11 +86,9 @@ export default function Sidebar({
             </li>
             <li>
               <div
-                className={
-                  selectedButton == "proMember"
-                    ? "flex items-center p-3 rounded-lg text-white transition bg-emerald-400 group"
-                    : "flex items-center p-3 rounded-lg text-white transition group"
-                }
+                className={`flex items-center p-3 hover:cursor-pointer rounded-lg text-white transition group ${
+                  selectedButton == "proMember" && "bg-emerald-400"
+                }`}
                 onClick={() => router.push("/dashboard/proMember")}
               >
                 <svg

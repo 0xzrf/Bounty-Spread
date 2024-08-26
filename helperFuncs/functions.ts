@@ -11,7 +11,15 @@ export async function verifySignature(pubKey: String, signature: any) {
     try {
         const signatureString = "You're a verified exceliWorker"
         const stringEncoded = new TextEncoder().encode(signatureString)
-        const sign = new Uint8Array(Object.values(signature));
+        let sign;
+        if (typeof signature == "object") {
+            sign = new Uint8Array(Object.values(signature));
+        } else if (signature.data) {
+            sign = new Uint8Array(signature.data);
+        } else {
+            // Fallback or error handling
+            throw new Error('Unsupported signature format');
+        }
         const pubkey = new PublicKey(pubKey).toBytes()
 
         const result = nacl.sign.detached.verify(
