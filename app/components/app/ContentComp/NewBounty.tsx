@@ -90,6 +90,9 @@ export default function NewBounty() {
             onChange={handleDateTimeChange}
             className="block w-full p-2.5 bg-zinc-700 text-white border border-emerald-400 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400"
           />
+          {(() => {
+            return <div></div>;
+          })()}
         </div>
       </div>
     </div>

@@ -33,6 +33,7 @@ model Bounties {
   isActive    Boolean             @default(true)
   Interval    DateTime
   hostRel     Host                @relation(fields: [id], references: [id])
+  bountyInput InputTypes?
 }
 
 model BountySubmissions {
@@ -56,9 +57,9 @@ model Questions {
   id           Int           @id @default(autoincrement())
   question     String
   answer       String
-  grantId      Int           @unique
-  bountyId     Int
-  projectId    Int           @unique
+  grantId      Int           @unique @default(autoincrement())
+  bountyId     Int           @unique @default(autoincrement())
+  projectId    Int           @unique @default(autoincrement())
   bountyInput  BountyInput   @relation(fields: [bountyId], references: [id])
   grantInput   GrantInput    @relation(fields: [grantId], references: [id])
   projectInput ProjectInputs @relation(fields: [projectId], references: [id])
@@ -72,6 +73,19 @@ model Grants {
   isActive    Boolean            @default(true)
   Interval    DateTime
   grantHost   Host               @relation(fields: [id], references: [id])
+  grant       InputTypes?
+}
+
+model InputTypes {
+  id        Int      @id @default(autoincrement())
+  question  String
+  type      String
+  grantId   Int      @unique @default(autoincrement())
+  bountyId  Int      @unique @default(autoincrement())
+  projectId Int      @unique @default(autoincrement())
+  grant     Grants   @relation(fields: [grantId], references: [id])
+  project   Projects @relation(fields: [projectId], references: [id])
+  bounty    Bounties @relation(fields: [bountyId], references: [id])
 }
 
 model GrantSubmisisons {
@@ -87,6 +101,7 @@ model GrantInput {
   name            String
   otherInfo       String
   projDescription String
+  amount          Int
   question        Questions?
   grantSub        GrantSubmisisons @relation(fields: [id], references: [id])
 }
@@ -99,6 +114,7 @@ model Projects {
   Interval    DateTime
   submissions ProjectSubmissions[]
   host        Host                 @relation(fields: [id], references: [id])
+  projInput   InputTypes?
 }
 
 model ProjectSubmissions {
