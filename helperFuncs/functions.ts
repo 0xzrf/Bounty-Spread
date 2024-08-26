@@ -4,14 +4,14 @@ import nacl from "tweetnacl"
 import jwt, { JwtPayload } from "jsonwebtoken"
 import { PublicKey } from "@solana/web3.js"
 import { prisma } from "@/lib/utils"
-import {cookies} from "next/headers"
+import { cookies } from "next/headers"
 const JWT_SECRET = process.env.JWT_SECRET
 
 export async function verifySignature(pubKey: String, signature: any) {
     try {
         const signatureString = "You're a verified exceliWorker"
         const stringEncoded = new TextEncoder().encode(signatureString)
-        const sign = new Uint8Array(Object.values(signature));
+        const sign = new Uint8Array(signature.data);
         const pubkey = new PublicKey(pubKey).toBytes()
 
         const result = nacl.sign.detached.verify(
@@ -47,15 +47,17 @@ export async function verifyUser(token: string) {
     }
 }
 
-export async function deleteCookie(){
+export async function deleteCookie() {
     cookies().delete("token")
 }
 
 export async function getCookie() {
-    const cookie = cookies().get("token")
-    console.log(cookie)
-    if (!cookie) {
-        return false
+    try {
+        const cookie = cookies().get("token")
+        console.log(cookie?.value)
     }
-    return true
+    catch (err) {
+        console.log("fucked up cookie", err)
+
+    }
 }

@@ -28,12 +28,12 @@ function Navbar() {
       });
 
       if (!response.data.success) {
-        alert("Invalid user creds")
-        router.push('/signup')
-        return
-      } 
-      alert(response.data.msg)
-      router.push("/dashboard")
+        alert("Invalid user creds");
+        router.push("/signup");
+        return;
+      }
+      alert(response.data.msg);
+      router.push("/dashboard");
     } catch (err) {
       alert("Unable to verify User");
       return;
@@ -90,7 +90,7 @@ function Navbar() {
           </div>
           <div className="w-1/3 flex justify-betw items-center h-[100%]">
             <div
-              onClick={() => {
+              onClick={async () => {
                 if (publicKey) {
                   signAndSend();
                 }
@@ -109,6 +109,7 @@ function Navbar() {
                 }}
               />
             </div>
+
             <Button text="Create a bounty" link={"/signup"} />
           </div>
         </div>
