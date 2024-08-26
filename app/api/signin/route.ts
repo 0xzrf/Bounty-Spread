@@ -6,11 +6,11 @@ import { cookies } from "next/headers"
 const JWT_SECRET = process.env.JWT_SECRET
 
 export const POST = async (req: Request) => {
-    const { pubKey, signature }: any = await req.json();    
-        if (!pubKey || !signature) {
+    const { pubKey, signature }: any = await req.json();
+    if (!pubKey || !signature) {
         return Response.json({
             msg: "Please provide valid inputs"
-        })  
+        })
     }
 
     const { isSuccess, msg } = await verifySignature(pubKey, signature)
@@ -43,7 +43,8 @@ export const POST = async (req: Request) => {
 
     return Response.json({
         msg: "Successfully Signed in",
-        success: true
+        success: true,
+        token
     }, {
         status: 200
     })

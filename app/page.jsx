@@ -1,9 +1,9 @@
-'use client'
+"use client";
 
 import Navbar from "./components/Navbar";
 import Work from "./components/Work";
 import Products from "./components/Products";
-import Stripes from "./components/Stripes"
+import Stripes from "./components/Stripes";
 import Marquees from "./components/Marquees";
 import Cards from "./components/Cards";
 import Footer from "./components/Footer";
@@ -19,7 +19,7 @@ export default function Home() {
       scroll = new locomotiveModule.default();
     });
 
-    setIsReady(true)
+    setIsReady(true);
 
     return () => {
       if (scroll) scroll.destroy();
@@ -27,18 +27,20 @@ export default function Home() {
   });
 
   if (!isReady) {
-    return null
+    return null;
   }
 
   return (
-    <div style={{ paddingTop: "0.1px", paddingBottom: "0.1px"}} className="bg-zinc-900" >
-      <Navbar/>
-      <Work/>
-      <Stripes/>
-      <Products/>
-      {/* <Marquees/> */}
-      <Cards/>
-      <Footer/>
+    <div
+      style={{ paddingTop: "0.1px", paddingBottom: "0.1px" }}
+      className="bg-zinc-900"
+    >
+      <Navbar />
+      <Work />
+      <Stripes />
+      <Products />
+      <Cards />
+      <Footer />
     </div>
   );
 }

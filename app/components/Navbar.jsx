@@ -12,7 +12,7 @@ export const runtime = "edge";
 
 function Navbar() {
   const router = useRouter();
-  const { publicKey, signMessage } = useWallet();
+  const { publicKey, signMessage, wallets } = useWallet();
   const [index, setIndex] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -22,6 +22,8 @@ function Navbar() {
         `You're a verified exceliWorker`
       );
       const signature = await signMessage?.(message);
+      console.log(signature);
+
       const response = await axios.post(`http://localhost:3000/api/signin`, {
         signature,
         pubKey: publicKey?.toString(),
@@ -95,7 +97,7 @@ function Navbar() {
                   signAndSend();
                 }
               }}
-            > 
+            >
               <WalletMultiButton
                 style={{
                   marginRight: "0.2rem",
