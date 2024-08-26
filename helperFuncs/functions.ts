@@ -11,7 +11,7 @@ export async function verifySignature(pubKey: String, signature: any) {
     try {
         const signatureString = "You're a verified exceliWorker"
         const stringEncoded = new TextEncoder().encode(signatureString)
-        const sign = new Uint8Array(signature.data);
+        const sign = new Uint8Array(Object.values(signature));
         const pubkey = new PublicKey(pubKey).toBytes()
 
         const result = nacl.sign.detached.verify(
