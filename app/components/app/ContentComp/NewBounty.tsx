@@ -1,5 +1,10 @@
 import { useState } from "react";
 
+interface QuestionAnswers {
+  question: string;
+  type: string;
+}
+
 export default function NewBounty() {
   const [selectedValue, setSelectedValue] = useState<
     "Project" | "Grant" | "Bounty" | ""
@@ -7,6 +12,11 @@ export default function NewBounty() {
   const [textInput, setTextInput] = useState("");
   const [dateTime, setDateTime] = useState("");
   const [description, setDescription] = useState("");
+  const [questions, setQuestions] = useState<QuestionAnswers[]>([]);
+  const [questionObject, setQuestionObject] = useState<QuestionAnswers>({
+    question: "",
+    type: "",
+  });
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedValue(event.target.value as "Project" | "Grant" | "Bounty" | "");
@@ -24,12 +34,12 @@ export default function NewBounty() {
 
   return (
     <div className="w-full h-screen">
-      <div className="text-center flex  flex-col justify-start gap-4 ">
+      <div className="text-center flex mt-10 flex-col justify-start gap-4 ">
         <h1 className="font-bold text-4xl">Create your new Custom Blink</h1>
         <h3 className="font-semibold">This is where you create the magic🪄</h3>
       </div>
       <div className="p-6 mx-auto w-full h-[90%] bg-zinc-800">
-        <div className="border-4 border-dashed border-emerald-400 w-full min-h-2/3 rounded-lg p-8 text-white">
+        <div className=" w-full min-h-2/3 rounded-lg p-8 text-white">
           <label htmlFor="choices" className="block text-lg mb-2">
             The blink is for:
           </label>
@@ -90,9 +100,96 @@ export default function NewBounty() {
             onChange={handleDateTimeChange}
             className="block w-full p-2.5 bg-zinc-700 text-white border border-emerald-400 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400"
           />
-          {(() => {
-            return <div></div>;
-          })()}
+          {selectedValue == "" ? (
+            <div className="text-center mt-10">please select a blink type</div>
+          ) : (
+            <div>
+              {questions?.map((item) => {
+                return (
+                  <div className="border-2 h-10 w-10">
+                    <h1>{item.question}</h1>
+                    <h1>{item.type}</h1>
+                  </div>
+                );
+              })}
+              <h1 className="text-center mt-10">
+                Write the input fields of yoru blink:
+              </h1>
+              <div className="flex">
+                <div className="w-2/4">
+                  <label
+                    htmlFor="textInput"
+                    className="block text-lg mt-4 mb-2"
+                  >
+                    Choose your question to ask user:
+                  </label>
+                  <input
+                    id="textInput"
+                    type="text"
+                    value={questionObject.question}
+                    onChange={(e) => {
+                      setQuestionObject((prevVals) => {
+                        return {
+                          ...prevVals,
+                          question: e.target.value,
+                        };
+                      });
+                    }}
+                    className="block w-full p-2.5 bg-zinc-700 text-white border border-emerald-400 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                  />
+                </div>
+                <div className="w-1/4">
+                  <label htmlFor="choices" className="block text-sm mt-4">
+                    Choose the type of your quesiton:
+                  </label>
+                  <select
+                    id="choices"
+                    value={questionObject.type}
+                    onChange={(e) => {
+                      setQuestionObject((prevVals) => {
+                        return {
+                          ...prevVals,
+                          type: e.target.value,
+                        };
+                      });
+                    }}
+                    className="block w-full mt-4 p-2.5 bg-zinc-700 text-white border border-emerald-400 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                  >
+                    <option value="" disabled>
+                      Select an option
+                    </option>
+                    <option value="Text">Text</option>
+                    <option value="Email">Email</option>
+                    <option value="Number">Number</option>
+                  </select>
+                </div>
+                <div className="w-1/4">
+                  <div className=" w-full flex justify-center items-center h-full">
+                    <button
+                      onClick={() => {
+                        setQuestions((prevVals) => {
+                          return [
+                            ...prevVals,
+                            {
+                              question: questionObject.question,
+                              type: questionObject.type,
+                            },
+                          ];
+                        });
+                        setQuestionObject({
+                          question: "",
+                          type: "",
+                        });
+                      }}
+                      className="mt-10 h-2/4 w-2/5 bg-emerald-400 rounded-2xl text-white"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
