@@ -4,11 +4,9 @@ import UnverifiedBounties from './Admin/UnverifiedBounties';
 
 const AdminPage: React.FC = () => {
   // Initially, the bounties array is empty
-  const [bounties, setBounties] = useState([{
-    hostId: 1,
-    endpoint: "Hello world",
-    url: "something"
-  }]);
+  const [bounties, setBounties] = useState([]);
+
+  
 
   return (
     <AdminLayout>
