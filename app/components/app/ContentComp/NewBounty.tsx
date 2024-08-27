@@ -1,5 +1,11 @@
-import { useState } from "react";
+"use client"
+
+import { ChangeEvent, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import UploadImage from "../uploadImage";
+import axios from "axios"
+import { z } from "zod";
+import {createBountyType} from "@/helperFuncs/types"
 
 interface QuestionAnswers {
   question: string;
@@ -7,18 +13,20 @@ interface QuestionAnswers {
 }
 
 export default function NewBounty() {
+  const [uploading, setUploading] = useState(false);
   const [selectedValue, setSelectedValue] = useState<
     "Project" | "Grant" | "Bounty" | ""
   >("");
   const [textInput, setTextInput] = useState("");
   const [dateTime, setDateTime] = useState("");
   const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState();
+
   const [questions, setQuestions] = useState<QuestionAnswers[]>([]);
   const [questionObject, setQuestionObject] = useState<QuestionAnswers>({
     question: "",
     type: "",
   });
-  const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -54,14 +62,6 @@ export default function NewBounty() {
     setQuestions(reorderedQuestions);
   };
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setImage(file);
-      setImagePreview(URL.createObjectURL(file));
-    }
-  };
-
   return (
     <div className="w-full min-h-screen">
       <div className="text-center flex mt-10 flex-col justify-start gap-4 ">
@@ -95,13 +95,12 @@ export default function NewBounty() {
           <input
             id="textInput"
             type="text"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            value={textInput}
+            onChange={handleTextInputChange}
             className="block w-full p-2.5 bg-zinc-700 text-white border border-emerald-400 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400"
             placeholder="Enter some text"
             disabled={selectedValue === ""}
           />
-
           <label htmlFor="textInput" className="block text-lg mt-4 mb-2">
             {selectedValue === ""
               ? "Choose the type of blink"
@@ -110,13 +109,27 @@ export default function NewBounty() {
           <input
             id="textInput"
             type="text"
-            value={textInput}
-            onChange={handleTextInputChange}
+            value={description}
+            onChange={(e: any) => {setDescription(e.target.value)}}
             className="block w-full p-2.5 bg-zinc-700 text-white border border-emerald-400 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400"
             placeholder="Enter some text"
             disabled={selectedValue === ""}
           />
-
+           <label htmlFor="textInput" className="block text-lg mt-4 mb-2">
+            {selectedValue === ""
+              ? "Choose the type of blink"
+              : `Write the Amount for your ${selectedValue}`}
+          </label>
+          <input
+            id="textInput"
+            type="number"
+            value={amount}
+            //@ts-ignore
+            onChange={(e:any) => {setAmount(Number(e.target.value))}}
+            className="block w-full p-2.5 bg-zinc-700 text-white border border-emerald-400 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400"
+            placeholder="Enter some text"
+            disabled={selectedValue === ""}
+          />  
           {/* DateTime Input Field */}
           <label htmlFor="dateTimeInput" className="block text-lg mt-4 mb-2">
             Select when will the bounty end:
@@ -130,51 +143,26 @@ export default function NewBounty() {
           />
 
           {/* Image Upload Input Field */}
-          <label htmlFor="imageUpload" className="block text-lg mt-4 mb-2">
-  Upload an image for your blink:
-</label>
-<label
-  htmlFor="imageUpload"
-  className="block w-full p-2.5 bg-zinc-700 text-white border border-emerald-400 rounded-md text-center cursor-pointer hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-emerald-400"
->
-  {imagePreview ? "Change Image" : "Click to Upload Image"}
-</label>
-<input
-  id="imageUpload"
-  type="file"
-  accept="image/*"
-  onChange={handleImageUpload}
-  className="hidden"
-/>
-
-{imagePreview && (
-  <div className="mt-4">
-    <img
-      src={imagePreview}
-      alt="Preview"
-      className="w-full h-64 object-cover rounded-md"
-    />
-  </div>
-)}
+          <UploadImage uploading={uploading} setUploading={setUploading} imagePreview={imagePreview} setImagePreview={setImagePreview}/>
 
           {selectedValue === "" ? (
             <div className="flex items-center justify-center mt-10 bg-zinc-700 text-emerald-400 p-4 rounded-md border border-yellow-400">
-            <svg
-              className="w-6 h-6 mr-2 text-emerald-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M13 16h-1v-4h-1m1-4h.01M12 12h.01M12 8h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"
-              ></path>
-            </svg>
-            <span className="font-bold">Please select a blink type.  Select an option for ~~The blink is for</span>
-          </div>
+              <svg
+                className="w-6 h-6 mr-2 text-emerald-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M12 12h.01M12 8h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"
+                ></path>
+              </svg>
+              <span className="font-bold">Please select a blink type.  Select an option for ~~The blink is for</span>
+            </div>
           ) : (
             <div>
               <DragDropContext onDragEnd={handleDragEnd}>
@@ -308,8 +296,32 @@ export default function NewBounty() {
       <div className="w-full h-full  text-center">
         <button
           className="h-1/2 w-fit p-2 rounded-lg bg-emerald-400"
-          onClick={() => {
-            // Handle form submission logic here
+          onClick={async () => {
+            const formData = createBountyType.safeParse({
+              type: selectedValue,
+              questions,
+              imageUrl: imagePreview,
+              name: textInput,
+              description,
+              interval: dateTime,
+              amount
+            })
+
+            if(!formData.success){
+              alert("zod validations failed!");
+              console.log(formData.error.message);
+              return
+            }
+              
+            const res = await axios.post("http://localhost:3000/api/app/createBounty", formData.data, {
+              withCredentials: true
+            })
+            
+            if (!res.data.success) {
+              alert(res.data.msg);
+              return
+            }
+
           }}
           disabled={
             !selectedValue ||
@@ -317,7 +329,7 @@ export default function NewBounty() {
             textInput === "" ||
             description === "" ||
             dateTime === "" ||
-            !image
+            !imagePreview
           }
         >
           Submit

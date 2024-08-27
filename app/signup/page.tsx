@@ -26,7 +26,7 @@ const signUpForm = () =>{
     //fxn to submit form
     const handleSubmit = async (e:any) =>{
         e.preventDefault();
-
+        console.log("hello world")
 
         const message = new TextEncoder().encode(
           "You're signing-up to BountySpread"
@@ -43,12 +43,12 @@ const signUpForm = () =>{
         if(!response.data.success){
             alert("axios sign-in request failed!")
         }else{
-            router.push("/dashboard")
+            router.push("/dashboard/newBounty")
         }    
     }
 
     return(
-        <div className="min-h-screen bg-gradient-to-br from-zinc-700 via-zinc-800 to-zinc-900 flex items-center justify-center p-4 relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-zinc-700 via-zinc-800 to-zinc-900 flex items-center justify-center p-4 relative overflow-hidden">
        
 
   <div className="absolute inset-0 z-0">

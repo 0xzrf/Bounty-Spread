@@ -4,18 +4,21 @@ import { verifyUser } from "@/helperFuncs/functions";
 import { cookies } from "next/headers";
 
 export const POST = async (req: NextRequest) => {
-    const { type, name, description, interval, questions }: {
-        type: string,
+    const { type, name, description, interval, questions, imageUrl, amount }: {
+        type: "Grant" | "Project" | "Bounty",
         name: string,
         description: string,
         interval: string,
         questions: {
             question: string,
-            type: string
-        }[]
+            type: "Text" | "Number" | "Email"
+        }[],
+        imageUrl: string,
+        amount: number
     } = await req.json();
+    console.log(typeof amount)
     const token = cookies().get("token")
-    const { valid, email, userId } = await verifyUser(token?.value as string);
+    const { valid,userId } = await verifyUser(token?.value as string);
 
     if (!valid) {
         return NextResponse.json({
@@ -35,18 +38,27 @@ export const POST = async (req: NextRequest) => {
 
     const questionsArr = questions.map((item) => item.question)
     const typeArr = questions.map((item) => item.type)
+    try {
+        await prisma.bounties.create({
+            data: {
+                description,
+                name,
+                interval: new Date(interval),
+                type,
+                questions: questionsArr,
+                hostId: userId as number,
+                types: typeArr,
+                imageUrl,
+                amount
+            }
+        })
 
-    await prisma.bounties.create({
-        data: {
-            description,
-            name,
-            interval: new Date(interval),
-            type,
-            questions: questionsArr,
-            hostId: userId as number,
-            types: typeArr,
-        }
-    })
+    } catch (err) {
+        console.log(err) ;
+        return NextResponse.json({
+            msg: err
+        })
+    }
 
     return NextResponse.json({
         success: true,

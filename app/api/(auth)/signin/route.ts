@@ -14,15 +14,6 @@ export const POST = async (req: NextRequest) => {
         })
     }
 
-    const tokenExists = cookies().get('token')
-
-    if (tokenExists) {
-        console.log(tokenExists)
-        return NextResponse.json({
-            msg: "already a user"
-        })
-    }
-
     const { isSuccess, msg } = await verifySignature(pubKey, signature)
     if (!isSuccess) {
         return NextResponse.json({

@@ -26,6 +26,9 @@ model Host {
 model Bounties {
   id          Int                 @id @default(autoincrement())
   name        String              @unique
+  amount      Int
+  imageUrl    String              
+  isVerified  Boolean             @default(false)
   type        String
   sumbissions BountySubmissions[]
   description String
@@ -50,7 +53,6 @@ model BountySubmissions {
 model BountyInput {
   id            Int               @id @default(autoincrement())
   otherInfo     String
-  amount        Int
   question      String[]
   answers       String[]
   submissionId  Int               @unique

@@ -16,6 +16,7 @@ function Navbar() {
   const { publicKey, signMessage, wallets } = useWallet();
   const [index, setIndex] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
+
   const cookie = Cookies.get("token");
 
   async function signAndSend() {

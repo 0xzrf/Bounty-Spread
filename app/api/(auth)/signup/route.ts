@@ -16,14 +16,6 @@ export async function POST(req: NextRequest) {
         signature: any
     } = await req.json();
 
-    const tokenExists = cookies().get('token')
-
-    if (tokenExists) {
-        return NextResponse.json({
-            msg: "already a user"
-        })
-    }
-
     // If publickey & signature or either are null & correct as well
     if (!publicKey || !signature) {
         return NextResponse.json({ msg: "Check your wallet credentials please." })
