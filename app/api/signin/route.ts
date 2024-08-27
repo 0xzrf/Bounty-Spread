@@ -3,19 +3,29 @@ import { prisma } from "@/lib/utils"
 import nacl from "tweetnacl"
 import { verifySignature } from "@/helperFuncs/functions"
 import { cookies } from "next/headers"
+import { NextRequest, NextResponse } from "next/server"
 const JWT_SECRET = process.env.JWT_SECRET
 
-export const POST = async (req: Request) => {
+export const POST = async (req: NextRequest) => {
     const { pubKey, signature }: any = await req.json();
     if (!pubKey || !signature) {
-        return Response.json({
+        return NextResponse.json({
             msg: "Please provide valid inputs"
+        })
+    }
+
+    const tokenExists = cookies().get('token')
+
+    if (tokenExists) {
+        console.log(tokenExists)
+        return NextResponse.json({
+            msg: "already a user"
         })
     }
 
     const { isSuccess, msg } = await verifySignature(pubKey, signature)
     if (!isSuccess) {
-        return Response.json({
+        return NextResponse.json({
             msg
         }, {
             status: 403
@@ -29,7 +39,7 @@ export const POST = async (req: Request) => {
     })
 
     if (!isUser) {
-        return Response.json({
+        return NextResponse.json({
             msg: "No user with your private key exists",
             redirect: true
         }, {
@@ -41,7 +51,7 @@ export const POST = async (req: Request) => {
 
     cookies().set("token", token)
 
-    return Response.json({
+    return NextResponse.json({
         msg: "Successfully Signed in",
         success: true,
         token

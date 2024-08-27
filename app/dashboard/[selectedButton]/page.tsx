@@ -16,7 +16,7 @@ function Dashboard() {
     return null;
   }
   return (
-    <div>
+    <div className="">
       <MainContent selectedButton={selectedButton} />
     </div>
   );

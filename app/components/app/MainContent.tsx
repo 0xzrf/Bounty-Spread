@@ -18,12 +18,14 @@ export default function MainContent({
         return <NewBounty />;
       case "proMember":
         return <ProMember />;
+      default:
+        return <Welcome />;
     }
   };
 
   return (
-    <div className="ml-64 p-6 bg-zinc-800">
-      <div className="border-4 border-dashed border-emerald-400 rounded-lg text-white">
+    <div className="ml-64 p-4 bg-zinc-800">
+      <div className="border-4 border-dashed border-emerald-400 rounded-lg text-white p-10">
         {renderContent()}
       </div>
     </div>

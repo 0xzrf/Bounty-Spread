@@ -40,7 +40,7 @@ export const POST = async (req: NextRequest) => {
         data: {
             description,
             name,
-            interval,
+            interval: new Date(interval),
             type,
             questions: questionsArr,
             hostId: userId as number,

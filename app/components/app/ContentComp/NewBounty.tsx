@@ -255,6 +255,9 @@ export default function NewBounty() {
       <div className="w-full h-full  text-center">
         <button
           className="h-1/2 w-1/6 rounded-lg bg-emerald-400"
+          onClick={() => {
+            
+          }}
           disabled={
             !selectedValue ||
             questions.length == 0 ||
