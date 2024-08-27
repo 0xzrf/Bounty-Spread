@@ -11,15 +11,12 @@ export async function verifySignature(pubKey: String, signature: any) {
     try {
         const signatureString = "You're signing in to BountySpread"
         const stringEncoded = new TextEncoder().encode(signatureString)
-        let sign;
-        if (typeof signature == "object") {
-            sign = new Uint8Array(signature.data);
-        } else if (signature.data) {
-            sign = new Uint8Array(Object.values(signature));
+        let sign
+        if (!signature.data) {
+            sign = new Uint8Array(Object.values(signature))
         } else {
-            throw new Error('Unsupported signature format');
+            sign = new Uint8Array(signature.data)
         }
-
         const pubkey = new PublicKey(pubKey).toBytes()
 
         const result = nacl.sign.detached.verify(

@@ -7,14 +7,16 @@ import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 export const runtime = "edge";
 
 function Navbar() {
   const router = useRouter();
-  const { publicKey, signMessage } = useWallet();
+  const { publicKey, signMessage, wallets } = useWallet();
   const [index, setIndex] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
+  const cookie = Cookies.get("token");
 
   async function signAndSend() {
     try {
@@ -22,6 +24,8 @@ function Navbar() {
         `You're a verified exceliWorker`
       );
       const signature = await signMessage?.(message);
+      console.log(signature);
+
       const response = await axios.post(`http://localhost:3000/api/signin`, {
         signature,
         pubKey: publicKey?.toString(),
@@ -91,11 +95,11 @@ function Navbar() {
           <div className="w-1/3 flex justify-betw items-center h-[100%]">
             <div
               onClick={async () => {
-                if (publicKey) {
+                if (publicKey && !cookie) {
                   signAndSend();
                 }
               }}
-            > 
+            >
               <WalletMultiButton
                 style={{
                   marginRight: "0.2rem",
@@ -110,7 +114,10 @@ function Navbar() {
               />
             </div>
 
-            <Button text="Create a bounty" link={"/signup"} />
+            <Button
+              text="Create a bounty"
+              link={cookie ? "/dashboard" : "/signup"}
+            />
           </div>
         </div>
       </div>

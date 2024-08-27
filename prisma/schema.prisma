@@ -19,8 +19,6 @@ model Host {
   username  String     @unique
   publicKey String     @unique
   bounties  Bounties[]
-  grants    Grants[]
-  projects  Projects[]
 
   @@unique([publicKey, email])
 }
@@ -28,108 +26,43 @@ model Host {
 model Bounties {
   id          Int                 @id @default(autoincrement())
   name        String              @unique
+  type        String
   sumbissions BountySubmissions[]
+  description String
   createdAt   DateTime            @default(now())
   isActive    Boolean             @default(true)
-  Interval    DateTime
+  interval    DateTime
   hostId      Int
-  hostRel     Host                @relation(fields: [id], references: [id])
+  hostRel     Host                @relation(fields: [hostId], references: [id])
+  questions   String[]
+  types       String[]
 }
 
 model BountySubmissions {
   id          Int          @id @default(autoincrement())
   userid      Int
   userRel     User         @relation(fields: [userid], references: [id])
+  bountyId    Int
   bountyInput BountyInput?
-  bountyRel   Bounties     @relation(fields: [id], references: [id])
+  bountyRel   Bounties     @relation(fields: [bountyId], references: [id])
 }
 
 model BountyInput {
   id            Int               @id @default(autoincrement())
-  name          String
   otherInfo     String
   amount        Int
-  question      Questions[]
-  submissionRel BountySubmissions @relation(fields: [id], references: [id])
-}
-
-model Questions {
-  id           Int           @id @default(autoincrement())
-  question     String
-  answer       String
-  grantId      Int           @unique
-  bountyId     Int
-  projectId    Int           @unique
-  bountyInput  BountyInput   @relation(fields: [bountyId], references: [id])
-  grantInput   GrantInput    @relation(fields: [grantId], references: [id])
-  projectInput ProjectInputs @relation(fields: [projectId], references: [id])
-}
-
-model Grants {
-  id          Int                @id @default(autoincrement())
-  name        String
-  createdAt   DateTime           @default(now())
-  submissions GrantSubmisisons[]
-  isActive    Boolean            @default(true)
-  Interval    DateTime
-  grantHost   Host               @relation(fields: [id], references: [id])
-}
-
-model GrantSubmisisons {
-  id        Int         @id @default(autoincrement())
-  userId    Int
-  user      User        @relation(fields: [userId], references: [id])
-  grantInfo GrantInput?
-  grant     Grants      @relation(fields: [id], references: [id])
-}
-
-model GrantInput {
-  id              Int              @id @default(autoincrement())
-  name            String
-  otherInfo       String
-  projDescription String
-  question        Questions?
-  grantSubId      Int              @unique
-  grantSub        GrantSubmisisons @relation(fields: [grantSubId], references: [id])
-}
-
-model Projects {
-  id          Int                  @id @default(autoincrement())
-  name        String
-  createdAt   DateTime             @default(now())
-  isActive    Boolean              @default(true)
-  Interval    DateTime
-  submissions ProjectSubmissions[]
-  hostId      Int
-  host        Host                 @relation(fields: [hostId], references: [id])
-}
-
-model ProjectSubmissions {
-  id            Int            @id @default(autoincrement())
-  userId        Int
-  user          User           @relation(fields: [userId], references: [id])
-  projectId     Int
-  projectInputs ProjectInputs?
-  project       Projects       @relation(fields: [projectId], references: [id])
-}
-
-model ProjectInputs {
-  id           Int                @id @default(autoincrement())
-  name         String
-  amount       Int
-  projectSubId Int                @unique
-  projSub      ProjectSubmissions @relation(fields: [projectSubId], references: [id])
-  question     Questions?
+  question      String[]
+  answers       String[]
+  submissionId  Int               @unique
+  submissionRel BountySubmissions @relation(fields: [submissionId], references: [id])
 }
 
 model User {
-  id                 Int                  @id @default(autoincrement())
-  email              String               @unique
-  username           String               @unique
-  publicKey          String               @unique
-  bountySubmission   BountySubmissions[]
-  grantSubmissions   GrantSubmisisons[]
-  projectSubmissions ProjectSubmissions[]
+  id               Int                 @id @default(autoincrement())
+  email            String              @unique
+  username         String              @unique
+  publicKey        String              @unique
+  bountySubmission BountySubmissions[]
 
   @@unique([publicKey, email])
 }
