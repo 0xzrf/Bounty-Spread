@@ -18,6 +18,8 @@ export default function NewBounty() {
     question: "",
     type: "",
   });
+  const [image, setImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedValue(event.target.value as "Project" | "Grant" | "Bounty" | "");
@@ -52,11 +54,18 @@ export default function NewBounty() {
     setQuestions(reorderedQuestions);
   };
 
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setImage(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
   return (
     <div className="w-full min-h-screen">
       <div className="text-center flex mt-10 flex-col justify-start gap-4 ">
-        <h1 className="font-bold text-4xl">Create your new Custom Blink</h1>
-        <h3 className="font-semibold">This is where you create the magic🪄</h3>
+        <h1 className="font-bold text-4xl">Create your new Custom Blink ;)</h1>
       </div>
       <div className="p-6 mx-auto w-full h-[90%] bg-zinc-800">
         <div className=" w-full min-h-2/3 rounded-lg p-8 text-white">
@@ -120,8 +129,52 @@ export default function NewBounty() {
             className="block w-full p-2.5 bg-zinc-700 text-white border border-emerald-400 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400"
           />
 
+          {/* Image Upload Input Field */}
+          <label htmlFor="imageUpload" className="block text-lg mt-4 mb-2">
+  Upload an image for your blink:
+</label>
+<label
+  htmlFor="imageUpload"
+  className="block w-full p-2.5 bg-zinc-700 text-white border border-emerald-400 rounded-md text-center cursor-pointer hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+>
+  {imagePreview ? "Change Image" : "Click to Upload Image"}
+</label>
+<input
+  id="imageUpload"
+  type="file"
+  accept="image/*"
+  onChange={handleImageUpload}
+  className="hidden"
+/>
+
+{imagePreview && (
+  <div className="mt-4">
+    <img
+      src={imagePreview}
+      alt="Preview"
+      className="w-full h-64 object-cover rounded-md"
+    />
+  </div>
+)}
+
           {selectedValue === "" ? (
-            <div className="text-center mt-10">Please select a blink type</div>
+            <div className="flex items-center justify-center mt-10 bg-zinc-700 text-emerald-400 p-4 rounded-md border border-yellow-400">
+            <svg
+              className="w-6 h-6 mr-2 text-emerald-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 16h-1v-4h-1m1-4h.01M12 12h.01M12 8h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"
+              ></path>
+            </svg>
+            <span className="font-bold">Please select a blink type.  Select an option for ~~The blink is for</span>
+          </div>
           ) : (
             <div>
               <DragDropContext onDragEnd={handleDragEnd}>
@@ -254,16 +307,17 @@ export default function NewBounty() {
       </div>
       <div className="w-full h-full  text-center">
         <button
-          className="h-1/2 w-1/6 rounded-lg bg-emerald-400"
+          className="h-1/2 w-fit p-2 rounded-lg bg-emerald-400"
           onClick={() => {
-            
+            // Handle form submission logic here
           }}
           disabled={
             !selectedValue ||
-            questions.length == 0 ||
-            textInput == "" ||
-            description == "" ||
-            dateTime == ""
+            questions.length === 0 ||
+            textInput === "" ||
+            description === "" ||
+            dateTime === "" ||
+            !image
           }
         >
           Submit

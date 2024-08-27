@@ -116,7 +116,7 @@ function Navbar() {
 
             <Button
               text="Create a bounty"
-              link={cookie ? "/dashboard" : "/signup"}
+              link={cookie ? "/dashboard/newBounty" : "/signup"}
             />
           </div>
         </div>
