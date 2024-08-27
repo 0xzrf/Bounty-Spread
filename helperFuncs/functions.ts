@@ -9,9 +9,17 @@ const JWT_SECRET = process.env.JWT_SECRET
 
 export async function verifySignature(pubKey: String, signature: any) {
     try {
-        const signatureString = "You're a verified exceliWorker"
+        const signatureString = "You're signing in to BountySpread"
         const stringEncoded = new TextEncoder().encode(signatureString)
-        const sign = new Uint8Array(Object.values(signature));
+        let sign;
+        if (typeof signature == "object") {
+            sign = new Uint8Array(signature.data);
+        } else if (signature.data) {
+            sign = new Uint8Array(Object.values(signature));
+        } else {
+            throw new Error('Unsupported signature format');
+        }
+
         const pubkey = new PublicKey(pubKey).toBytes()
 
         const result = nacl.sign.detached.verify(
