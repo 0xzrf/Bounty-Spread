@@ -16,10 +16,12 @@ export const POST = async (req: NextRequest) => {
         imageUrl: string,
         amount: number
     } = await req.json();
-    console.log(typeof amount)
+  
     const token = cookies().get("token")
-    const { valid,userId } = await verifyUser(token?.value as string);
-
+    console.log("::createBounty token",token);
+    const { valid, userId } = await verifyUser(token?.value as string);
+    console.log("::",userId);
+    console.log(valid, userId)
     if (!valid) {
         return NextResponse.json({
             msg: "Unauthorized! Please Sign in first"
@@ -54,7 +56,7 @@ export const POST = async (req: NextRequest) => {
         })
 
     } catch (err) {
-        console.log(err) ;
+        console.log(err);
         return NextResponse.json({
             msg: err
         })

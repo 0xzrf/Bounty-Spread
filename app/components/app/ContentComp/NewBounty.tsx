@@ -5,6 +5,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import UploadImage from "../uploadImage";
 import axios from "axios"
 import {createBountyType} from "@/helperFuncs/types"
+import { useRouter } from "next/navigation";
 
 interface QuestionAnswers {
   question: string;
@@ -12,6 +13,7 @@ interface QuestionAnswers {
 }
 
 export default function NewBounty() {
+  const router = useRouter();
   const [uploading, setUploading] = useState(false);
   const [selectedValue, setSelectedValue] = useState<
     "Project" | "Grant" | "Bounty" | ""
@@ -151,7 +153,7 @@ export default function NewBounty() {
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
+                xmlns="http://www.w3.org/2https://medium.com/dialect-labs/introducing-the-blinks-client-sdk-8bf0e3474349000/svg"
               >
                 <path
                   strokeLinecap="round"
@@ -321,6 +323,8 @@ export default function NewBounty() {
               return
             }
 
+            alert("Blink in queue to be verified⏱️")
+            router.push('/dashboard/currentBounties');
           }}
           disabled={
             !selectedValue ||

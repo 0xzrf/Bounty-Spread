@@ -27,7 +27,7 @@ model Bounties {
   id          Int                 @id @default(autoincrement())
   name        String              @unique
   amount      Int
-  imageUrl    String              
+  imageUrl    String
   isVerified  Boolean             @default(false)
   type        String
   sumbissions BountySubmissions[]
@@ -42,29 +42,12 @@ model Bounties {
 }
 
 model BountySubmissions {
-  id          Int          @id @default(autoincrement())
-  userid      Int
-  userRel     User         @relation(fields: [userid], references: [id])
-  bountyId    Int
-  bountyInput BountyInput?
-  bountyRel   Bounties     @relation(fields: [bountyId], references: [id])
-}
+  id           Int      @id @default(autoincrement())
+  bountyId     Int
+  candidPubKey String
+  question     String[]
+  answers      String[]
+  bountyRel    Bounties @relation(fields: [bountyId], references: [id])
 
-model BountyInput {
-  id            Int               @id @default(autoincrement())
-  otherInfo     String
-  question      String[]
-  answers       String[]
-  submissionId  Int               @unique
-  submissionRel BountySubmissions @relation(fields: [submissionId], references: [id])
-}
-
-model User {
-  id               Int                 @id @default(autoincrement())
-  email            String              @unique
-  username         String              @unique
-  publicKey        String              @unique
-  bountySubmission BountySubmissions[]
-
-  @@unique([publicKey, email])
+  @@unique([bountyId,candidPubKey])
 }

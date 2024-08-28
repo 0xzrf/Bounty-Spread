@@ -14,7 +14,7 @@ export const POST = async (req: NextRequest) => {
         })
     }
 
-    const { isSuccess, msg } = await verifySignature(pubKey, signature)
+    const { isSuccess, msg }: { isSuccess: boolean, msg: string } = await verifySignature(pubKey, signature)
     if (!isSuccess) {
         return NextResponse.json({
             msg

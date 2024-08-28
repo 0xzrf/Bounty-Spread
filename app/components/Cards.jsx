@@ -1,90 +1,75 @@
 import React from "react";
-import Card from "./Card";
-import { motion } from "framer-motion";
+import {
+  CheckCircle,
+  X,
+  Zap,
+  Rocket,
+  Share2,
+  BarChart2,
+  Clock,
+} from "lucide-react";
 
-export const runtime = "edge";
+const ProMembershipPage = () => {
+  const tiers = [
+    {
+      title: "FREE TIER",
+      description: "Bounty Host",
+      features: [
+        "Create up to 5 blinks",
+        "Blink verification will take up to 2 hours",
+      ],
+      cta: "Start Free",
+    },
+    {
+      title: "PRO PLAN",
+      description: "Bounty Host",
+      features: [
+        "Create unlimited blinks",
+        "Blink verification will take up to 5 minutes",
+        "Dedicated dashboard",
+        "Easy bounty distribution",
+        "Priority support",
+      ],
+      cta: "Upgrade to Pro",
+    },
+  ];
 
-function Cards() {
   return (
-    <div className="w-full">
-      <div className=" max-w-screen-xl gap-2 justify-center flex mx-auto">
-        <Card
-          width={"1/3"}
-          isFooter={true}
-          text={{
-            sub1: "FREE TIER",
-            sub2: (
-              <h1 className="text-[2vw] mt-4 leading-8">
-                Bounty Host
-                <br />
-              </h1>
-            ),
-            features: (
-              <ul className="flex flex-col ">
-                <li>
-                  <i class="ri-corner-up-right-line"></i> Create upto 5 blinks
-                </li>
-                <li>
-                  <i class="ri-corner-up-right-line"></i> Blink verification
-                  will take upto 2 hours
-                </li>
+    <div className=" bg-zinc-900 text-white p-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-8">
+          {tiers.map((tier, index) => (
+            <div
+              key={index}
+              className={`border-4 ${
+                index === 1 ? "border-emerald-400" : "border-zinc-700"
+              } rounded-lg p-6`}
+            >
+              <h3 className="text-2xl font-bold mb-2">{tier.title}</h3>
+              <p className="text-zinc-400 mb-4">{tier.description}</p>
+              <ul className="space-y-2 mb-6">
+                {tier.features.map((feature, fIndex) => (
+                  <li key={fIndex} className="flex items-center">
+                    <CheckCircle className="text-emerald-400 mr-2" size={16} />
+                    <span>{feature}</span>
+                  </li>
+                ))}
               </ul>
-            ),
-            footer: <p className="text-sm text-zinc-400 mb-4"></p>,
-          }}
-        />
-        <Card
-          hover="true"
-          width={"1/3"}
-          text={{
-            sub1: "PAID PLAN",
-            sub2: <h1></h1>,
-            features: (
-              <ul className="">
-                <li>
-                  <i class="ri-corner-up-right-line"></i> Create upto 5 blinks
-                </li>
-                <li className="flex gap-1">
-                  <i class="ri-corner-up-right-line"></i>{" "}
-                  <motion.h1
-                    className="text-white font-bold  leading-tight mb-4"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1.0 }}
-                  >
-                    Blink verification will take up to <br />
-                    <motion.span
-                      className={`inline-block text-blue-400`}
-                      initial={{ opacity: 0, y: -20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 20 }}
-                      transition={{ duration: 0.8 }}
-                    >
-                      5 minutes
-                    </motion.span>
-                  </motion.h1>
-                </li>
-              </ul>
-            ),
-            sub2: (
-              <h1 className="text-[2vw] mt-4 leading-8">
-                Bounty Host
-                <br />
-              </h1>
-            ),
-            heading: (
-              <h1 className="text-[6vw] font-normal ">Start a Project</h1>
-            ),
-            button: (
-              <button className="rounded-[100px] mb-4 w-[15%] border-zinc-200 border-2 py-2">
-                Contact us
+              <button
+                className={`w-full py-2 px-4 rounded font-bold ${
+                  index === 1
+                    ? "bg-emerald-500 hover:bg-emerald-600"
+                    : "bg-zinc-700 hover:bg-zinc-600"
+                } transition duration-300`}
+              >
+                {tier.cta}
               </button>
-            ),
-          }}
-        />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
-}
+};
 
-export default Cards;
+export default ProMembershipPage;

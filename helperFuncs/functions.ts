@@ -5,9 +5,10 @@ import jwt, { JwtPayload } from "jsonwebtoken"
 import { PublicKey } from "@solana/web3.js"
 import { prisma } from "@/lib/utils"
 import { cookies } from "next/headers"
+import { Stringifier } from "postcss"
 const JWT_SECRET = process.env.JWT_SECRET
 
-export async function verifySignature(pubKey: String, signature: any) {
+export async function verifySignature(pubKey: String, signature: any): Promise<{ isSuccess: boolean, msg: string }> {
     try {
         const signatureString = "You're signing in to BountySpread"
         const stringEncoded = new TextEncoder().encode(signatureString)
@@ -32,8 +33,7 @@ export async function verifySignature(pubKey: String, signature: any) {
     } catch (err: any) {
         return { isSuccess: false, msg: err.message }
     }
-    return { isSuccess: true, msg: "" }
-
+    return { isSuccess: false, msg: "Something" }
 }
 
 export async function verifyUser(token: string) {
