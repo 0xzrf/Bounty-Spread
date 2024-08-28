@@ -15,6 +15,8 @@ export default function MainContent({
   const [userData, setUserData] = useState<{
     email: string;
     userId: number;
+    isPaid: boolean;
+    freeRemaining: number
   } | null>(null);
 
   useEffect(() => {
@@ -26,18 +28,18 @@ export default function MainContent({
       if (!response.data.success) {
       }
 
-      setUserData({ email: response.data.email, userId: response.data.userId });
+      setUserData({ email: response.data.email, userId: response.data.userId, isPaid: response.data.isPaid, freeRemaining: response.data.freeRemaining });
     })();
   }, []);
 
   const renderContent = () => {
     switch (selectedButton) {
       case "currentBounties":
-        return <CurrentBounties />;
+        return <CurrentBounties isPaid={userData?.isPaid as boolean} />;
       case "newBounty":
-        return <NewBounty />;
+        return <NewBounty isPaid={userData?.isPaid as boolean} freeRemaining={userData?.freeRemaining as number} />;
       case "proMember":
-        return <ProMember />;
+        return <ProMember  />;
       case "admin":
         return <Admin userEmail={userData?.email} />;
       default:

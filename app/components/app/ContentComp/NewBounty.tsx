@@ -12,7 +12,7 @@ interface QuestionAnswers {
   type: string;
 }
 
-export default function NewBounty() {
+export default function NewBounty({isPaid, freeRemaining}: {isPaid: boolean, freeRemaining: number}) {
   const router = useRouter();
   const [uploading, setUploading] = useState(false);
   const [selectedValue, setSelectedValue] = useState<

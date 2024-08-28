@@ -18,6 +18,8 @@ model Host {
   email     String     @unique
   username  String     @unique
   publicKey String     @unique
+  isPaid    Boolean    @default(false)
+  freeTrials Int       @default(5)
   bounties  Bounties[]
 
   @@unique([publicKey, email])

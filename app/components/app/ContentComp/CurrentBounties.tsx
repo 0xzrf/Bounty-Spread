@@ -14,7 +14,7 @@ interface BountiesTableProps {
   bounties: Bounty[];
 }
 
-export default function CurrentBounties() {
+export default function CurrentBounties({isPaid} : {isPaid: boolean}) {
   const [bounties, setBounties] = useState<Bounty[]>([]);
 
   const fetchBounties = async () => {

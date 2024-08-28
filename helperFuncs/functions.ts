@@ -45,7 +45,8 @@ export async function verifyUser(token: string) {
             }
         })
 
-        return { valid: true, email: decoded.email, userId: user?.id }
+        
+        return { valid: true, email: decoded.email, userId: user?.id, user }
 
     } catch (err) {
         return { valid: false }
