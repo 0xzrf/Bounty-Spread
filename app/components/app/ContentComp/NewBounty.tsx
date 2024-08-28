@@ -6,6 +6,7 @@ import UploadImage from "../uploadImage";
 import axios from "axios"
 import {createBountyType} from "@/helperFuncs/types"
 import { useRouter } from "next/navigation";
+import SelfContainedCreditDisplay from "../Credit/CompactCreditDisplay";
 
 interface QuestionAnswers {
   question: string;
@@ -337,7 +338,11 @@ export default function NewBounty({isPaid, freeRemaining}: {isPaid: boolean, fre
         >
           Submit
         </button>
+        {
+        !isPaid && <SelfContainedCreditDisplay userCredit={freeRemaining} />
+      }
       </div>
+      
     </div>
   );
 }

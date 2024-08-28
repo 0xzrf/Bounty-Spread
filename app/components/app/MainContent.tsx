@@ -5,7 +5,6 @@ import NewBounty from "./ContentComp/NewBounty";
 import CurrentBounties from "./ContentComp/CurrentBounties";
 import Admin from "./ContentComp/Admin";
 import axios from "axios";
-// Empty array for default state
 
 export default function MainContent({
   selectedButton,

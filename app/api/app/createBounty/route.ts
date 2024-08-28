@@ -18,10 +18,9 @@ export const POST = async (req: NextRequest) => {
     } = await req.json();
   
     const token = cookies().get("token")
-    console.log("::createBounty token",token);
+    
     const { valid, userId } = await verifyUser(token?.value as string);
-    console.log("::",userId);
-    console.log(valid, userId)
+
     if (!valid) {
         return NextResponse.json({
             msg: "Unauthorized! Please Sign in first"
@@ -41,19 +40,32 @@ export const POST = async (req: NextRequest) => {
     const questionsArr = questions.map((item) => item.question)
     const typeArr = questions.map((item) => item.type)
     try {
-        await prisma.bounties.create({
-            data: {
-                description,
-                name,
-                interval: new Date(interval),
-                type,
-                questions: questionsArr,
-                hostId: userId as number,
-                types: typeArr,
-                imageUrl,
-                amount
-            }
-        })
+        await prisma.$transaction(async (tx) =>{
+            await tx.bounties.create({
+                data: {
+                    description,
+                    name,
+                    interval: new Date(interval),
+                    type,
+                    questions: questionsArr,
+                    hostId: userId as number,
+                    types: typeArr,
+                    imageUrl,
+                    amount
+                }
+            })
+
+            await tx.host.update({
+                where: {
+                    id: Number(userId)
+                },
+                data:{
+                    freeTrials: {
+                        decrement: 1
+                    }
+                }
+            })
+        })        
 
     } catch (err) {
         console.log(err);

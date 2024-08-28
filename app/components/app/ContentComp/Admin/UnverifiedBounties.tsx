@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import axios from "axios"
 
 type Bounty = {
-  hostId: string;
+  name: string;
   imageUrl: string;
   id: number
 };
@@ -22,7 +22,7 @@ const UnverifiedBounties: React.FC<UnverifiedBountiesProps> = ({ bounties }) => 
         <table className="w-full text-left border-collapse">
           <thead>
             <tr>
-              <th className="border-b border-gray-500 p-2">Host Id</th>
+              <th className="border-b border-gray-500 p-2">Name</th>
               <th className="border-b border-gray-500 p-2">Endpoint</th>
               <th className="border-b border-gray-500 p-2">URL</th>
               <th className="border-b border-gray-500 p-2">Verify</th>
@@ -32,7 +32,7 @@ const UnverifiedBounties: React.FC<UnverifiedBountiesProps> = ({ bounties }) => 
             {bounties.map((bounty, index) => {  
               return (
               <tr key={index}>
-                <td className="border-b border-gray-700 p-2">{bounty.hostId}</td>
+                <td className="border-b border-gray-700 p-2">{bounty.name}</td>
                 <td className="border-b border-gray-700 p-2">/endpoint/something</td>
                 <td className="border-b border-gray-700 p-2">{bounty.imageUrl}</td>
                 <td className="border-b border-gray-700 p-2">

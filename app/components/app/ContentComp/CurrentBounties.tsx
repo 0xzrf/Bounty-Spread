@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 type Bounty = {
   id: number;
@@ -12,9 +13,10 @@ type Bounty = {
 
 interface BountiesTableProps {
   bounties: Bounty[];
+  isPaid: boolean;
 }
 
-export default function CurrentBounties({isPaid} : {isPaid: boolean}) {
+export default function CurrentBounties({ isPaid }: { isPaid: boolean }) {
   const [bounties, setBounties] = useState<Bounty[]>([]);
 
   const fetchBounties = async () => {
@@ -34,12 +36,13 @@ export default function CurrentBounties({isPaid} : {isPaid: boolean}) {
 
   return (
     <div>
-      <BountiesTable bounties={bounties} />
+      <BountiesTable isPaid={isPaid} bounties={bounties} />
     </div>
   );
 }
 
-const BountiesTable: React.FC<BountiesTableProps> = ({ bounties }) => {
+const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
+  const router = useRouter();
   // Filter unverified and verified bounties
   const unverifiedBounties = bounties.filter((bounty) => !bounty.isVerified);
   const verifiedBounties = bounties.filter((bounty) => bounty.isVerified);
@@ -50,23 +53,34 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties }) => {
 
   return (
     <div className="flex flex-col gap-10 min-h-screen w-full">
-    <div className="flex items-center justify-center bg-zinc-700 text-emerald-400 p-4 rounded-md border border-yellow-400">
-              <svg
-                className="w-6 h-6 mr-2 text-emerald-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2https://medium.com/dialect-labs/introducing-the-blinks-client-sdk-8bf0e3474349000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M13 16h-1v-4h-1m1-4h.01M12 12h.01M12 8h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"
-                ></path>
-              </svg>
-              <span className="font-bold">To verify your Bounties faster, become a <a href="http://localhost:3000/dashboard/proMember" className="underline">Pro Member</a> today!</span>
-            </div>
+      {!isPaid && (
+        <div className="flex items-center justify-center bg-zinc-700 text-emerald-400 p-4 rounded-md border border-yellow-400">
+          <svg
+            className="w-6 h-6 mr-2 text-emerald-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2https://medium.com/dialect-labs/introducing-the-blinks-client-sdk-8bf0e3474349000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M13 16h-1v-4h-1m1-4h.01M12 12h.01M12 8h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"
+            ></path>
+          </svg>
+          <span className="font-bold">
+            To verify your Bounties faster, become a{" "}
+            <a
+              href="http://localhost:3000/dashboard/proMember"
+              className="underline"
+            >
+              Pro Member
+            </a>{" "}
+            today!
+          </span>
+        </div>
+      )}
       {/* Unverified Bounties */}
       <div className="w-full bg-zinc-900 p-4 min-h-[50vh] rounded-lg shadow-md">
         <h2 className="text-emerald-500 font-semibold mb-4">
@@ -99,7 +113,7 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties }) => {
       </div>
 
       {/* Verified Bounties */}
-      <div className="w-full bg-zinc-900 p-4 rounded-lg shadow-md">
+      <div className="w-full bg-zinc-900 p-4 min-h-[50vh] rounded-lg shadow-md">
         <h2 className="text-emerald-500 font-semibold mb-4">
           Verified Bounties
         </h2>
@@ -115,7 +129,9 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties }) => {
           </thead>
           <tbody>
             {verifiedBounties.map((bounty) => (
-              <tr key={bounty.id}>
+              <tr onClick={() => {
+                router.push(`/dashboard/currentBounties/${bounty.id}`)
+              }} className="hover:bg-gray-500 hover:cursor-pointer" key={bounty.id}>
                 <td className="py-2 px-4 border-t border-zinc-700">
                   {bounty.name}
                 </td>
