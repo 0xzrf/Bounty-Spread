@@ -12,10 +12,8 @@ import NotSignedIn from "./NotSignedIn";
 
 export default function Sidebar({
   selectedButton,
-  userData
 }: {
   selectedButton: string | string[] | undefined;
-  userData: {email: string, userId: number}
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const { setVisible: setModalVisible } = useWalletModal();
@@ -105,26 +103,6 @@ export default function Sidebar({
                 <span className="ml-4">Become a Pro Member</span>
               </div>
             </li>
-            { userData?.email == "something@gmail.com" || userData?.email == "gloom@gmail.com" &&
-              <li>
-              <div
-                className={`flex items-center p-3 hover:cursor-pointer rounded-lg text-white transition group ${
-                  selectedButton == "proMember" && "bg-emerald-400"
-                }`}
-                onClick={() => router.push("/dashboard/admin")}
-              >
-                <svg
-                  className="w-6 h-6 text-gray-400 transition duration-150 group-hover:text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 18"
-                  aria-hidden="true"
-                >
-                  <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1 2.3 4.733A2.571 2.571 0 0 0 20 9V5a3 3 0 0 0-3-3h-3ZM9.91 7.818c.057-.146.09-.303.09-.468a1.75 1.75 0 0 0-3.5 0c0 .165.033.322.09.468a2.573 2.573 0 0 0-.756 1.075L6 9h2l.256-.106a2.573 2.573 0 0 0-.756-1.076ZM6.51 11h-.021c-.35 0-.693.072-1.02.211l-.152.065a2.572 2.572 0 0 0 2.366 1.6A2.571 2.571 0 0 0 10 11.276l-.152-.065A2.571 2.571 0 0 0 6.51 11ZM15 11a1 1 0 0 0 1-1 4.5 4.5 0 0 0-4.5-4.5h-1A4.5 4.5 0 0 0 6 10a1 1 0 0 0 1 1h8Z" />
-                </svg>
-                <span className="ml-4">Admin Panel</span>
-              </div>
-            </li>}
           </ul>
           <div className="relative w-full h-full">
             <div className="flex h-full justify-end w-full items-end">

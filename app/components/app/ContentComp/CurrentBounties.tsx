@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 type Bounty = {
@@ -6,7 +6,7 @@ type Bounty = {
   name: string;
   isActive: boolean;
   isVerified: boolean;
-  submissions: {}[];
+  sumbissions: {}[];
   createdAt: string;
 };
 
@@ -18,13 +18,16 @@ export default function CurrentBounties() {
   const [bounties, setBounties] = useState<Bounty[]>([]);
 
   const fetchBounties = async () => {
-    const response = await axios.get("http://localhost:3000/api/app/userBounties");
+    const response = await axios.get(
+      "http://localhost:3000/api/app/userBounties"
+    );
     return response.data.bounties;
   };
 
   useEffect(() => {
     (async () => {
       const response = await fetchBounties();
+      console.log("::::", response[0].sumbissions.length);
       setBounties(response);
     })();
   }, []);
@@ -38,17 +41,37 @@ export default function CurrentBounties() {
 
 const BountiesTable: React.FC<BountiesTableProps> = ({ bounties }) => {
   // Filter unverified and verified bounties
-  const unverifiedBounties = bounties.filter(bounty => !bounty.isVerified);
-  const verifiedBounties = bounties.filter(bounty => bounty.isVerified);
+  const unverifiedBounties = bounties.filter((bounty) => !bounty.isVerified);
+  const verifiedBounties = bounties.filter((bounty) => bounty.isVerified);
 
   // Helper function to format date
-  const formatDate = (date: string): string => new Date(date).toLocaleDateString();
+  const formatDate = (date: string): string =>
+    new Date(date).toLocaleDateString();
 
   return (
     <div className="flex flex-col gap-10 min-h-screen w-full">
+    <div className="flex items-center justify-center bg-zinc-700 text-emerald-400 p-4 rounded-md border border-yellow-400">
+              <svg
+                className="w-6 h-6 mr-2 text-emerald-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2https://medium.com/dialect-labs/introducing-the-blinks-client-sdk-8bf0e3474349000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M12 12h.01M12 8h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"
+                ></path>
+              </svg>
+              <span className="font-bold">To verify your Bounties faster, become a <a href="http://localhost:3000/dashboard/proMember" className="underline">Pro Member</a> today!</span>
+            </div>
       {/* Unverified Bounties */}
       <div className="w-full bg-zinc-900 p-4 min-h-[50vh] rounded-lg shadow-md">
-        <h2 className="text-emerald-500 font-semibold mb-4">Unverified Bounties</h2>
+        <h2 className="text-emerald-500 font-semibold mb-4">
+          Unverified Bounties
+        </h2>
         <table className="min-w-full bg-zinc-800 text-white rounded-lg overflow-hidden">
           <thead>
             <tr>
@@ -58,11 +81,17 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties }) => {
             </tr>
           </thead>
           <tbody>
-            {unverifiedBounties.map(bounty => (
+            {unverifiedBounties.map((bounty) => (
               <tr key={bounty.id}>
-                <td className="py-2 px-4 border-t border-zinc-700">{bounty.name}</td>
-                <td className="py-2 px-4 border-t border-zinc-700">{bounty.isActive ? 'Yes' : 'No'}</td>
-                <td className="py-2 px-4 border-t border-zinc-700">{formatDate(bounty.createdAt)}</td>
+                <td className="py-2 px-4 border-t border-zinc-700">
+                  {bounty.name}
+                </td>
+                <td className="py-2 px-4 border-t border-zinc-700">
+                  {bounty.isActive ? "Yes" : "No"}
+                </td>
+                <td className="py-2 px-4 border-t border-zinc-700">
+                  {formatDate(bounty.createdAt)}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -71,7 +100,9 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties }) => {
 
       {/* Verified Bounties */}
       <div className="w-full bg-zinc-900 p-4 rounded-lg shadow-md">
-        <h2 className="text-emerald-500 font-semibold mb-4">Verified Bounties</h2>
+        <h2 className="text-emerald-500 font-semibold mb-4">
+          Verified Bounties
+        </h2>
         <table className="min-w-full bg-zinc-800 text-white rounded-lg overflow-hidden">
           <thead>
             <tr>
@@ -83,14 +114,27 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties }) => {
             </tr>
           </thead>
           <tbody>
-            {verifiedBounties.map(bounty => (
+            {verifiedBounties.map((bounty) => (
               <tr key={bounty.id}>
-                <td className="py-2 px-4 border-t border-zinc-700">{bounty.name}</td>
-                <td className="py-2 px-4 border-t border-zinc-700">{bounty.isActive ? 'Yes' : 'No'}</td>
-                <td className="py-2 px-4 border-t border-zinc-700">{formatDate(bounty.createdAt)}</td>
-                <td className="py-2 px-4 border-t border-zinc-700">{bounty.submissions?.length}</td>
                 <td className="py-2 px-4 border-t border-zinc-700">
-                  <a href="#" className="text-emerald-400 hover:underline">View</a>
+                  {bounty.name}
+                </td>
+                <td className="py-2 px-4 border-t border-zinc-700">
+                  {bounty.isActive ? "Yes" : "No"}
+                </td>
+                <td className="py-2 px-4 border-t border-zinc-700">
+                  {formatDate(bounty.createdAt)}
+                </td>
+                <td className="py-2 px-4 border-t border-zinc-700">
+                  {bounty.sumbissions?.length}
+                </td>
+                <td className="py-2 px-4 border-t border-zinc-700">
+                  <a
+                    href={`https://dial.to/?action=solana-action%3Ahttp%3A%2F%2Flocalhost%3A3000%2Fapi%2Fapp%2Factions%3Fid%3D${bounty.id}&cluster=devnet`}
+                    className="text-emerald-400 hover:underline"
+                  >
+                    View
+                  </a>
                 </td>
               </tr>
             ))}
