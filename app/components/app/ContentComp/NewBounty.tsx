@@ -4,7 +4,6 @@ import { ChangeEvent, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import UploadImage from "../uploadImage";
 import axios from "axios"
-import { z } from "zod";
 import {createBountyType} from "@/helperFuncs/types"
 
 interface QuestionAnswers {

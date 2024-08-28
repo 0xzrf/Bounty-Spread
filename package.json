@@ -16,6 +16,7 @@
     "@aws-sdk/client-s3": "^3.637.0",
     "@aws-sdk/s3-presigned-post": "^3.637.0",
     "@prisma/client": "^5.18.0",
+    "@solana/actions": "^1.6.4",
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/wallet-adapter-react": "^0.15.35",
     "@solana/wallet-adapter-react-ui": "^0.9.35",

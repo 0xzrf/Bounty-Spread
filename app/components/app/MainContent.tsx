@@ -13,6 +13,9 @@ export default function MainContent({
   selectedButton: any;
 }) {
   const [userData, setUserData] = useState<{email: string, userId: number} | null>(null);
+ 
+
+
 
   useEffect(() => {
     (async () => {
@@ -23,11 +26,13 @@ export default function MainContent({
       if (!response.data.success) {
         
       }
+
       
       setUserData({email: response.data.email, userId: response.data.userId})
     })()
-
   },[])
+
+  
 
 
   const renderContent = () => {
@@ -39,10 +44,7 @@ export default function MainContent({
       case "proMember":
         return <ProMember />;
       case "admin":
-        if (userData?.email == "something@gmail.com") {
           return <Admin userEmail={userData?.email}/>;
-        }
-        return <Welcome/>
        default:
         return <Welcome />;
     }

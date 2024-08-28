@@ -38,7 +38,7 @@ function Navbar() {
         return;
       }
       alert(response.data.msg);
-      router.push("/dashboard");
+      router.push("/dashboard/newBounty");
     } catch (err) {
       alert("Unable to verify User");
       return;
@@ -96,7 +96,7 @@ function Navbar() {
           <div className="w-1/3 flex justify-betw items-center h-[100%]">
             <div
               onClick={async () => {
-                if (publicKey && !cookie) {
+                if (publicKey) {
                   signAndSend();
                 }
               }}

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
+import axios from "axios"
 
 type Bounty = {
   hostId: string;
-  endpoint: string;
-  url: string;
+  imageUrl: string;
+  id: number
 };
 
 type UnverifiedBountiesProps = {
@@ -11,6 +12,7 @@ type UnverifiedBountiesProps = {
 };
 
 const UnverifiedBounties: React.FC<UnverifiedBountiesProps> = ({ bounties }) => {
+  const [indexes, setIndexes] = useState<number[]>([]);
   return (
     <section className="">
       <h2 className="text-xl font-semibold mb-4">Unverified Bounties</h2>
@@ -27,18 +29,34 @@ const UnverifiedBounties: React.FC<UnverifiedBountiesProps> = ({ bounties }) => 
             </tr>
           </thead>
           <tbody>
-            {bounties.map((bounty, index) => (
+            {bounties.map((bounty, index) => {  
+              return (
               <tr key={index}>
                 <td className="border-b border-gray-700 p-2">{bounty.hostId}</td>
-                <td className="border-b border-gray-700 p-2">{bounty.endpoint}</td>
-                <td className="border-b border-gray-700 p-2">{bounty.url}</td>
+                <td className="border-b border-gray-700 p-2">/endpoint/something</td>
+                <td className="border-b border-gray-700 p-2">{bounty.imageUrl}</td>
                 <td className="border-b border-gray-700 p-2">
-                  <button className="bg-emerald-400 text-white py-1 px-3 rounded">
-                    Verify
+                  <button  onClick={async () => {
+                    const response = await axios.post("http://localhost:3000/api/app/verifyBounty", {
+                      id: bounty.id
+                    }, {
+                      withCredentials: true
+                    })
+
+                    if (!response.data.success) {
+                      alert("Unable to update the user")
+                      return
+                    }
+                    setIndexes(prevData => {
+                      return [...prevData, index]
+                    })
+                    alert("verified")
+                  }} className="bg-emerald-400 text-white py-1 px-3 rounded">
+                    {indexes.includes(index) ? "Verified" : "Verify"}
                   </button>
                 </td>
               </tr>
-            ))}
+            )})}
           </tbody>
         </table>
       )}

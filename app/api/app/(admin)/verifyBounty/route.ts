@@ -1,0 +1,42 @@
+import { NextRequest, NextResponse } from "next/server";
+import { verifyUser } from "@/helperFuncs/functions";
+import { prisma } from "@/lib/utils";
+import { cookies } from "next/headers";
+
+export const POST = async (req:NextRequest) => {
+    const token = cookies().get("token");
+    const {valid, userId} = await verifyUser(token?.value as string);
+    const {id}:{id:number} = await req.json();
+    
+    if(!valid){
+        return NextResponse.json({
+            msg:"User is unauthorized"
+        },{
+            status: 403
+        })
+    }
+
+    try{
+        await prisma.bounties.update({
+            where:{
+                id
+            },
+            data:{
+                isVerified: true
+            }
+        })
+
+        return NextResponse.json({
+            success: true
+        })
+
+    }catch(err){
+        console.log(err);
+        return NextResponse.json({
+            msg: err
+        },
+    {
+        status: 400
+    })
+    }
+}

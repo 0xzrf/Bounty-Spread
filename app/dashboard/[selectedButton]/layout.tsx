@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import Sidebar from "../../components/app/Sidebar";
 import axios from "axios"
 
-export default function Layout({ children }) {
+export default function Layout({ children }: {children : any}) {
   const [userData, setUserData] = useState<{email: string, userId: number} | null>(null);
 
   useEffect(() => {
@@ -16,8 +16,10 @@ export default function Layout({ children }) {
       if (!response.data.success) {
         
       }
+      console.log("response data", response.data.email)
       
       setUserData({email: response.data.email, userId: response.data.userId})
+      console.log(":::::",userData);
     })()
 
   },[])
@@ -30,7 +32,7 @@ export default function Layout({ children }) {
         userData && 
         <div>
           <Sidebar userData={userData} selectedButton={selectedButton} />
-          {React.cloneElement(children as React.ReactElement, { userData })}
+          {children}
         </div>
       }
     </div>

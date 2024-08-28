@@ -105,7 +105,7 @@ export default function Sidebar({
                 <span className="ml-4">Become a Pro Member</span>
               </div>
             </li>
-            { userData?.email == "something@gmail.com" &&
+            { userData?.email == "something@gmail.com" || userData?.email == "gloom@gmail.com" &&
               <li>
               <div
                 className={`flex items-center p-3 hover:cursor-pointer rounded-lg text-white transition group ${
