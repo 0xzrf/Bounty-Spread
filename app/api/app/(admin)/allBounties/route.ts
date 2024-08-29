@@ -3,7 +3,7 @@ import { verifyUser } from "@/app/api/helperFuncs/functions";
 import { prisma } from "@/lib/utils";
 import { cookies } from "next/headers";
 
-export const runtime = 'edge';
+export const runtime = "edge"
 
 export const GET = async (req: NextRequest) => {
     const token = cookies().get("token");

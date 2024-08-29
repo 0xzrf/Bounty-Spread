@@ -28,7 +28,7 @@ export default function MainContent({
       if (!cookie) {
         alert("Some")
       } else {
-        const response = await axios.get(`${DEPLOYED_LINK_URL}/api/app/user`, {
+        const response = await axios.get(`${window.location.origin}/api/app/user`, {
           withCredentials: true,
         });
   

@@ -4,7 +4,6 @@ import {verifyUser} from "@/app/api/helperFuncs/functions";
 import { S3Client } from "@aws-sdk/client-s3";
 import { createPresignedPost } from '@aws-sdk/s3-presigned-post';
 export const runtime = 'edge';
-
 const ACCESS_KEY_ID = process.env.ACCESS_KEY_ID as string;
 const ACCESS_KEY_PASSWORD = process.env.ACCESS_KEY_PASSWORD as string;
 console.log(ACCESS_KEY_ID,":::",ACCESS_KEY_PASSWORD);

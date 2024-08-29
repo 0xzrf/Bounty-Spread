@@ -328,7 +328,7 @@ export default function NewBounty({isPaid, freeRemaining}: {isPaid: boolean, fre
               return
             }
               
-            const res = await axios.post(`${DEPLOYED_LINK_URL}/api/app/createBounty`, formData.data, {
+            const res = await axios.post(`${window.location.origin}/api/app/createBounty`, formData.data, {
               withCredentials: true
             })
             

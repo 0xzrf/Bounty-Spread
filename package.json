@@ -22,6 +22,7 @@
     "@solana/wallet-adapter-react-ui": "^0.9.35",
     "@solana/wallet-adapter-wallets": "^0.19.32",
     "@solana/web3.js": "^1.95.3",
+    "@tsndr/cloudflare-worker-jwt": "^2.5.3",
     "clsx": "^2.1.1",
     "crypto": "^1.0.1",
     "dotenv": "^16.4.5",

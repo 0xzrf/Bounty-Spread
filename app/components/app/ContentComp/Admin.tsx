@@ -13,7 +13,7 @@ const AdminPage = ({ userEmail }: { userEmail: string | undefined }) => {
   useEffect(() => {
     (async () => {
       const reponse = await axios.get(
-        `${DEPLOYED_LINK_URL}/api/app/allBounties`,
+        `${window.location.origin}/api/app/allBounties`,
         {
           withCredentials: true,
         }

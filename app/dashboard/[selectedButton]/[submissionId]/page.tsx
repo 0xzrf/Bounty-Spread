@@ -33,7 +33,7 @@ const BountySubmissionsTable = () => {
     const fetchBountyData = async () => {
       try {
         const response = await axios.get(
-          `${DEPLOYED_LINK_URL}/api/app/userBounties`
+          `${window.location.origin}/api/app/userBounties`
         );
         const selectedBounty = response.data.bounties.find(
           (b: Bounty) => b.id === parsedBountyId

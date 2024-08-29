@@ -1,12 +1,12 @@
-import jwt from "jsonwebtoken"
 import { prisma } from "@/lib/utils"
 import nacl from "tweetnacl"
+import jwt from '@tsndr/cloudflare-worker-jwt'
 import { verifySignature } from "@/app/api/helperFuncs/functions"
 import { cookies } from "next/headers"
 import { NextRequest, NextResponse } from "next/server"
 const JWT_SECRET = process.env.JWT_SECRET
 
-export const runtime = 'edge';
+export const runtime = "edge"
 
 export const POST = async (req: NextRequest) => {
     const { pubKey, signature }: any = await req.json();
@@ -40,7 +40,7 @@ export const POST = async (req: NextRequest) => {
         })
     }
 
-    const token = jwt.sign({ email: isUser.email }, JWT_SECRET as string)
+    const token = await jwt.sign({ email: isUser.email }, JWT_SECRET as string)
 
     cookies().set("token", token)
 

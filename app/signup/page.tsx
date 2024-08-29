@@ -35,7 +35,7 @@ const signUpForm = () =>{
         );
         const signature = await signMessage?.(message);
         //backend route
-        const response = await axios.post(`${DEPLOYED_LINK_URL}}/api/signup`,{
+        const response = await axios.post(`${window.location.origin}/api/signup`,{
           email: form.email,
           username: form.username,
           publicKey,
@@ -122,7 +122,7 @@ const signUpForm = () =>{
     </form>
 
     <p className="mt-6 text-center text-zinc-400 text-sm">
-      Already have an account?{" "}
+      Already have an account??{" "}
       <a href="#" className="font-medium text-zinc-300 hover:text-zinc-100 transition duration-200">
         Sign in
       </a>

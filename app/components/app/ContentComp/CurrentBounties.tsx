@@ -28,7 +28,7 @@ export default function CurrentBounties({ isPaid }: { isPaid: boolean }) {
 
   const fetchBounties = async () => {
     const response = await axios.get(
-      `${DEPLOYED_LINK_URL}/api/app/userBounties`
+      `${window.location.origin}/api/app/userBounties`
     );
     return response.data.bounties;
   };

@@ -1,7 +1,7 @@
 "use server"
 import nacl from "tweetnacl"
 
-import jwt, { JwtPayload } from "jsonwebtoken"
+import jwt from '@tsndr/cloudflare-worker-jwt'
 import { PublicKey } from "@solana/web3.js"
 import { prisma } from "@/lib/utils"
 import { cookies } from "next/headers"
@@ -38,15 +38,24 @@ export async function verifySignature(pubKey: String, signature: any): Promise<{
 
 export async function verifyUser(token: string) {
     try {
-        const decoded = jwt.verify(token, JWT_SECRET as string) as JwtPayload;
+        const isValid = await jwt.verify(token, JWT_SECRET as string);
+
+        if (!isValid) {
+            return {valid: false}
+        }
+
+        const { payload } = jwt.decode(token)
+        
+       
         const user = await prisma.host.findFirst({
             where: {
-                email: decoded.email
+                //@ts-ignore
+                email: payload?.email as string,
             }
         })
 
-        
-        return { valid: true, email: decoded.email, userId: user?.id, user }
+        //@ts-ignore
+        return { valid: true, email: payload?.email, userId: user?.id, user }
 
     } catch (err) {
         return { valid: false }

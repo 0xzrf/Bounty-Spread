@@ -13,9 +13,9 @@ interface STBody {
     eligibilityAnswers: null,
     email: string
 }
-
 export const runtime = 'edge';
-export const GET = async (req: NextRequest) => {
+  
+  export const GET = async (req: NextRequest) => {
     const { searchParams } = req.nextUrl;
 
     const id = searchParams.get('id')
@@ -102,16 +102,6 @@ export async function POST(req: NextRequest) {
     const answer: string[] = questions?.split("|").slice(0,  -1) as string[];
     const user = new PublicKey(userKey);
 
-    const formData: STBody = {
-        ask: null,
-        eligibilityAnswers: null,
-        email: email as string,
-        link: answer[0],
-        tweet: answer[1],
-        otherInfo: answer[2], 
-        listingId: "94b22307-bc58-43c6-8cbf-8d9aa0c07996"
-    }
-
     const connection = new Connection(clusterApiUrl("devnet"));
     const ix = SystemProgram.transfer({
         fromPubkey: user,
@@ -124,7 +114,6 @@ export async function POST(req: NextRequest) {
     console.log(`blockhash ${bh}`)
     tx.recentBlockhash = bh
     const serialTx = tx.serialize({ requireAllSignatures: false, verifySignatures: false }).toString("base64");
-
 
     try {
         const questions = await prisma.bounties.findFirst({
@@ -144,8 +133,6 @@ export async function POST(req: NextRequest) {
                 answers: answer
             }
         })
-        const stSubmission = await axios.post(`${DEPLOYED_LINK_URL}/api/bountySpread/create`, formData);
-        console.log("axios request sent");
 
     } catch (err) {
         console.error(err)

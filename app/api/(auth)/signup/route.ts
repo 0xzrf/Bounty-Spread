@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken"
+import jwt from '@tsndr/cloudflare-worker-jwt'
 import axios from "axios"
 import { prisma } from "@/lib/utils"
 import { NextRequest, NextResponse } from "next/server"
@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
             }
         })
 
-        const token = jwt.sign({ email }, JWT_SECRET);
+        const token = await jwt.sign({ email }, JWT_SECRET);
         cookies().set("token", token);
     } catch (err: any) {
         console.log(err);
