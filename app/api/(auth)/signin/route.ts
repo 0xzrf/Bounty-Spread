@@ -1,10 +1,12 @@
 import jwt from "jsonwebtoken"
 import { prisma } from "@/lib/utils"
 import nacl from "tweetnacl"
-import { verifySignature } from "@/helperFuncs/functions"
+import { verifySignature } from "@/app/api/helperFuncs/functions"
 import { cookies } from "next/headers"
 import { NextRequest, NextResponse } from "next/server"
 const JWT_SECRET = process.env.JWT_SECRET
+
+export const runtime = 'edge';
 
 export const POST = async (req: NextRequest) => {
     const { pubKey, signature }: any = await req.json();

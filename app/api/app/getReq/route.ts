@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import {ACTIONS_CORS_HEADERS} from "@solana/actions"
+export const runtime = 'edge';
+
 export const POST = async (req: NextRequest) => {
     const {searchParams} = req.nextUrl;
 

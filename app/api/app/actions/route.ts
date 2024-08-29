@@ -14,6 +14,7 @@ interface STBody {
     email: string
 }
 
+export const runtime = 'edge';
 export const GET = async (req: NextRequest) => {
     const { searchParams } = req.nextUrl;
 

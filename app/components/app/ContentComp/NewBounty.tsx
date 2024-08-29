@@ -4,7 +4,7 @@ import { ChangeEvent, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import UploadImage from "../uploadImage";
 import axios from "axios"
-import {createBountyType} from "@/helperFuncs/types"
+import {createBountyType} from "@/app/types"
 import { useRouter } from "next/navigation";
 import SelfContainedCreditDisplay from "../Credit/CompactCreditDisplay";
 const QUESTION_LIMIT = 75

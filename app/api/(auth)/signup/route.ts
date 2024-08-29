@@ -3,7 +3,9 @@ import axios from "axios"
 import { prisma } from "@/lib/utils"
 import { NextRequest, NextResponse } from "next/server"
 import { cookies } from "next/headers"
-import { verifySignature } from "@/helperFuncs/functions"
+import { verifySignature } from "@/app/api/helperFuncs/functions"
+
+export const runtime = 'edge';
 
 const JWT_SECRET = process.env.JWT_SECRET as string
 console.log("jwtsecret:", JWT_SECRET);

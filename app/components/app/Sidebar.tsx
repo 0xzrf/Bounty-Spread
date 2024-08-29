@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import BountySpreadLogo from "../Icon";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { deleteCookie, getCookie } from "@/helperFuncs/functions";
 import { useRouter } from "next/navigation";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import Cookies from "js-cookie";
@@ -140,8 +139,6 @@ export default function Sidebar({
                   <li>
                     <span
                       onClick={() => {
-                        deleteCookie();
-                        getCookie();
                         disconnect();
                         router.push("/");
                       }}
