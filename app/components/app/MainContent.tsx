@@ -5,6 +5,7 @@ import NewBounty from "./ContentComp/NewBounty";
 import CurrentBounties from "./ContentComp/CurrentBounties";
 import Admin from "./ContentComp/Admin";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export default function MainContent({
   selectedButton,
@@ -17,17 +18,23 @@ export default function MainContent({
     isPaid: boolean;
     freeRemaining: number
   } | null>(null);
+  const cookie = Cookies.get("token");
 
   useEffect(() => {
     (async () => {
-      const response = await axios.get("http://localhost:3000/api/app/user", {
-        withCredentials: true,
-      });
+      if (!cookie) {
+        alert("Some")
+      } else {
+        const response = await axios.get("http://localhost:3001/api/app/user", {
+          withCredentials: true,
+        });
+  
+        if (!response.data.success) {
+        }
+  
+        setUserData({ email: response.data.email, userId: response.data.userId, isPaid: response.data.isPaid, freeRemaining: response.data.freeRemaining });
 
-      if (!response.data.success) {
       }
-
-      setUserData({ email: response.data.email, userId: response.data.userId, isPaid: response.data.isPaid, freeRemaining: response.data.freeRemaining });
     })();
   }, []);
 

@@ -37,7 +37,7 @@ const UnverifiedBounties: React.FC<UnverifiedBountiesProps> = ({ bounties }) => 
                 <td className="border-b border-gray-700 p-2">{bounty.imageUrl}</td>
                 <td className="border-b border-gray-700 p-2">
                   <button  onClick={async () => {
-                    const response = await axios.post("http://localhost:3000/api/app/verifyBounty", {
+                    const response = await axios.post("http://localhost:3001/api/app/verifyBounty", {
                       id: bounty.id
                     }, {
                       withCredentials: true

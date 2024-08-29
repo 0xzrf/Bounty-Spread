@@ -7,6 +7,7 @@ import axios from "axios"
 import {createBountyType} from "@/helperFuncs/types"
 import { useRouter } from "next/navigation";
 import SelfContainedCreditDisplay from "../Credit/CompactCreditDisplay";
+const QUESTION_LIMIT = 75
 
 interface QuestionAnswers {
   question: string;
@@ -23,6 +24,7 @@ export default function NewBounty({isPaid, freeRemaining}: {isPaid: boolean, fre
   const [dateTime, setDateTime] = useState("");
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState();
+  const [isExceeding, setIsExceeding] = useState(false);
 
   const [questions, setQuestions] = useState<QuestionAnswers[]>([]);
   const [questionObject, setQuestionObject] = useState<QuestionAnswers>({
@@ -242,10 +244,19 @@ export default function NewBounty({isPaid, freeRemaining}: {isPaid: boolean, fre
                     type="text"
                     value={questionObject.question}
                     onChange={(e) =>
-                      setQuestionObject((prevVals) => ({
+                      setQuestionObject((prevVals) => {
+                        if (questionObject.question.length > QUESTION_LIMIT) {
+                          setIsExceeding(true)
+                          return ({
+                            ...prevVals,
+                            question: e.target.value.slice(0,-2) as string
+                          })
+                        }
+                        setIsExceeding(false)
+                        return ({
                         ...prevVals,
                         question: e.target.value,
-                      }))
+                      })})
                     }
                     className="block w-full p-2.5 bg-zinc-700 text-white border border-emerald-400 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400"
                   />
@@ -275,6 +286,7 @@ export default function NewBounty({isPaid, freeRemaining}: {isPaid: boolean, fre
                 </div>
                 <div className="w-1/4 flex justify-center items-center">
                   <button
+                    disabled={questionObject.question.length > QUESTION_LIMIT || questionObject.question.length == 0}
                     onClick={() => {
                       setQuestions([
                         ...questions,
@@ -285,9 +297,9 @@ export default function NewBounty({isPaid, freeRemaining}: {isPaid: boolean, fre
                       ]);
                       setQuestionObject({ question: "", type: "" });
                     }}
-                    className="mt-4 bg-emerald-400 p-2 rounded-lg text-white"
+                    className={`mt-4 ${questionObject.question.length > QUESTION_LIMIT ? "bg-red-500" : "bg-emerald-400"}  p-2 rounded-lg text-white `}
                   >
-                    Add Question
+                    {questionObject.question.length > QUESTION_LIMIT ? <div>Word limit exceeded<br/>(75 chars max)</div> : (questionObject.question.length == 0 ? "Don't send null ques" : "Add question")}
                   </button>
                 </div>
               </div>
@@ -315,7 +327,7 @@ export default function NewBounty({isPaid, freeRemaining}: {isPaid: boolean, fre
               return
             }
               
-            const res = await axios.post("http://localhost:3000/api/app/createBounty", formData.data, {
+            const res = await axios.post("http://localhost:3001/api/app/createBounty", formData.data, {
               withCredentials: true
             })
             

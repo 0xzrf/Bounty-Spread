@@ -11,7 +11,7 @@ const AdminPage = ({ userEmail }: { userEmail: string | undefined }) => {
   useEffect(() => {
     (async () => {
       const reponse = await axios.get(
-        "http://localhost:3000/api/app/allBounties",
+        "http://localhost:3001/api/app/allBounties",
         {
           withCredentials: true,
         }

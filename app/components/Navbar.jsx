@@ -27,7 +27,7 @@ function Navbar() {
       const signature = await signMessage?.(message);
       console.log(signature);
 
-      const response = await axios.post(`http://localhost:3000/api/signin`, {
+      const response = await axios.post(`http://localhost:3001/api/signin`, {
         signature,
         pubKey: publicKey?.toString(),
       });

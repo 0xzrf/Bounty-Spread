@@ -7,6 +7,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { deleteCookie, getCookie } from "@/helperFuncs/functions";
 import { useRouter } from "next/navigation";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
+import Cookies from "js-cookie";
 
 import NotSignedIn from "./NotSignedIn";
 
@@ -21,8 +22,10 @@ export default function Sidebar({
   const pubkey = publicKey?.toString();
   const router = useRouter();
   const toggleDropdown = () => setIsOpen(!isOpen);
+  const cookie = Cookies.get("token");
 
-  if (!pubkey) {
+
+  if (!pubkey || !cookie) {
     return (
       <div>
         <NotSignedIn />

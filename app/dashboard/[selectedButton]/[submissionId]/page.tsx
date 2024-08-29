@@ -31,7 +31,7 @@ const BountySubmissionsTable = () => {
     const fetchBountyData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/app/userBounties"
+          "http://localhost:3001/api/app/userBounties"
         );
         const selectedBounty = response.data.bounties.find(
           (b: Bounty) => b.id === parsedBountyId

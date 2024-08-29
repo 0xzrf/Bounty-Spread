@@ -2,12 +2,22 @@ import { NextRequest, NextResponse } from "next/server";
 import { clusterApiUrl, Connection, PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 import { ActionGetResponse, ActionPostRequest, ActionPostResponse, ACTIONS_CORS_HEADERS, ActionParameter, ActionParameterType } from "@solana/actions";
 import { prisma } from "@/lib/utils";
+import axios from "axios"
+
+interface STBody {
+    listingId: string,
+    link: string,
+    tweet: string,
+    otherInfo: string,
+    ask: null,
+    eligibilityAnswers: null,
+    email: string
+}
 
 export const GET = async (req: NextRequest) => {
     const { searchParams } = req.nextUrl;
 
     const id = searchParams.get('id')
-    console.log(id, parseInt(id as string))
     const userData = await prisma.bounties.findFirst({
         where: {
             id: parseInt(id as string)
@@ -15,8 +25,8 @@ export const GET = async (req: NextRequest) => {
         select: {
             description: true,
             name: true,
-            amount: true, // how to show this on blink
-            type: true, // grant/project/bounty
+            amount: true, 
+            type: true, 
             questions: true,
             types: true,
             interval: true,
@@ -28,6 +38,13 @@ export const GET = async (req: NextRequest) => {
     let params: ActionParameter[] = []
     let ques = [];
 
+    params.push({
+        type:"email",
+        label:"Give your email Id",
+        name:"email",
+        required:true
+    })
+
     for (let i = 0; i < (userData?.questions.length as number); i++) {
         params.push({
             type: userData?.types[i].toLowerCase() as ActionParameterType,
@@ -37,7 +54,6 @@ export const GET = async (req: NextRequest) => {
         })
         ques.push(`question${i}`)
     }
-    console.log(ques);
     let str = '';
     ques.map(ele => {
         str += `{${ele}}|`
@@ -51,8 +67,8 @@ export const GET = async (req: NextRequest) => {
         links: {
             actions: [
                 {
-                    href: `/api/app/actions?id=${parseInt(id as string)}&data=${str}`,
-                    label: `Submit & win ${userData?.amount}`,
+                    href: `/api/app/actions?id=${parseInt(id as string)}&email={email}&data=${str}`,
+                    label: `Submit & win ${userData?.amount} USD`,
                     parameters: params,
                 }
             ]
@@ -71,6 +87,9 @@ export async function POST(req: NextRequest) {
 
     const { searchParams } = req.nextUrl;
 
+    const email = searchParams.get("email");
+    console.log("email",email);
+
     const id = searchParams.get("id");
     console.log(id);
     let questions: string | null = searchParams.get("data");
@@ -78,8 +97,18 @@ export async function POST(req: NextRequest) {
 
     console.log(questions?.split("|").slice(0, -1), parseInt(questions?.split("|")[1] as string));
 
-    const answer: string[] | undefined = questions?.split("|").slice(0, -1);
+    const answer: string[] = questions?.split("|").slice(0,  -1) as string[];
     const user = new PublicKey(userKey);
+
+    const formData: STBody = {
+        ask: null,
+        eligibilityAnswers: null,
+        email: email as string,
+        link: answer[0],
+        tweet: answer[1],
+        otherInfo: answer[2], 
+        listingId: "94b22307-bc58-43c6-8cbf-8d9aa0c07996"
+    }
 
     const connection = new Connection(clusterApiUrl("devnet"));
     const ix = SystemProgram.transfer({
@@ -113,6 +142,8 @@ export async function POST(req: NextRequest) {
                 answers: answer
             }
         })
+        const stSubmission = await axios.post("http://localhost:3000/api/bountySpread/create", formData);
+        console.log("axios request sent");
 
     } catch (err) {
         console.error(err)

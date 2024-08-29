@@ -4,6 +4,8 @@ import {useRouter} from "next/navigation"
 import { useWallet } from "@solana/wallet-adapter-react";
 import {useState} from "react"
 import axios from "axios"
+import Cookies from "js-cookie";
+
 export default function NotSignedIn() {
     const router = useRouter();
   const { publicKey, signMessage } = useWallet();
@@ -14,7 +16,7 @@ export default function NotSignedIn() {
         `You're a verified exceliWorker`
       );
       const signature = await signMessage?.(message);
-      const response = await axios.post(`http://localhost:3000/api/signin`, {
+      const response = await axios.post(`http://localhost:3001/api/signin`, {
         signature,
         pubKey: publicKey?.toString(),
       });

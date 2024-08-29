@@ -33,7 +33,7 @@ const signUpForm = () =>{
         );
         const signature = await signMessage?.(message);
         //backend route
-        const response = await axios.post("http://localhost:3000/api/signup",{
+        const response = await axios.post("http://localhost:3001/api/signup",{
           email: form.email,
           username: form.username,
           publicKey,

@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+
+type BountyType = "Grant" | "Project" | "Bounty";
 
 type Bounty = {
   id: number;
@@ -9,6 +12,7 @@ type Bounty = {
   isVerified: boolean;
   sumbissions: {}[];
   createdAt: string;
+  type: BountyType;
 };
 
 interface BountiesTableProps {
@@ -21,7 +25,7 @@ export default function CurrentBounties({ isPaid }: { isPaid: boolean }) {
 
   const fetchBounties = async () => {
     const response = await axios.get(
-      "http://localhost:3000/api/app/userBounties"
+      "http://localhost:3001/api/app/userBounties"
     );
     return response.data.bounties;
   };
@@ -29,7 +33,6 @@ export default function CurrentBounties({ isPaid }: { isPaid: boolean }) {
   useEffect(() => {
     (async () => {
       const response = await fetchBounties();
-      console.log("::::", response[0].sumbissions.length);
       setBounties(response);
     })();
   }, []);
@@ -43,13 +46,31 @@ export default function CurrentBounties({ isPaid }: { isPaid: boolean }) {
 
 const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
   const router = useRouter();
+  const [selectedType, setSelectedType] = useState<BountyType | null>(null);
+
   // Filter unverified and verified bounties
   const unverifiedBounties = bounties.filter((bounty) => !bounty.isVerified);
   const verifiedBounties = bounties.filter((bounty) => bounty.isVerified);
 
+  // Count bounties by type
+  const countByType = (bountiesArray: Bounty[]) => {
+    return bountiesArray.reduce((acc, bounty) => {
+      acc[bounty.type] = (acc[bounty.type] || 0) + 1;
+      return acc;
+    }, {} as Record<BountyType, number>);
+  };
+
+  const unverifiedCounts = countByType(unverifiedBounties);
+  const verifiedCounts = countByType(verifiedBounties);
+
   // Helper function to format date
   const formatDate = (date: string): string =>
     new Date(date).toLocaleDateString();
+
+  // Filter bounties by selected type
+  const getFilteredBounties = (bountiesArray: Bounty[]) => {
+    return selectedType ? bountiesArray.filter(bounty => bounty.type === selectedType) : bountiesArray;
+  };
 
   return (
     <div className="flex flex-col gap-10 min-h-screen w-full">
@@ -60,7 +81,7 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2https://medium.com/dialect-labs/introducing-the-blinks-client-sdk-8bf0e3474349000/svg"
+            xmlns="http://www.w3.org/2000/svg"
           >
             <path
               strokeLinecap="round"
@@ -71,34 +92,52 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
           </svg>
           <span className="font-bold">
             To verify your Bounties faster, become a{" "}
-            <a
-              href="http://localhost:3000/dashboard/proMember"
+            <Link
+              href={"/dashboard/proMember"}
               className="underline"
             >
               Pro Member
-            </a>{" "}
+            </Link>{" "}
             today!
           </span>
         </div>
       )}
+
       {/* Unverified Bounties */}
       <div className="w-full bg-zinc-900 p-4 min-h-[50vh] rounded-lg shadow-md">
         <h2 className="text-emerald-500 font-semibold mb-4">
           Unverified Bounties
         </h2>
+        <div className="flex justify-between mb-4">
+          {(["Grant", "Project", "Bounty"] as BountyType[]).map((type) => (
+            <button
+              key={type}
+              onClick={() => setSelectedType(selectedType === type ? null : type)}
+              className={`px-4 py-2 rounded ${
+                selectedType === type ? "bg-emerald-500 text-white" : "bg-zinc-700 text-white"
+              }`}
+            >
+              {type} ({unverifiedCounts[type] || 0})
+            </button>
+          ))}
+        </div>
         <table className="min-w-full bg-zinc-800 text-white rounded-lg overflow-hidden">
           <thead>
             <tr>
               <th className="py-2 px-4 text-left">Bounty Name</th>
+              <th className="py-2 px-4 text-left">Type</th>
               <th className="py-2 px-4 text-left">Active</th>
               <th className="py-2 px-4 text-left">Created At</th>
             </tr>
           </thead>
           <tbody>
-            {unverifiedBounties.map((bounty) => (
+            {getFilteredBounties(unverifiedBounties).map((bounty) => (
               <tr key={bounty.id}>
                 <td className="py-2 px-4 border-t border-zinc-700">
                   {bounty.name}
+                </td>
+                <td className="py-2 px-4 border-t border-zinc-700">
+                  {bounty.type}
                 </td>
                 <td className="py-2 px-4 border-t border-zinc-700">
                   {bounty.isActive ? "Yes" : "No"}
@@ -117,10 +156,24 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
         <h2 className="text-emerald-500 font-semibold mb-4">
           Verified Bounties
         </h2>
+        <div className="flex justify-between mb-4">
+          {(["Grant", "Project", "Bounty"] as BountyType[]).map((type) => (
+            <button
+              key={type}
+              onClick={() => setSelectedType(selectedType === type ? null : type)}
+              className={`px-4 py-2 rounded ${
+                selectedType === type ? "bg-emerald-500 text-white" : "bg-zinc-700 text-white"
+              }`}
+            >
+              {type} ({verifiedCounts[type] || 0})
+            </button>
+          ))}
+        </div>
         <table className="min-w-full bg-zinc-800 text-white rounded-lg overflow-hidden">
           <thead>
             <tr>
               <th className="py-2 px-4 text-left">Bounty Name</th>
+              <th className="py-2 px-4 text-left">Type</th>
               <th className="py-2 px-4 text-left">Active</th>
               <th className="py-2 px-4 text-left">Created At</th>
               <th className="py-2 px-4 text-left">Submissions</th>
@@ -128,12 +181,19 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
             </tr>
           </thead>
           <tbody>
-            {verifiedBounties.map((bounty) => (
-              <tr onClick={() => {
-                router.push(`/dashboard/currentBounties/${bounty.id}`)
-              }} className="hover:bg-gray-500 hover:cursor-pointer" key={bounty.id}>
+            {getFilteredBounties(verifiedBounties).map((bounty) => (
+              <tr
+                onClick={() => {
+                  router.push(`/dashboard/currentBounties/${bounty.id}`);
+                }}
+                className="hover:bg-gray-500 hover:cursor-pointer"
+                key={bounty.id}
+              >
                 <td className="py-2 px-4 border-t border-zinc-700">
                   {bounty.name}
+                </td>
+                <td className="py-2 px-4 border-t border-zinc-700">
+                  {bounty.type}
                 </td>
                 <td className="py-2 px-4 border-t border-zinc-700">
                   {bounty.isActive ? "Yes" : "No"}
@@ -146,7 +206,7 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
                 </td>
                 <td className="py-2 px-4 border-t border-zinc-700">
                   <a
-                    href={`https://dial.to/?action=solana-action%3Ahttp%3A%2F%2Flocalhost%3A3000%2Fapi%2Fapp%2Factions%3Fid%3D${bounty.id}&cluster=devnet`}
+                    href={`https://dial.to/?action=solana-action%3Ahttp%3A%2F%2Flocalhost%3A3001%2Fapi%2Fapp%2Factions%3Fid%3D${bounty.id}&cluster=devnet`}
                     className="text-emerald-400 hover:underline"
                   >
                     View

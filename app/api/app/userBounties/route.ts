@@ -27,7 +27,8 @@ export const GET = async (req: NextRequest) => {
                 sumbissions: true,
                 createdAt: true,
                 id: true,
-                hostId: true
+                hostId: true,
+                type: true
             }
         })
 
@@ -40,6 +41,8 @@ export const GET = async (req: NextRequest) => {
         console.log(err);
         return NextResponse.json({
             msg: err
+        }, {
+            status: 403
         })
     }
 }
