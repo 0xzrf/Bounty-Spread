@@ -5,10 +5,13 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import {useState} from "react"
 import axios from "axios"
 import Cookies from "js-cookie";
+export const runtime = "edge";
 
 export default function NotSignedIn() {
     const router = useRouter();
   const { publicKey, signMessage } = useWallet();
+  const DEPLOYED_LINK_URL = process.env.NEXT_PUBLIC_DEPLOYED_LINK;
+
 
   async function signAndSend() {
     try {
@@ -16,7 +19,7 @@ export default function NotSignedIn() {
         `You're a verified exceliWorker`
       );
       const signature = await signMessage?.(message);
-      const response = await axios.post(`http://localhost:3001/api/signin`, {
+      const response = await axios.post(`${DEPLOYED_LINK_URL}/api/signin`, {
         signature,
         pubKey: publicKey?.toString(),
       });

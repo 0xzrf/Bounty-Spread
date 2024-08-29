@@ -8,6 +8,7 @@ import {createBountyType} from "@/helperFuncs/types"
 import { useRouter } from "next/navigation";
 import SelfContainedCreditDisplay from "../Credit/CompactCreditDisplay";
 const QUESTION_LIMIT = 75
+export const runtime = "edge";
 
 interface QuestionAnswers {
   question: string;
@@ -25,7 +26,7 @@ export default function NewBounty({isPaid, freeRemaining}: {isPaid: boolean, fre
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState();
   const [isExceeding, setIsExceeding] = useState(false);
-
+  const DEPLOYED_LINK_URL = process.env.NEXT_PUBLIC_DEPLOYED_LINK;
   const [questions, setQuestions] = useState<QuestionAnswers[]>([]);
   const [questionObject, setQuestionObject] = useState<QuestionAnswers>({
     question: "",
@@ -327,7 +328,7 @@ export default function NewBounty({isPaid, freeRemaining}: {isPaid: boolean, fre
               return
             }
               
-            const res = await axios.post("http://localhost:3001/api/app/createBounty", formData.data, {
+            const res = await axios.post(`${DEPLOYED_LINK_URL}/api/app/createBounty`, formData.data, {
               withCredentials: true
             })
             

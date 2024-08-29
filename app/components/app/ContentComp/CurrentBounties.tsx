@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 type BountyType = "Grant" | "Project" | "Bounty";
+export const runtime = "edge";
 
 type Bounty = {
   id: number;
@@ -20,12 +21,14 @@ interface BountiesTableProps {
   isPaid: boolean;
 }
 
+const DEPLOYED_LINK_URL = process.env.NEXT_PUBLIC_DEPLOYED_LINK;
+
 export default function CurrentBounties({ isPaid }: { isPaid: boolean }) {
   const [bounties, setBounties] = useState<Bounty[]>([]);
 
   const fetchBounties = async () => {
     const response = await axios.get(
-      "http://localhost:3001/api/app/userBounties"
+      `${DEPLOYED_LINK_URL}/api/app/userBounties`
     );
     return response.data.bounties;
   };

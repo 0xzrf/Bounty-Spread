@@ -3,15 +3,17 @@ import AdminLayout from "./Admin/AdminLayout";
 import UnverifiedBounties from "./Admin/UnverifiedBounties";
 import axios from "axios";
 import Welcome from "../ContentComp/Welcome";
+export const runtime = "edge";
 
 const AdminPage = ({ userEmail }: { userEmail: string | undefined }) => {
   // Initially, the bounties array is empty
   const [bounties, setBounties] = useState([]);
+  const DEPLOYED_LINK_URL = process.env.NEXT_PUBLIC_DEPLOYED_LINK;
 
   useEffect(() => {
     (async () => {
       const reponse = await axios.get(
-        "http://localhost:3001/api/app/allBounties",
+        `${DEPLOYED_LINK_URL}/api/app/allBounties`,
         {
           withCredentials: true,
         }

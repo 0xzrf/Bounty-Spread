@@ -6,6 +6,7 @@ import { cookies } from 'next/headers';
 import { useRouter } from 'next/navigation';
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from '@solana/wallet-adapter-react';
+export const runtime = "edge";
 
 const signUpForm = () =>{
     const router = useRouter();
@@ -14,6 +15,7 @@ const signUpForm = () =>{
         email:'',
         username:'',
     });
+    const DEPLOYED_LINK_URL = process.env.NEXT_PUBLIC_DEPLOYED_LINK;
     //fxn to handle individual changes
     const handleChange = (e:any) =>{
         const {name,value} = e.target;
@@ -33,7 +35,7 @@ const signUpForm = () =>{
         );
         const signature = await signMessage?.(message);
         //backend route
-        const response = await axios.post("http://localhost:3001/api/signup",{
+        const response = await axios.post(`${DEPLOYED_LINK_URL}}/api/signup`,{
           email: form.email,
           username: form.username,
           publicKey,

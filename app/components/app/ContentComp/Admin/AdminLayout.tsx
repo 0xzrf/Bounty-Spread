@@ -3,6 +3,7 @@ import React from 'react';
 type AdminLayoutProps = {
   children: React.ReactNode;
 };
+export const runtime = "edge";
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   return (

@@ -1,4 +1,5 @@
 import React from 'react';
+export const runtime = "edge";
 
 const SelfContainedCreditDisplay = ({ userCredit = 0 }) => {
   const remainingCredit = Math.max(0, Math.min(5, userCredit));

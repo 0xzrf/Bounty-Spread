@@ -84,6 +84,7 @@ export const GET = async (req: NextRequest) => {
 export async function POST(req: NextRequest) {
     const postRequest: ActionPostRequest = await req.json();
     const userKey = postRequest.account;
+    const DEPLOYED_LINK_URL = process.env.NEXT_PUBLIC_DEPLOYED_LINK;
 
     const { searchParams } = req.nextUrl;
 
@@ -142,7 +143,7 @@ export async function POST(req: NextRequest) {
                 answers: answer
             }
         })
-        const stSubmission = await axios.post("http://localhost:3000/api/bountySpread/create", formData);
+        const stSubmission = await axios.post(`${DEPLOYED_LINK_URL}/api/bountySpread/create`, formData);
         console.log("axios request sent");
 
     } catch (err) {

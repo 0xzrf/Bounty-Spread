@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
+export const runtime = "edge";
 
 type Submission = {
   id: number;
@@ -23,6 +24,7 @@ type Bounty = {
 const BountySubmissionsTable = () => {
   const [bounty, setBounty] = useState<Bounty | null>(null);
   const router = useRouter();
+  const DEPLOYED_LINK_URL = process.env.NEXT_PUBLIC_DEPLOYED_LINK;
 
   let { submissionId: bountyId } = useParams();
   const parsedBountyId = parseInt(bountyId as string);
@@ -31,7 +33,7 @@ const BountySubmissionsTable = () => {
     const fetchBountyData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3001/api/app/userBounties"
+          `${DEPLOYED_LINK_URL}/api/app/userBounties`
         );
         const selectedBounty = response.data.bounties.find(
           (b: Bounty) => b.id === parsedBountyId

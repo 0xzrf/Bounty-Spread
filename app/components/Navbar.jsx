@@ -17,6 +17,8 @@ function Navbar() {
   const [index, setIndex] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
 
+  const DEPLOYED_LINK_URL = process.env.NEXT_PUBLIC_DEPLOYED_LINK;
+
   const cookie = Cookies.get("token");
 
   async function signAndSend() {
@@ -27,7 +29,7 @@ function Navbar() {
       const signature = await signMessage?.(message);
       console.log(signature);
 
-      const response = await axios.post(`http://localhost:3001/api/signin`, {
+      const response = await axios.post(`${DEPLOYED_LINK_URL}/api/signin`, {
         signature,
         pubKey: publicKey?.toString(),
       });

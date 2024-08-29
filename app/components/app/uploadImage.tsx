@@ -3,6 +3,7 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import axios from "axios";
 import { NextResponse } from "next/server";
+export const runtime = "edge";
 
 const CLOUDFRONT_URL = process.env.NEXT_PUBLIC_CLOUDFRONT_URL;
 
@@ -14,13 +15,14 @@ interface UploadProps {
 }
 
 const UploadImage = ({uploading, setUploading,imagePreview,setImagePreview}:UploadProps) => {
-    
+  const DEPLOYED_LINK_URL = process.env.NEXT_PUBLIC_DEPLOYED_LINK;
+
     async function chooseFile(e: React.ChangeEvent<HTMLInputElement>) {
         setUploading(true);
 
         try 
         {
-            const response = await axios.get("http://localhost:3001/api/app/getPresignedUrl", { //<--- some work required
+            const response = await axios.get(`${DEPLOYED_LINK_URL}/api/app/getPresignedUrl`, { //<--- some work required
                 headers: {
                     Authorization: localStorage.getItem("token")
                 }

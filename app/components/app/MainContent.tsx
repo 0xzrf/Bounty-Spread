@@ -6,6 +6,7 @@ import CurrentBounties from "./ContentComp/CurrentBounties";
 import Admin from "./ContentComp/Admin";
 import axios from "axios";
 import Cookies from "js-cookie";
+export const runtime = "edge";
 
 export default function MainContent({
   selectedButton,
@@ -20,12 +21,14 @@ export default function MainContent({
   } | null>(null);
   const cookie = Cookies.get("token");
 
+  const DEPLOYED_LINK_URL = process.env.NEXT_PUBLIC_DEPLOYED_LINK;
+
   useEffect(() => {
     (async () => {
       if (!cookie) {
         alert("Some")
       } else {
-        const response = await axios.get("http://localhost:3001/api/app/user", {
+        const response = await axios.get(`${DEPLOYED_LINK_URL}/api/app/user`, {
           withCredentials: true,
         });
   

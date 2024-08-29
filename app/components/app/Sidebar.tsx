@@ -10,6 +10,7 @@ import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import Cookies from "js-cookie";
 
 import NotSignedIn from "./NotSignedIn";
+export const runtime = "edge";
 
 export default function Sidebar({
   selectedButton,

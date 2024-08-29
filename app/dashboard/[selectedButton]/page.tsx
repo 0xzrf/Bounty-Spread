@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import MainContent from "../../components/app/MainContent";
+export const runtime = "edge";
+
 import { useParams } from "next/navigation";
 function Dashboard() {
   const { selectedButton } = useParams();

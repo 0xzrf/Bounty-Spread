@@ -8,6 +8,7 @@ import {
   BarChart2,
   Clock,
 } from "lucide-react";
+export const runtime = "edge";
 
 const ProMembershipPage = () => {
   const tiers = [
