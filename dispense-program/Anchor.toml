@@ -6,6 +6,7 @@ skip-lint = false
 
 [programs.localnet]
 dispense_program = "CTiZ5kBwGde4oABggEebJvNzDm6XktQ5E4hqfiiuyGvK"
+program2 = "5vnYUhFG55QwGuSaCSP2FcoKVXoW3Zyw6u7ciNCgxNPr"
 
 [registry]
 url = "https://api.apr.dev"
