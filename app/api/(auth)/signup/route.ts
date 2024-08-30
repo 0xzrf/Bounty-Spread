@@ -7,7 +7,7 @@ import { verifySignature } from "@/app/api/helperFuncs/functions"
 
 export const runtime = 'edge';
 
-const JWT_SECRET = "crabbybitesaretoughman"
+const JWT_SECRET = process.env.JWT_SECRET;
 console.log("jwtsecret:", JWT_SECRET);
 
 export async function POST(req: NextRequest) {

@@ -6,7 +6,7 @@ import { PublicKey } from "@solana/web3.js"
 import { prisma } from "@/lib/utils"
 import { cookies } from "next/headers"
 import { Stringifier } from "postcss"
-const JWT_SECRET = "crabbybitesaretoughman"
+const JWT_SECRET = process.env.JWT_SECRET
 
 export async function verifySignature(pubKey: String, signature: any): Promise<{ isSuccess: boolean, msg: string }> {
     try {

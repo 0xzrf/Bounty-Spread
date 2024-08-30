@@ -43,7 +43,7 @@ const signUpForm = () =>{
         });
 
         if(!response.data.success){
-            alert("axios sign-in request failed!")
+            alert("W!")
         }else{
             router.push("/dashboard/newBounty")
         }    

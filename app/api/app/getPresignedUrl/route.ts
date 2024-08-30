@@ -7,8 +7,6 @@ export const runtime = 'edge';
 const ACCESS_KEY_ID = process.env.ACCESS_KEY_ID;
 const ACCESS_KEY_PASSWORD = process.env.ACCESS_KEY_PASSWORD;
 
-console.log(":::::",ACCESS_KEY_ID,"?????",ACCESS_KEY_PASSWORD);
-
 const s3Client = new S3Client(
     {
         credentials: {
