@@ -38,27 +38,21 @@ export async function verifySignature(pubKey: String, signature: any): Promise<{
 
 export async function verifyUser(token: string) {
     try {
-        const isValid = await jwt.verify(token, JWT_SECRET as string);
-
-        if (!isValid) {
-            return {valid: false}
-        }
-
-        const { payload } = jwt.decode(token)
+        const { payload } = jwt.decode(token as string)
         
-       
         const user = await prisma.host.findFirst({
             where: {
                 //@ts-ignore
-                email: payload?.email as string,
+                email: payload?.email
             }
         })
-
-        //@ts-ignore
-        return { valid: true, email: payload?.email, userId: user?.id, user }
-
-    } catch (err) {
-        return { valid: false }
+        const userId = user?.id;
+    
+        return {valid: true, email: user?.email, userId, user}
+        
+    } catch (err: any) {
+        console.log(err);
+        return {valid: false}
     }
 }
 

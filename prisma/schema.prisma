@@ -14,13 +14,13 @@ datasource db {
 }
 
 model Host {
-  id        Int        @id @default(autoincrement())
-  email     String     @unique
-  username  String     @unique
-  publicKey String     @unique
-  isPaid    Boolean    @default(false)
-  freeTrials Int       @default(5)
-  bounties  Bounties[]
+  id         Int        @id @default(autoincrement())
+  email      String     @unique
+  username   String     @unique
+  publicKey  String     @unique
+  isPaid     Boolean    @default(false)
+  freeTrials Int        @default(5)
+  bounties   Bounties[]
 
   @@unique([publicKey, email])
 }
@@ -35,7 +35,7 @@ model Bounties {
   sumbissions BountySubmissions[]
   description String
   createdAt   DateTime            @default(now())
-  isActive    Boolean             @default(true)
+  isActive    Boolean             @default(false)
   interval    DateTime
   hostId      Int
   hostRel     Host                @relation(fields: [hostId], references: [id])
@@ -51,5 +51,5 @@ model BountySubmissions {
   answers      String[]
   bountyRel    Bounties @relation(fields: [bountyId], references: [id])
 
-  @@unique([bountyId,candidPubKey])
+  @@unique([bountyId, candidPubKey])
 }

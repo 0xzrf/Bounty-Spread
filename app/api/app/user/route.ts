@@ -15,7 +15,6 @@ export const GET = async (req: NextRequest) => {
             status: 401
         })
     }
-   
 
     return NextResponse.json({
         success: true,
