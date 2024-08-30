@@ -8,7 +8,7 @@ export const runtime = "edge"
 export const POST = async (req:NextRequest) => {
     const token = cookies().get("token");
     const {valid, userId} = await verifyUser(token?.value as string);
-    const {id}:{id:number} = await req.json();
+    const {id}:{id:string} = await req.json();
     
     if(!valid){
         return NextResponse.json({
@@ -24,7 +24,8 @@ export const POST = async (req:NextRequest) => {
                 id
             },
             data:{
-                isVerified: true
+                isVerified: true,
+                isActive: true
             }
         })
 

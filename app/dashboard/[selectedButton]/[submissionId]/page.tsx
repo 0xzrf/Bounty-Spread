@@ -13,7 +13,7 @@ type Submission = {
 };
 
 type Bounty = {
-  id: number;
+  id: string;
   name: string;
   isActive: boolean;
   isVerified: boolean;
@@ -25,9 +25,9 @@ const BountySubmissionsTable = () => {
   const [bounty, setBounty] = useState<Bounty | null>(null);
   const router = useRouter();
   const DEPLOYED_LINK_URL = process.env.NEXT_PUBLIC_DEPLOYED_LINK;
-
+  
   let { submissionId: bountyId } = useParams();
-  const parsedBountyId = parseInt(bountyId as string);
+  const parsedBountyId = bountyId;
 
   useEffect(() => {
     const fetchBountyData = async () => {

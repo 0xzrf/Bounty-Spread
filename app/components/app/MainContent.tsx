@@ -17,7 +17,7 @@ export default function MainContent({
     email: string;
     userId: number;
     isPaid: boolean;
-    freeRemaining: number
+    freeRemaining: number;
   } | null>(null);
   const cookie = Cookies.get("token");
 
@@ -26,17 +26,24 @@ export default function MainContent({
   useEffect(() => {
     (async () => {
       if (!cookie) {
-        alert("Some")
+        alert("Sign in first please");
       } else {
-        const response = await axios.get(`${window.location.origin}/api/app/user`, {
-          withCredentials: true,
-        });
-  
+        const response = await axios.get(
+          `${window.location.origin}/api/app/user`,
+          {
+            withCredentials: true,
+          }
+        );
+
         if (!response.data.success) {
         }
-  
-        setUserData({ email: response.data.email, userId: response.data.userId, isPaid: response.data.isPaid, freeRemaining: response.data.freeRemaining });
 
+        setUserData({
+          email: response.data.email,
+          userId: response.data.userId,
+          isPaid: response.data.isPaid,
+          freeRemaining: response.data.freeRemaining,
+        });
       }
     })();
   }, []);
@@ -46,9 +53,14 @@ export default function MainContent({
       case "currentBounties":
         return <CurrentBounties isPaid={userData?.isPaid as boolean} />;
       case "newBounty":
-        return <NewBounty isPaid={userData?.isPaid as boolean} freeRemaining={userData?.freeRemaining as number} />;
+        return (
+          <NewBounty
+            isPaid={userData?.isPaid as boolean}
+            freeRemaining={userData?.freeRemaining as number}
+          />
+        );
       case "proMember":
-        return <ProMember  />;
+        return <ProMember />;
       case "admin":
         return <Admin userEmail={userData?.email} />;
       default:

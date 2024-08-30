@@ -21,7 +21,7 @@ export const runtime = 'edge';
     const id = searchParams.get('id')
     const userData = await prisma.bounties.findFirst({
         where: {
-            id: parseInt(id as string)
+            id: id as string
         },
         select: {
             description: true,
@@ -31,10 +31,44 @@ export const runtime = 'edge';
             questions: true,
             types: true,
             interval: true,
-            imageUrl: true
+            imageUrl: true,
+            isActive: true,
+            isVerified: true
         }
     })
 
+    if (!userData) {
+        const response: ActionGetResponse = {
+            description: "No such bounty found",
+            icon: "https://imgs.search.brave.com/4jrmq74DXMRXOQoamba5WnCwQPlmckEnsjQkEnBib7M/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTU1/Mzg0OTMzL3Bob3Rv/L2NvbXB1dGVyLXNo/b3dpbmctYW4tZXJy/b3ItbWVzc2FnZS5q/cGc_cz02MTJ4NjEy/Jnc9MCZrPTIwJmM9/c05UdTlCQW81OEhP/MkZOSWpzRXNuTWY1/X2R0S2ZPSVVoUGNj/VzR1Nml0Zz0",
+            title: "404 Not found :(",
+            label: "No Such submission",
+            disabled: true,
+            error: {
+                message: "No such bounty is active! Please check the blink properly"
+            }
+        }
+        return NextResponse.json(response, {
+            headers: ACTIONS_CORS_HEADERS
+        })
+    }
+
+    if (!userData.isActive){
+        const response: ActionGetResponse = {
+            description: "Submission closed",
+            icon: "https://imgs.search.brave.com/4jrmq74DXMRXOQoamba5WnCwQPlmckEnsjQkEnBib7M/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTU1/Mzg0OTMzL3Bob3Rv/L2NvbXB1dGVyLXNo/b3dpbmctYW4tZXJy/b3ItbWVzc2FnZS5q/cGc_cz02MTJ4NjEy/Jnc9MCZrPTIwJmM9/c05UdTlCQW81OEhP/MkZOSWpzRXNuTWY1/X2R0S2ZPSVVoUGNj/VzR1Nml0Zz0",
+            title: "404 Not found :(",
+            label: "Submission closed",
+            disabled: true,
+            error: {
+                message: "Submission for this Bounty has been closed by the Host"
+            }
+        }
+        return NextResponse.json(response, {
+            headers: ACTIONS_CORS_HEADERS
+        })
+    }
+    
     // @ts-ignore
     let params: ActionParameter[] = []
     let ques = [];
@@ -118,7 +152,7 @@ export async function POST(req: NextRequest) {
     try {
         const questions = await prisma.bounties.findFirst({
             where: {
-                id: Number(id)
+                id: id as string
             },
             select: {
                 questions: true
@@ -127,7 +161,7 @@ export async function POST(req: NextRequest) {
 
         await prisma.bountySubmissions.create({
             data: {
-                bountyId: Number(id),
+                bountyId: id as string,
                 candidPubKey: userKey,
                 question: questions?.questions as string[],
                 answers: answer

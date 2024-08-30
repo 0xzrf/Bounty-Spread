@@ -24,8 +24,7 @@ export default function Sidebar({
   const toggleDropdown = () => setIsOpen(!isOpen);
   const cookie = Cookies.get("token");
 
-
-  if (!pubkey || !cookie) {
+  if (!pubkey && !cookie) {
     return (
       <div>
         <NotSignedIn />

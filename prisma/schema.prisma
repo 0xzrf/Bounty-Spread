@@ -26,7 +26,7 @@ model Host {
 }
 
 model Bounties {
-  id          Int                 @id @default(autoincrement())
+  id          String                 @id @default(uuid())
   name        String              @unique
   amount      Int
   imageUrl    String
@@ -45,7 +45,7 @@ model Bounties {
 
 model BountySubmissions {
   id           Int      @id @default(autoincrement())
-  bountyId     Int
+  bountyId     String
   candidPubKey String
   question     String[]
   answers      String[]

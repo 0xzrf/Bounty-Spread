@@ -8,6 +8,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 
 export const runtime = "edge";
 
@@ -29,10 +30,13 @@ function Navbar() {
       const signature = await signMessage?.(message);
       console.log(signature);
 
-      const response = await axios.post(`${window.location.origin}/api/signin`, {
-        signature,
-        pubKey: publicKey?.toString(),
-      });
+      const response = await axios.post(
+        `${window.location.origin}/api/signin`,
+        {
+          signature,
+          pubKey: publicKey?.toString(),
+        }
+      );
 
       if (!response.data.success) {
         alert("Invalid user creds");
@@ -95,27 +99,11 @@ function Navbar() {
               );
             })}
           </div>
-          <div className="w-1/3 flex justify-betw items-center h-[100%]">
-            <div
-              onClick={async () => {
-                if (publicKey) {
-                  signAndSend();
-                }
-              }}
-            >
-              <WalletMultiButton
-                style={{
-                  marginRight: "0.2rem",
-                  backgroundColor: "white",
-                  color: "black",
-                  fontFamily: "monospace",
-                  height: "2em",
-                  borderRadius: "9999px",
-                  fontWeight: "100",
-                  fontSize: "14.8px",
-                }}
-              />
-            </div>
+          <div className="w-1/3 flex items-center h-[100%]">
+            <WalletDropdown
+              publicKey={publicKey ? publicKey.toString() : "Signin"}
+              signAndSend={signAndSend}
+            />
 
             <Button
               text="Create a bounty"
@@ -134,3 +122,67 @@ function Navbar() {
 }
 
 export default Navbar;
+
+function WalletDropdown({ publicKey, signAndSend }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const { setVisible: setModalVisible } = useWalletModal();
+
+  const handleSignIn = async () => {
+    if (publicKey) {
+      // Your sign and send logic here
+      await signAndSend();
+    } else {
+      // Handle sign in logic here
+    }
+    setIsOpen(false);
+  };
+
+  const handleChangeWallet = () => {
+    // Your change wallet logic here
+    setIsOpen(false);
+  };
+
+  return (
+    <div className="relative inline-block text-left font-mono w-fit">
+      <div
+        className="bg-white cursor-pointer flex justify-between items-center rounded-full px-4 -ml-4 mr-1 h-[2em] text-nowrap"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <h1 className="text-sm">
+          {publicKey == "Signin"
+            ? "Signin"
+            : `Wallet: ${
+                publicKey?.slice(0, 3) + "..." + publicKey?.slice(38, -1)
+              }`}
+        </h1>
+      </div>
+
+      {isOpen && (
+        <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+          <div
+            className="py-1"
+            role="menu"
+            aria-orientation="vertical"
+            aria-labelledby="options-menu"
+          >
+            <button
+              onClick={handleSignIn}
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left"
+              role="menuitem"
+              disabled={publicKey == "Signin"}
+            >
+              {publicKey == "Signin" ? "Select a wallet first!" : "Sign In"}
+            </button>
+            <button
+              onClick={() => setModalVisible(true)}
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left"
+              role="menuitem"
+            >
+              Change Wallet
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
