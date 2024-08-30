@@ -12,4 +12,12 @@ const nextConfig = {
   reactStrictMode: false
 };
 
+module.exports = {
+  env: {
+    ACCESS_KEY_ID: process.env.ACCESS_KEY_ID,
+    ACCESS_KEY_PASSWORD: process.env.ACCESS_KEY_PASSWORD,
+    AWS_REGION: process.env.AWS_REGION,
+  },
+}
+
 export default nextConfig;

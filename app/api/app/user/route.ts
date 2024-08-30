@@ -7,7 +7,7 @@ export const GET = async (req: NextRequest) => {
 
     const token = cookies().get('token')
     const { valid, email, userId, user } = await verifyUser(token?.value as string)
-
+    console.log(token?.value)
     if (!valid) {
         return NextResponse.json({
             msg: "Invalid user"

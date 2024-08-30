@@ -19,6 +19,9 @@ pages_build_output_dir = ".vercel/output/static"
 # [vars]
 # MY_VARIABLE = "production_value"
 
+[vars]
+DATABASE_URL="prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiMDZmMDVjMDYtMzA5Yi00NzBkLWEyZjQtNzgwMGMzMDkxODRiIiwidGVuYW50X2lkIjoiZjUyZGViMDk3MDVkZTYwZDM0NDRkZGY4ZDlkYTJhN2E1NTMxNzUxZjdiOWVmZDFlODhjYzExMjE4MWVlNmM4ZiIsImludGVybmFsX3NlY3JldCI6Ijg4ZmY3NGE5LWRiNDUtNDFmOC1hYTQ1LTZkYzQyMmU1NTY0OSJ9.dnqSuRMSu9cXDeZzohCMrV9ZvjbKV2MWvjMbr9O0gLE"
+
 # Bind the Workers AI model catalog. Run machine learning models, powered by serverless GPUs, on Cloudflare’s global network
 # Docs: https://developers.cloudflare.com/pages/functions/bindings/#workers-ai
 # [ai]

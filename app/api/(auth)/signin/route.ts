@@ -4,7 +4,7 @@ import jwt from '@tsndr/cloudflare-worker-jwt'
 import { verifySignature } from "@/app/api/helperFuncs/functions"
 import { cookies } from "next/headers"
 import { NextRequest, NextResponse } from "next/server"
-const JWT_SECRET = process.env.JWT_SECRET
+const JWT_SECRET = "crabbybitesaretoughman"
 
 export const runtime = "edge"
 

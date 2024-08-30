@@ -209,7 +209,7 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
                 </td>
                 <td className="py-2 px-4 border-t border-zinc-700">
                   <a
-                    href={`https://dial.to/?action=solana-action%3Ahttp%3A%2F%2Flocalhost%3A3001%2Fapi%2Fapp%2Factions%3Fid%3D${bounty.id}&cluster=devnet`}
+                    href={`https://dial.to/?action=solana-action%3A${encodeURIComponent(window.location.origin)}%2Fapi%2Fapp%2Factions%3Fid%3D${bounty.id}&cluster=devnet`}
                     className="text-emerald-400 hover:underline"
                   >
                     View

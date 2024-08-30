@@ -22,7 +22,7 @@ const UploadImage = ({uploading, setUploading,imagePreview,setImagePreview}:Uplo
 
         try 
         {
-            const response = await axios.get(`${window.location.origin}/api/app/getPresignedUrl`, { //<--- some work required
+            const response = await axios.get(`${window.location.origin}/api/app/getPresignedUrl`, { 
                 headers: {
                     Authorization: localStorage.getItem("token")
                 }

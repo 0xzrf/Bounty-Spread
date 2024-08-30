@@ -3,3 +3,11 @@
 
 interface CloudflareEnv {
 }
+
+declare namespace NodeJS {
+    interface ProcessEnv {
+      ACCESS_KEY_ID: string;
+      ACCESS_KEY_PASSWORD: string;
+      AWS_REGION?: string;
+    }
+  }
