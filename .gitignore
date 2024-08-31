@@ -69,3 +69,6 @@ next-env.d.ts
 # Ignore compiled shared objects and other generated outputs from Solana programs
 /dispense-program/*.so
 /dispense-program/*.out
+
+
+wrangler.toml
