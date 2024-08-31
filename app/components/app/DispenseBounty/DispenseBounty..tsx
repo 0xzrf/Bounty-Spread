@@ -74,7 +74,7 @@ const DispenseBounty: React.FC = () => {
         PROGRAM_ID
       );
       setBountyPDA(pda);
-    }
+    }     
   }, [wallet.publicKey]);
 
   const getProgram = () => {
