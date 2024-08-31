@@ -67,13 +67,10 @@ export default function MainContent({
         return <Welcome />;
     }
   };
-  if (!userData) {
-    return null;
-  }
   return (
     <div className="ml-64 p-4 bg-zinc-800">
-      <div className="border-4 border-dashed border-emerald-400 rounded-lg text-white p-10">
-        {renderContent()}
+      <div className="border-4 border-dashed  border-emerald-400 rounded-lg text-white p-10">
+        {userData ? renderContent() : <div className="min-h-screen"></div>}
       </div>
     </div>
   );

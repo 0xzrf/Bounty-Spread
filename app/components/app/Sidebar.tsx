@@ -138,6 +138,7 @@ export default function Sidebar({
                   <li>
                     <span
                       onClick={() => {
+                        Cookies.remove("token");
                         disconnect();
                         router.push("/");
                       }}

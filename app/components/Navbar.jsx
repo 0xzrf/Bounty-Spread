@@ -137,23 +137,33 @@ function WalletDropdown({ publicKey, signAndSend }) {
     setIsOpen(false);
   };
 
-  const handleChangeWallet = () => {
-    // Your change wallet logic here
-    setIsOpen(false);
-  };
-
   return (
     <div className="relative inline-block text-left font-mono w-fit">
       <div
         className="bg-white cursor-pointer flex justify-between items-center rounded-full px-4 -ml-4 mr-1 h-[2em] text-nowrap"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          if (publicKey != "Signin") setIsOpen(!isOpen);
+        }}
       >
         <h1 className="text-sm">
-          {publicKey == "Signin"
-            ? "Signin"
-            : `Wallet: ${
-                publicKey?.slice(0, 3) + "..." + publicKey?.slice(38, -1)
-              }`}
+          {publicKey == "Signin" ? (
+            <WalletMultiButton
+              style={{
+                marginRight: "0.2rem",
+                backgroundColor: "white",
+                color: "black",
+                fontFamily: "monospace",
+                height: "2em",
+                borderRadius: "9999px",
+                fontWeight: "100",
+                fontSize: "14.8px",
+              }}
+            />
+          ) : (
+            `Wallet: ${
+              publicKey?.slice(0, 3) + "..." + publicKey?.slice(38, -1)
+            }`
+          )}
         </h1>
       </div>
 
@@ -165,14 +175,16 @@ function WalletDropdown({ publicKey, signAndSend }) {
             aria-orientation="vertical"
             aria-labelledby="options-menu"
           >
-            <button
-              onClick={handleSignIn}
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left"
-              role="menuitem"
-              disabled={publicKey == "Signin"}
-            >
-              {publicKey == "Signin" ? "Select a wallet first!" : "Sign In"}
-            </button>
+            {publicKey != "Signin" && (
+              <button
+                onClick={handleSignIn}
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left"
+                role="menuitem"
+                disabled={publicKey == "Signin"}
+              >
+                Sign In
+              </button>
+            )}
             <button
               onClick={() => setModalVisible(true)}
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left"
