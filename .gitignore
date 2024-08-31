@@ -1,5 +1,8 @@
+# Main Project Ignore Rules
+
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 app/api/app/(admin)/**/*
+
 # dependencies
 /node_modules
 /.pnp
@@ -38,3 +41,31 @@ next-env.d.ts
 # wrangler files
 .wrangler
 .dev.vars
+
+# Anchor Project Ignore Rules
+
+# Ignore target and node_modules inside dispense-program specifically
+./dispense-program/target/
+./dispense-program/node_modules/
+
+# Ignore migrations folder inside Anchor project if generated
+/dispense-program/migrations/
+
+# Ignore Cargo lock file inside Anchor project
+/dispense-program/Cargo.lock
+
+# Ignore Anchor CLI outputs if applicable
+/dispense-program/.anchor/
+/dispense-program/.airdrop/
+
+# Ignore generated wasm files inside Anchor project
+/dispense-program/pkg/
+
+# Ignore build output and intermediate files inside Anchor project
+/dispense-program/*.log
+/dispense-program/*.tmp
+/dispense-program/*.temp
+
+# Ignore compiled shared objects and other generated outputs from Solana programs
+/dispense-program/*.so
+/dispense-program/*.out

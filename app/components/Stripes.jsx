@@ -24,6 +24,16 @@ function Subheading() {
           />
         </div>
         <div>
+          <GithubCardSkew
+            heading={(<h1 classsName="text-sm w-fit">
+              Dispense Integrated
+            </h1>)}
+            headSize = "sm"
+            title={"End to end solution"}
+            subtitle="Create & dispense bountythrough BountySpread"
+          />
+        </div>
+        <div>
           <GithubCardSkew heading="Go" title="HASSLE FREE" subtitle="get submissions via blinks directly at your portal." />
         </div>
       </div>

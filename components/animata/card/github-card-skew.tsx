@@ -48,11 +48,13 @@ export default function GithubCardSkew({
   heading,
   title,
   subtitle,
+  headSize = "6xl"
 }: {
   className?: string;
   heading: string;
   title: string;
   subtitle: string;
+  headSize: string
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const resetRef = useRef<NodeJS.Timeout>();
