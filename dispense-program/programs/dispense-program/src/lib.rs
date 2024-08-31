@@ -1,129 +1,133 @@
 use anchor_lang::prelude::*;
 
-declare_id!("GSZSD689NKJHePHJx4F5B8VNCBk7B11EqquKt71KkSuw");
+declare_id!("FHAmwQ5qTLVXd1zqU9agC4iG3VigaA8XRGaaQVcUujD9");
 
 #[program]
-pub mod dispense_program {
+pub mod random {
     use super::*;
 
-    pub fn create_bounty(ctx:Context<CreateBounty>, amount: u64) -> Result<()> {
+    pub fn create_bounty(ctx: Context<CreateBounty>, amount: u64) -> Result<()> {
         let bounty = &mut ctx.accounts.bounty;
-        bounty.creator = *ctx.accounts.creator.key;
         bounty.amount = amount;
+        bounty.owner = *ctx.accounts.creator.key;
         bounty.claimed = false;
         Ok(())
     }
 
-    pub fn select_winner(ctx:Context<SelectWinner>, winner: Pubkey) -> Result<()>{
+    pub fn select_winner(ctx: Context<SelectWinner>, winner: Pubkey) -> Result<()> {
         let bounty = &mut ctx.accounts.bounty;
-        require!(bounty.creator == *ctx.accounts.creator.key, ErrorCode::InvalidCreator);
-        require!(!bounty.claimed , ErrorCode::AlreadyClaimed);
-
-        bounty.winner = Some(winner);
-        Ok(())
-    }
-
-    pub fn authorize_transfer(ctx:Context<AuthorizeTransfer>) -> Result<()>{
-        let bounty = &mut ctx.accounts.bounty;
-        require!(bounty.creator == *ctx.accounts.creator.key, ErrorCode::InvalidCreator);
-        require!(!bounty.claimed, ErrorCode::AlreadyClaimed);
-        require!(bounty.winner.is_some(), ErrorCode::NoWinnerSelected);
-
-        bounty.transfer_authorize = true;
-        Ok(())
-    }
-
-    pub fn claim_bounty(ctx:Context<ClaimBounty>) -> Result<()>{
-        let bounty = &mut ctx.accounts.bounty;
-        require!(bounty.winner == Some(*ctx.accounts.winner.key), ErrorCode::InvalidWinner);
-        require!(!bounty.claimed, ErrorCode::AlreadyClaimed);
-        require!(bounty.transfer_authorize, ErrorCode::TransferNotAuthorized);
-
         require!(
-            ctx.accounts.creator.lamports() >= bounty.amount,
-            ErrorCode::InsufficientCreatorBalance
+            bounty.owner == *ctx.accounts.creator.key,
+            ErrorCode::InvalidOwner
         );
+        require!(!bounty.claimed, ErrorCode::AlreadyClaimed);
+        bounty.winner = Some(winner);
 
-        let transfer_ix = anchor_lang::solana_program::system_instruction::transfer(
+        Ok(())
+    }
+
+    pub fn authorization_transfer(ctx: Context<AuthorizeTxn>) -> Result<()> {
+        let bounty = &mut ctx.accounts.bounty;
+        require!(
+            bounty.owner == *ctx.accounts.creator.key,
+            ErrorCode::InvalidOwner
+        );
+        require!(!bounty.claimed, ErrorCode::AlreadyClaimed);
+        require!(bounty.winner.is_some(), ErrorCode::NoWinner);
+
+        bounty.authorized = true;
+        Ok(())
+    }
+
+    pub fn claim_bounty(ctx: Context<ClaimBounty>) -> Result<()> {
+        let bounty = &mut ctx.accounts.bounty;
+        require!(!bounty.claimed, ErrorCode::AlreadyClaimed);
+        require!(bounty.authorized, ErrorCode::NonAuthorized);
+        require!(bounty.winner.is_some(), ErrorCode::NoWinner);
+    
+        // Ensure the winner calling this function matches the stored winner
+        require!(
+            bounty.winner.unwrap() == ctx.accounts.winner.key(),
+            ErrorCode::NoWinner
+        );
+    
+        // Transfer the bounty amount from the creator to the winner
+        let transfer_instruction = anchor_lang::solana_program::system_instruction::transfer(
             &ctx.accounts.creator.key(),
             &ctx.accounts.winner.key(),
             bounty.amount,
         );
+    
         anchor_lang::solana_program::program::invoke(
-            &transfer_ix,
+            &transfer_instruction,
             &[
                 ctx.accounts.creator.to_account_info(),
                 ctx.accounts.winner.to_account_info(),
-            ] 
+                ctx.accounts.system_program.to_account_info(),
+            ],
         )?;
-
+    
         bounty.claimed = true;
+    
         Ok(())
     }
 }
 
 #[derive(Accounts)]
-pub struct CreateBounty<'info>{
+pub struct CreateBounty<'info> {
+    #[account(init, space = 8 + 32 + 8 + 1 + 1 + 33,payer = creator, seeds=[b"bounty",creator.key().as_ref()], bump)]
+    pub bounty: Account<'info, Bounty>,
     #[account(mut)]
     pub creator: Signer<'info>,
-    #[account(init,
-               payer = creator,
-               space = 8 + 32 + 8 + 32 + 1 + 1,
-               seeds = [b"bountyy",creator.key().as_ref()],
-               bump)]
-    pub bounty: Account<'info, Bounty>,
-    pub system_program: Program<'info, System>
+    pub system_program: Program<'info, System>,
 }
 
 #[derive(Accounts)]
 pub struct SelectWinner<'info> {
     #[account(mut)]
-    pub bounty: Account<'info,Bounty>,
-    pub creator: Signer<'info>, 
+    pub bounty: Account<'info, Bounty>,
+    pub creator: Signer<'info>,
 }
 
 #[derive(Accounts)]
-pub struct AuthorizeTransfer<'info>{ 
-    // why would I need mutable reference here?
+pub struct AuthorizeTxn<'info> {
     #[account(mut)]
     pub creator: Signer<'info>,
-    pub bounty: Account<'info, Bounty>
+    #[account(mut)]
+    pub bounty: Account<'info, Bounty>,
 }
 
 #[derive(Accounts)]
 pub struct ClaimBounty<'info> {
-    /// CHECK: This account is the creator of the bounty and its safety is verified by the program logic
     #[account(mut)]
-    pub creator: AccountInfo<'info>,
+    pub bounty: Account<'info, Bounty>,
+    /// CHECK: This account is the creator of the bounty and its safety is verified by the program logic`
+    #[account(mut)]
+    pub creator: Signer<'info>,
     #[account(mut)]
     pub winner: Signer<'info>,
-    #[account(mut)]
-    pub bounty: Account<'info, Bounty>
+    pub system_program: Program<'info, System>,
 }
 
 #[account]
 pub struct Bounty {
-    pub creator: Pubkey,
+    pub owner: Pubkey,
     pub amount: u64,
-    pub winner: Option<Pubkey>,
     pub claimed: bool,
-    pub transfer_authorize: bool,
+    pub authorized: bool,
+    pub winner: Option<Pubkey>,
 }
 
 #[error_code]
 pub enum ErrorCode {
-    #[msg("Invalid Creator")]
-    InvalidCreator,
+    #[msg("Not a valid owner")]
+    InvalidOwner,
     #[msg("Already Claimed")]
     AlreadyClaimed,
-    #[msg("No winner selected")]
-    NoWinnerSelected,
-    #[msg("Winner is Invalid")]
-    InvalidWinner,
-    #[msg("Transfer is not auhtorized")]
-    TransferNotAuthorized,
-    #[msg("Insufficient balance in Creator's account")]
-    InsufficientCreatorBalance
+    #[msg("No winner")]
+    NoWinner,
+    #[msg("Non-authorized")]
+    NonAuthorized,
 }
 
 

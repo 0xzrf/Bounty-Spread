@@ -111,7 +111,7 @@ export default function GithubCardSkew({
         containerRef.current.style.setProperty("--y", "0deg");
       }}
     >
-      <h1 className="font-mono text-6xl tracking-tight">{heading}</h1>
+      <h1 className={`font-mono text-${headSize} tracking-tight`}>{heading}</h1>
 
       <p className="text-xl font-medium text-zinc-400">{title}</p>
 

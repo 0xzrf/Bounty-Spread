@@ -28,7 +28,7 @@ function Subheading() {
             heading={(<h1 classsName="text-sm w-fit">
               Dispense Integrated
             </h1>)}
-            headSize = "sm"
+            headSize = "4xl"
             title={"End to end solution"}
             subtitle="Create & dispense bountythrough BountySpread"
           />
