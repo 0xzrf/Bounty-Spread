@@ -1,0 +1,1 @@
+/Users/harshanaprajapati/Bounty-Spread/dispensor-program/target/sbf-solana-solana/release/dispensor_program.so: /Users/harshanaprajapati/Bounty-Spread/dispensor-program/programs/dispensor-program/src/lib.rs

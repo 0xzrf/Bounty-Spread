@@ -63,6 +63,7 @@ export default function MainContent({
         return <ProMember />;
       case "admin":
         return <Admin userEmail={userData?.email} />;
+      
       default:
         return <Welcome />;
     }

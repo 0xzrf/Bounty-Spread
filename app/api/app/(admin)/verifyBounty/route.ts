@@ -15,7 +15,7 @@ export const POST = async (req:NextRequest) => {
             msg:"User is unauthorized"
         },{
             status: 403
-        })
+        }) 
     }
 
     try{

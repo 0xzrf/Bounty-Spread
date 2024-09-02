@@ -30,7 +30,7 @@ function Subheading() {
             </h1>)}
             headSize = "4xl"
             title={"End to end solution"}
-            subtitle="Create & dispense bountythrough BountySpread"
+            subtitle="Create & dispense bounty through Blinks"
           />
         </div>
         <div>

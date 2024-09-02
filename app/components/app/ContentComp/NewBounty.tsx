@@ -346,10 +346,11 @@ export default function NewBounty({isPaid, freeRemaining}: {isPaid: boolean, fre
             textInput === "" ||
             description === "" ||
             dateTime === "" ||
-            !imagePreview
+            !imagePreview ||
+            freeRemaining <= 0
           }
         >
-          Submit
+       {freeRemaining <= 0 ? <h1>Pay $30</h1> : "Submit"}
         </button>
         {
         !isPaid && <SelfContainedCreditDisplay userCredit={freeRemaining} />

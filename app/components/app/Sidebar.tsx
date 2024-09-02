@@ -26,7 +26,7 @@ export default function Sidebar({
 
   if (!pubkey && !cookie) {
     return (
-      <div>
+      <div className="absolute">
         <NotSignedIn />
       </div>
     );

@@ -52,8 +52,12 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
   const [selectedType, setSelectedType] = useState<BountyType | null>(null);
 
   // Filter unverified and verified bounties
-  const unverifiedBounties = bounties.filter((bounty) => !bounty.isVerified);
-  const verifiedBounties = bounties.filter((bounty) => bounty.isVerified);
+  const unverifiedBounties = bounties.filter(
+    (bounty) => !bounty.isVerified && !bounty.isActive
+  );
+  const verifiedBounties = bounties.filter(
+    (bounty) => bounty.isVerified && bounty.isActive
+  );
 
   // Count bounties by type
   const countByType = (bountiesArray: Bounty[]) => {
@@ -72,7 +76,60 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
 
   // Filter bounties by selected type
   const getFilteredBounties = (bountiesArray: Bounty[]) => {
-    return selectedType ? bountiesArray.filter(bounty => bounty.type === selectedType) : bountiesArray;
+    return selectedType
+      ? bountiesArray.filter((bounty) => bounty.type === selectedType)
+      : bountiesArray;
+  };
+
+  // Function to render table rows or a message if no bounties exist
+  const renderTableContent = (bountiesArray: Bounty[]) => {
+    if (bountiesArray.length === 0) {
+      return (
+        <tr>
+          <td colSpan={6} className="py-4 px-4 text-center text-emerald-500">
+            No Active bounties yet!{" "}
+            <a
+              href="/dashboard/newBounty"
+              className="underline hover:text-emerald-400 cursor-pointer"
+            >
+              Create One now
+            </a>
+          </td>
+        </tr>
+      );
+    }
+
+    return getFilteredBounties(bountiesArray).map((bounty) => (
+      <tr
+        onClick={() => {
+          router.push(`/dashboard/currentBounties/${bounty.id}`);
+        }}
+        className="hover:bg-gray-500 hover:cursor-pointer"
+        key={bounty.id}
+      >
+        <td className="py-2 px-4 border-t border-zinc-700">{bounty.name}</td>
+        <td className="py-2 px-4 border-t border-zinc-700">{bounty.type}</td>
+        <td className="py-2 px-4 border-t border-zinc-700">
+          {bounty.isActive ? "Yes" : "No"}
+        </td>
+        <td className="py-2 px-4 border-t border-zinc-700">
+          {formatDate(bounty.createdAt)}
+        </td>
+        <td className="py-2 px-4 border-t border-zinc-700">
+          {bounty.sumbissions?.length}
+        </td>
+        <td className="py-2 px-4 border-t border-zinc-700">
+          <a
+            href={`https://dial.to/?action=solana-action%3A${encodeURIComponent(window.location.origin)}%2Fapi%2Fapp%2Factions%3Fid%3D${bounty.id}&cluster=devnet`}
+            className="text-emerald-500 hover:text-emerald-400"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View
+          </a>
+        </td>
+      </tr>
+    ));
   };
 
   return (
@@ -95,10 +152,7 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
           </svg>
           <span className="font-bold">
             To verify your Bounties faster, become a{" "}
-            <Link
-              href={"/dashboard/proMember"}
-              className="underline"
-            >
+            <Link href={"/dashboard/proMember"} className="underline">
               Pro Member
             </Link>{" "}
             today!
@@ -115,9 +169,13 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
           {(["Grant", "Project", "Bounty"] as BountyType[]).map((type) => (
             <button
               key={type}
-              onClick={() => setSelectedType(selectedType === type ? null : type)}
+              onClick={() =>
+                setSelectedType(selectedType === type ? null : type)
+              }
               className={`px-4 py-2 rounded ${
-                selectedType === type ? "bg-emerald-500 text-white" : "bg-zinc-700 text-white"
+                selectedType === type
+                  ? "bg-emerald-500 text-white"
+                  : "bg-zinc-700 text-white"
               }`}
             >
               {type} ({unverifiedCounts[type] || 0})
@@ -133,24 +191,7 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
               <th className="py-2 px-4 text-left">Created At</th>
             </tr>
           </thead>
-          <tbody>
-            {getFilteredBounties(unverifiedBounties).map((bounty) => (
-              <tr key={bounty.id}>
-                <td className="py-2 px-4 border-t border-zinc-700">
-                  {bounty.name}
-                </td>
-                <td className="py-2 px-4 border-t border-zinc-700">
-                  {bounty.type}
-                </td>
-                <td className="py-2 px-4 border-t border-zinc-700">
-                  {bounty.isActive ? "Yes" : "No"}
-                </td>
-                <td className="py-2 px-4 border-t border-zinc-700">
-                  {formatDate(bounty.createdAt)}
-                </td>
-              </tr>
-            ))}
-          </tbody>
+          <tbody>{renderTableContent(unverifiedBounties)}</tbody>
         </table>
       </div>
 
@@ -163,9 +204,13 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
           {(["Grant", "Project", "Bounty"] as BountyType[]).map((type) => (
             <button
               key={type}
-              onClick={() => setSelectedType(selectedType === type ? null : type)}
+              onClick={() =>
+                setSelectedType(selectedType === type ? null : type)
+              }
               className={`px-4 py-2 rounded ${
-                selectedType === type ? "bg-emerald-500 text-white" : "bg-zinc-700 text-white"
+                selectedType === type
+                  ? "bg-emerald-500 text-white"
+                  : "bg-zinc-700 text-white"
               }`}
             >
               {type} ({verifiedCounts[type] || 0})
@@ -179,45 +224,9 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
               <th className="py-2 px-4 text-left">Type</th>
               <th className="py-2 px-4 text-left">Active</th>
               <th className="py-2 px-4 text-left">Created At</th>
-              <th className="py-2 px-4 text-left">Submissions</th>
-              <th className="py-2 px-4 text-left">Link</th>
             </tr>
           </thead>
-          <tbody>
-            {getFilteredBounties(verifiedBounties).map((bounty) => (
-              <tr
-                onClick={() => {
-                  router.push(`/dashboard/currentBounties/${bounty.id}`);
-                }}
-                className="hover:bg-gray-500 hover:cursor-pointer"
-                key={bounty.id}
-              >
-                <td className="py-2 px-4 border-t border-zinc-700">
-                  {bounty.name}
-                </td>
-                <td className="py-2 px-4 border-t border-zinc-700">
-                  {bounty.type}
-                </td>
-                <td className="py-2 px-4 border-t border-zinc-700">
-                  {bounty.isActive ? "Yes" : "No"}
-                </td>
-                <td className="py-2 px-4 border-t border-zinc-700">
-                  {formatDate(bounty.createdAt)}
-                </td>
-                <td className="py-2 px-4 border-t border-zinc-700">
-                  {bounty.sumbissions?.length}
-                </td>
-                <td className="py-2 px-4 border-t border-zinc-700">
-                  <a
-                    href={`https://dial.to/?action=solana-action%3A${encodeURIComponent(window.location.origin)}%2Fapi%2Fapp%2Factions%3Fid%3D${bounty.id}&cluster=devnet`}
-                    className="text-emerald-400 hover:underline"
-                  >
-                    View
-                  </a>
-                </td>
-              </tr>
-            ))}
-          </tbody>
+          <tbody>{renderTableContent(verifiedBounties)}</tbody>
         </table>
       </div>
     </div>

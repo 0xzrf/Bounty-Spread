@@ -37,7 +37,7 @@ export default function NotSignedIn() {
     }
   }
   return (
-    <div className="flex items-center justify-center min-h-screen bg-zinc-800">
+    <div className="flex items-center w-[100vw] justify-center min-h-screen bg-zinc-800">
       <div className="text-center">
         <h1 className="text-3xl font-bold text-white mb-4">
           You're not signed in
