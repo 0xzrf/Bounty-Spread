@@ -102,7 +102,7 @@ export const runtime = 'edge';
         links: {
             actions: [
                 {
-                    href: `/api/app/actions?id=${parseInt(id as string)}&email={email}&data=${str}`,
+                    href: `/api/app/actions?id=${id}&email={email}&data=${str}`,
                     label: `Submit & win ${userData?.amount} USD`,
                     parameters: params,
                 }
@@ -127,11 +127,11 @@ export async function POST(req: NextRequest) {
     console.log("email",email);
 
     const id = searchParams.get("id");
-    console.log(id);
+    console.log("id:", id);
     let questions: string | null = searchParams.get("data");
     console.log(questions)
 
-    console.log(questions?.split("|").slice(0, -1), parseInt(questions?.split("|")[1] as string));
+    console.log(questions?.split("|").slice(0, -1));
 
     const answer: string[] = questions?.split("|").slice(0,  -1) as string[];
     const user = new PublicKey(userKey);
@@ -158,6 +158,7 @@ export async function POST(req: NextRequest) {
                 questions: true
             }
         })
+        
 
         await prisma.bountySubmissions.create({
             data: {

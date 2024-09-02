@@ -25,7 +25,7 @@ const BountySubmissionsTable = () => {
   const [bounty, setBounty] = useState<Bounty | null>(null);
   const router = useRouter();
   const DEPLOYED_LINK_URL = process.env.NEXT_PUBLIC_DEPLOYED_LINK;
-  
+
   let { submissionId: bountyId } = useParams();
   const parsedBountyId = bountyId;
 
@@ -52,7 +52,7 @@ const BountySubmissionsTable = () => {
   }, [parsedBountyId]);
 
   if (!bounty) {
-    return <div className="text-white">Loading...</div>;
+    return <div className="text-white min-h-screen">Loading...</div>;
   }
 
   // Group submissions by candidPubKey
@@ -64,7 +64,7 @@ const BountySubmissionsTable = () => {
   }, {} as Record<string, Submission>);
 
   return (
-    <div className="flex flex-col gap-10 ml-64 min-h-screen bg-zinc-900 p-8">
+    <div className="flex flex-col gap-10 min-h-screen bg-zinc-900 p-8">
       <h1 className="text-3xl font-bold text-emerald-500 mb-6">
         {bounty.name} - Submissions
       </h1>
@@ -81,7 +81,7 @@ const BountySubmissionsTable = () => {
             {Object.values(groupedSubmissions).map((submission) => (
               <tr key={submission.id} className="hover:bg-zinc-700">
                 <td className="py-2 px-4 border-t border-zinc-700 align-top">
-                  {submission.candidPubKey}
+                  {submission.candidPubKey.slice(0,4) + "..." + submission.candidPubKey.slice(38,-1)}
                 </td>
                 <td className="py-2 px-4 border-t border-zinc-700">
                   {submission.question.map((q, index) => (

@@ -126,13 +126,18 @@ export default Navbar;
 function WalletDropdown({ publicKey, signAndSend }) {
   const [isOpen, setIsOpen] = useState(false);
   const { setVisible: setModalVisible } = useWalletModal();
+  const [isLoading, setIsLoading] = useState({
+    isLoading: false,
+    loadingText: "",
+  });
 
   const handleSignIn = async () => {
+    setIsLoading({ isLoading: true, loadingText: "Loading..⏱️" });
     if (publicKey) {
       // Your sign and send logic here
       await signAndSend();
     } else {
-      // Handle sign in logic here
+      
     }
     setIsOpen(false);
   };
@@ -160,8 +165,13 @@ function WalletDropdown({ publicKey, signAndSend }) {
               }}
             />
           ) : (
-            `Wallet: ${
-              publicKey?.slice(0, 3) + "..." + publicKey?.slice(38, -1)
+            `${
+              isLoading.isLoading
+                ? isLoading.loadingText
+                : "Wallet:" +
+                  publicKey?.slice(0, 3) +
+                  "..." +
+                  publicKey?.slice(38, -1)
             }`
           )}
         </h1>

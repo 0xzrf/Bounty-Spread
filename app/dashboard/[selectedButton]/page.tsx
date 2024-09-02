@@ -10,9 +10,9 @@ function Dashboard() {
 
   return (
     <div className="">
-        <div>
-          <MainContent selectedButton={selectedButton} />
-        </div>
+      <div>
+        <MainContent selectedButton={selectedButton} />
+      </div>
     </div>
   );
 }
