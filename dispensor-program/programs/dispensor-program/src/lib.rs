@@ -124,6 +124,7 @@ pub struct WithdrawPrize<'info> {
     pub escrow: Account<'info, Escrow>, // No need for has_one constraint here
     #[account(mut)]
     pub winner: Signer<'info>,
+    pub system_program: Program<'info, System>
 }
 
 #[account]

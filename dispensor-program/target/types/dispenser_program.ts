@@ -95,6 +95,10 @@ export type DispenserProgram = {
           "name": "winner",
           "writable": true,
           "signer": true
+        },
+        {
+          "name": "systemProgram",
+          "address": "11111111111111111111111111111111"
         }
       ],
       "args": [
