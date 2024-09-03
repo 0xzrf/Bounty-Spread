@@ -4,10 +4,10 @@ import {DispenserProgram} from "../target/types/dispenser_program"
 import { Keypair } from "@solana/web3.js"
 import { randomBytes } from "crypto";
 
-describe("something", () => {
+describe("dispense", () => {
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider); 
-  const program = anchor.workspace.Something as Program<DispenserProgram>;
+  const program = anchor.workspace.DispenserProgram as Program<DispenserProgram>;
 
   it("Initializes the escrow", async () => {
     const host = anchor.web3.Keypair.generate();
