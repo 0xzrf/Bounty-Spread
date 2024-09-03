@@ -41,19 +41,22 @@ pub mod dispenser_program {
         escrow.host = *ctx.accounts.host.key;
         escrow.hashed_winners = hashed_winners;
         escrow.prizes = prizes.clone();
-        escrow.total_amount = prizes.iter().sum(); // Sum of all prizes
-
+        escrow.total_amount = prizes.iter().sum(); 
+        escrow.escrow_vault = *ctx.accounts.escrow_vault.key;
+        
+        
         // Transfer SOL from host to escrow PDA account
         let transfer_ix = system_instruction::transfer(
             &ctx.accounts.host.key(),
-            &escrow.key(),  // Escrow key accessed separately before mutable borrow
+            &ctx.accounts.escrow_vault.key(),  
             escrow.total_amount,
         );
         anchor_lang::solana_program::program::invoke(
             &transfer_ix,
             &[
                 ctx.accounts.host.to_account_info(),
-                ctx.accounts.escrow.to_account_info(),
+                ctx.accounts.escrow_vault.to_account_info(),
+                ctx.accounts.system_program.to_account_info()
             ],
         )?;
 
@@ -62,7 +65,6 @@ pub mod dispenser_program {
 
     pub fn withdraw_prize(ctx: Context<WithdrawPrize>, winner_pubkey: Pubkey) -> Result<()> {
         // Extract the necessary immutable data first
-        let escrow_key = ctx.accounts.escrow.key();
         let hashed_winners = ctx.accounts.escrow.hashed_winners.clone(); // Clone required data before mutable borrow
         let prize_list = ctx.accounts.escrow.prizes.clone(); // Clone the prize list
 
@@ -83,16 +85,17 @@ pub mod dispenser_program {
 
         // Transfer prize amount to the winner
         let transfer_ix = system_instruction::transfer(
-            &escrow_key,
+            &ctx.accounts.escrow_vault.key(),
             &ctx.accounts.winner.key(),
             prize_amount,
         );
-        anchor_lang::solana_program::program::invoke(
+        anchor_lang::solana_program::program::invoke_signed(
             &transfer_ix,
             &[
-                ctx.accounts.escrow.to_account_info(),
+                ctx.accounts.escrow_vault.to_account_info(),
                 ctx.accounts.winner.to_account_info(),
             ],
+            &[&[b"escrow_vault", ctx.accounts.escrow.host.as_ref(), &[ctx.bumps.escrow_vault]]], // Seeds and bump for the escrow PDA
         )?;
 
         // Now mutably borrow the escrow to update the prize status
@@ -115,13 +118,29 @@ pub struct InitializeEscrow<'info> {
         space = 8 + 32 + (32 * 10) + (8 * 10) + 8 // Fixed maximum space for up to 10 winners
     )]
     pub escrow: Account<'info, Escrow>,
+    #[account(
+        mut,
+        seeds= [b"escrow_vault", host.key().as_ref()],
+        bump
+    )]
+    pub escrow_vault: SystemAccount<'info>,
     pub system_program: Program<'info, System>,
 }
 
 #[derive(Accounts)]
-pub struct WithdrawPrize<'info> {
-    #[account(mut)]
-    pub escrow: Account<'info, Escrow>, // No need for has_one constraint here
+pub struct WithdrawPrize<'info> { 
+    #[account(
+        mut,
+        seeds = [b"escrow", escrow.host.key().as_ref()],
+        bump,
+    )]
+    pub escrow: Account<'info, Escrow>, 
+    #[account(
+        mut,
+        seeds = [b"escrow_vault",escrow.host.key().as_ref()],
+        bump
+    )]
+    pub escrow_vault: SystemAccount<'info>,
     #[account(mut)]
     pub winner: Signer<'info>,
     pub system_program: Program<'info, System>
@@ -130,6 +149,7 @@ pub struct WithdrawPrize<'info> {
 #[account]
 pub struct Escrow {
     pub host: Pubkey,
+    pub escrow_vault: Pubkey,
     pub hashed_winners: Vec<[u8; 32]>, // Store SHA-256 hashes of the winners' pubkeys
     pub prizes: Vec<u64>, // Store the prize amounts corresponding to each winner
     pub total_amount: u64, // Total prize amount in SOL

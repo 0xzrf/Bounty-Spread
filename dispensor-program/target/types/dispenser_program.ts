@@ -55,6 +55,35 @@ export type DispenserProgram = {
           }
         },
         {
+          "name": "escrowVault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "host"
+              }
+            ]
+          }
+        },
+        {
           "name": "systemProgram",
           "address": "11111111111111111111111111111111"
         }
@@ -89,7 +118,57 @@ export type DispenserProgram = {
       "accounts": [
         {
           "name": "escrow",
-          "writable": true
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "escrow.host",
+                "account": "escrow"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escrowVault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "escrow.host",
+                "account": "escrow"
+              }
+            ]
+          }
         },
         {
           "name": "winner",
@@ -154,6 +233,10 @@ export type DispenserProgram = {
         "fields": [
           {
             "name": "host",
+            "type": "pubkey"
+          },
+          {
+            "name": "escrowVault",
             "type": "pubkey"
           },
           {
