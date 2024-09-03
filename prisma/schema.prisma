@@ -43,6 +43,7 @@ model Bounties {
   types       String[]
   winners     String[]            @default([])
   prizes      Float[]             @default([])
+  escrow_id   Int?
 }
 
 model BountySubmissions {

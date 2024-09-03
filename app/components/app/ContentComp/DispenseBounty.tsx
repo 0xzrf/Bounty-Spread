@@ -44,7 +44,7 @@ export default function DispenseBounty({ isPaid }: { isPaid: boolean }) {
 
         setBounties(filteredBounties);
         setIsBountiesAvailable(filteredBounties.length > 0);
-        
+
       } catch (error) {
         console.error("Error fetching bounty data:", error);
       }
@@ -81,7 +81,6 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
       : bountiesArray;
   };
 
-  // Function to render winners and prizes with enhanced styling
   const renderWinnersAndPrizes = (winners: string[], prizes: number[]) => {
     if (winners.length === 0) {
       return <span className="text-gray-400">No winners yet</span>;
@@ -92,7 +91,7 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
         key={index}
         className="flex items-center justify-between py-1 px-2 bg-emerald-700 rounded-md mb-1"
       >
-        <span className="text-emerald-200 font-semibold">{winner}</span>
+        <span className="text-emerald-200 font-semibold">{winner?.slice(0, 3) + ".." + winner?.slice(40, -1)}</span>
         {prizes[index] !== undefined && (
           <span className="text-zinc-300 font-medium">{prizes[index]} SOL</span>
         )}
@@ -140,7 +139,7 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
           <a
             href={`https://dial.to/?action=solana-action%3A${encodeURIComponent(
               window.location.origin
-            )}%2Fapi%2Fapp%2Factions%3Fid%3D${bounty.id}&cluster=devnet`}
+            )}%2Fapi%2Fapp%2FdispActions%3Fid%3D${bounty.id}&cluster=devnet`}
             className="text-emerald-500 hover:text-emerald-400"
             target="_blank"
             rel="noopener noreferrer"
@@ -180,10 +179,9 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
         </div>
       )}
 
-      {/* Unverified Bounties */}
       <div className="w-full bg-zinc-900 p-4 min-h-[50vh] rounded-lg shadow-md">
         <h2 className="text-emerald-500 font-semibold mb-4">
-          Unverified Bounties
+          Disbursed Bounties
         </h2>
         <div className="flex justify-between mb-4">
           {(["Grant", "Project", "Bounty"] as BountyType[]).map((type) => (
@@ -192,11 +190,10 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
               onClick={() =>
                 setSelectedType(selectedType === type ? null : type)
               }
-              className={`px-4 py-2 rounded ${
-                selectedType === type
+              className={`px-4 py-2 rounded ${selectedType === type
                   ? "bg-emerald-500 text-white"
                   : "bg-zinc-600 text-emerald-400"
-              }`}
+                }`}
             >
               {type} ({countByType(type)})
             </button>

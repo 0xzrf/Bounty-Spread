@@ -4,7 +4,7 @@ import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import { Check, X } from "lucide-react";
 import IDL from "@/app/components/app/programData/idl.json";
-import { DispenserProgram } from "@/app/components/app/programData/type";
+import { Something } from "@/app/components/app/programData/type";
 import { Connection, PublicKey, Keypair, SystemProgram } from "@solana/web3.js";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import * as anchor from "@coral-xyz/anchor"
@@ -52,15 +52,15 @@ const BountySubmissionsTable = () => {
   const connection = new Connection("https://api.devnet.solana.com");
 
   const getProgram = () => {
-    //@ts-ignore
     const provider = new AnchorProvider(
       connection,
+      //@ts-ignore
       wallet,
       AnchorProvider.defaultOptions()
     );
     setProvider(provider);
     return {
-      program: new Program<DispenserProgram>(idlObject, provider),
+      program: new Program<Something>(idlObject, provider),
       provider,
     };
   };
@@ -141,23 +141,25 @@ const BountySubmissionsTable = () => {
       alert("All amounts must be greater than 0.");
       return;
     }
-
+    const id = Math.floor(Math.random() * 1000)
+    const escrowId = new anchor.BN(id)
     try {
       const {program, provider} = getProgram()
       const winnerKeypair = winners.map((item) => new PublicKey(item.candidPubKey))
       const amountArr = amounts.map((item) => new BN(item * web3.LAMPORTS_PER_SOL))
       const [escrowPda] = await anchor.web3.PublicKey.findProgramAddress(
-        [Buffer.from("escrow"), wallet?.publicKey?.toBuffer()],
-        program.programId
-      );
-      const [vaultPda] = await anchor.web3.PublicKey.findProgramAddress(
-        [Buffer.from("escrow_vault"),wallet?.publicKey?.toBuffer()],
+        [Buffer.from("escrow"), wallet?.publicKey?.toBuffer() as Buffer, escrowId.toArrayLike(Buffer, "le", 8) ],
         program.programId
       );
 
-      await program.methods.initializeEscrow(winnerKeypair, amountArr)
+      const [vaultPda] = await anchor.web3.PublicKey.findProgramAddress(
+        [Buffer.from("escrow_vault"),wallet?.publicKey?.toBuffer() as Buffer, escrowId.toArrayLike(Buffer, "le", 8)],
+        program.programId
+      );
+
+      await program.methods.initializeEscrow(escrowId, winnerKeypair, amountArr)
       .accountsStrict({
-        host: wallet.publicKey,
+        host: wallet.publicKey as PublicKey,
         escrow: escrowPda,
         escrowVault: vaultPda,
         systemProgram: anchor.web3.SystemProgram.programId,
@@ -178,7 +180,8 @@ const BountySubmissionsTable = () => {
         {
           id: bountyId,
           winners: winners.map((item) => item.candidPubKey ),
-          prizes: amounts
+          prizes: amounts,
+          escrowId: id
         }
       );
 
@@ -187,7 +190,7 @@ const BountySubmissionsTable = () => {
         return;
       }
       alert(response.data.msg);
-      router.push("/dashboard/dispenseBounties");
+      router.push("/dashboard/dispenseBounty");
     } catch (err) {
       alert("Internal server error");
       return;

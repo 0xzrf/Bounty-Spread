@@ -86,7 +86,7 @@ export default function Sidebar({
             </li>
             <li>
               <div
-                className={`flex items-center p-3 hover:cursor-pointer rounded-lg text-white transition group ${selectedButton == "proMember" && "bg-emerald-400"
+                className={`flex items-center p-3 hover:cursor-pointer rounded-lg text-white transition group ${selectedButton == "dispenseBounty" && "bg-emerald-400"
                   }`}
                 onClick={() => router.push("/dashboard/dispenseBounty")}
               >
