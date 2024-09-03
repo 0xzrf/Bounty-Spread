@@ -6,11 +6,11 @@ import { cookies } from "next/headers";
 export const runtime = "edge"
 
 export const POST = async (req: NextRequest) => {
-    const {id} : {id: string} = await req.json();
+    const {id, winners, prizes} : {id: string, winners: string[], prizes: number[]} = await req.json();
     
-    if (!id) {
+    if (!id || winners.length == 0 || prizes.length == 0 || winners.length != prizes.length) {
         return NextResponse.json({
-            msg:"Invalid Bounty request"
+            msg:"Invalid Submisions request, please submit valid inputs"
         })
     }
     const token = cookies().get("token");
@@ -29,9 +29,12 @@ export const POST = async (req: NextRequest) => {
                 id
             },
             data: {
-                isActive: false
+                isActive: false,
+                winners,
+                prizes
             }
         })
+        
         
         return NextResponse.json({
             msg: "Successfully Finished the Bounty! Check it out on the \"Dispense Bounties\" tab",

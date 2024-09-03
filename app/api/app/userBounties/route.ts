@@ -30,7 +30,9 @@ export const GET = async (req: NextRequest) => {
                 createdAt: true,
                 id: true,
                 hostId: true,
-                type: true
+                type: true,
+                winners: true,
+                prizes: true,
             }
         })
 

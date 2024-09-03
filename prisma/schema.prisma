@@ -26,7 +26,7 @@ model Host {
 }
 
 model Bounties {
-  id          String                 @id @default(uuid())
+  id          String              @id @default(uuid())
   name        String              @unique
   amount      Int
   imageUrl    String
@@ -41,6 +41,8 @@ model Bounties {
   hostRel     Host                @relation(fields: [hostId], references: [id])
   questions   String[]
   types       String[]
+  winners     String[]            @default([])
+  prizes      Float[]             @default([])
 }
 
 model BountySubmissions {

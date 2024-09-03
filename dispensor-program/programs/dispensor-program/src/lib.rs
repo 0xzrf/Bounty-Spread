@@ -2,7 +2,7 @@ use anchor_lang::prelude::*;
 use anchor_lang::solana_program::hash::hash;
 use anchor_lang::solana_program::system_instruction;
 
-declare_id!("8V1tcPcvW2LhkKou4rDpKdaXWVeKtyuvtihrBzWgMfgA");
+declare_id!("C79k8QRKM2TsRuiZ7JPPagyZXnaoGoHsCbPUuUgMiodj");
 
 #[program]
 pub mod dispenser_program {

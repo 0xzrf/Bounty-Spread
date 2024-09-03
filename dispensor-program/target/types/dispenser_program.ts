@@ -5,7 +5,7 @@
  * IDL can be found at `target/idl/dispenser_program.json`.
  */
 export type DispenserProgram = {
-  "address": "8V1tcPcvW2LhkKou4rDpKdaXWVeKtyuvtihrBzWgMfgA",
+  "address": "C79k8QRKM2TsRuiZ7JPPagyZXnaoGoHsCbPUuUgMiodj",
   "metadata": {
     "name": "dispenserProgram",
     "version": "0.1.0",

@@ -1,8 +1,24 @@
-'use client'
+"use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import { Check, X } from "lucide-react";
+import IDL from "@/app/components/app/programData/idl.json";
+import { DispenserProgram } from "@/app/components/app/programData/type";
+import { Connection, PublicKey, Keypair, SystemProgram } from "@solana/web3.js";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import * as anchor from "@coral-xyz/anchor"
+
+import {
+  Provider,
+  AnchorProvider,
+  web3,
+  utils,
+  BN,
+  Wallet,
+  setProvider,
+  Program,
+} from "@coral-xyz/anchor";
 
 export const runtime = "edge";
 
@@ -23,12 +39,31 @@ type Bounty = {
   createdAt: string;
 };
 
+const idlObject = JSON.parse(JSON.stringify(IDL));
+
 const BountySubmissionsTable = () => {
   const [bounty, setBounty] = useState<Bounty | null>(null);
   const [filteredSubmissions, setFilteredSubmissions] = useState<Submission[]>([]);
   const [winners, setWinners] = useState<Submission[]>([]);
+  const [amounts, setAmounts] = useState<number[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
+  const wallet = useWallet();
+  const connection = new Connection("https://api.devnet.solana.com");
+
+  const getProgram = () => {
+    //@ts-ignore
+    const provider = new AnchorProvider(
+      connection,
+      wallet,
+      AnchorProvider.defaultOptions()
+    );
+    setProvider(provider);
+    return {
+      program: new Program<DispenserProgram>(idlObject, provider),
+      provider,
+    };
+  };
 
   let { submissionId: bountyId } = useParams();
   const parsedBountyId = bountyId;
@@ -61,7 +96,9 @@ const BountySubmissionsTable = () => {
     setSearchTerm(searchValue);
     if (bounty) {
       const filtered = bounty.submissions.filter((submission) =>
-        submission.candidPubKey.toLowerCase().includes(searchValue.toLowerCase())
+        submission.candidPubKey
+          .toLowerCase()
+          .includes(searchValue.toLowerCase())
       );
       setFilteredSubmissions(filtered);
     }
@@ -70,22 +107,78 @@ const BountySubmissionsTable = () => {
   const handleSelectWinner = (submission: Submission) => {
     if (winners.length < 5) {
       setWinners([...winners, submission]);
+      setAmounts([...amounts, 0]);
     } else {
       alert("You can only select up to 5 winners.");
     }
   };
 
   const handleRemoveWinner = (submission: Submission) => {
-    setWinners(winners.filter((winner) => winner.id !== submission.id));
+    const index = winners.findIndex((winner) => winner.id === submission.id);
+    if (index !== -1) {
+      const newWinners = winners.filter((winner) => winner.id !== submission.id);
+      const newAmounts = amounts.filter((_, i) => i !== index);
+      setWinners(newWinners);
+      setAmounts(newAmounts);
+    }
+  };
+
+  const handleAmountChange = (index: number, value: string) => {
+    const newAmount = parseFloat(value);
+    if (!isNaN(newAmount) && newAmount > 0) {
+      const newAmounts = [...amounts];
+      newAmounts[index] = newAmount;
+      setAmounts(newAmounts);
+    }
+  };
+
+  const getTotalAmount = () => {
+    return amounts.reduce((sum, amount) => sum + amount, 0);
   };
 
   const handleFinishBounty = async () => {
+    if (amounts.some((amount) => amount <= 0)) {
+      alert("All amounts must be greater than 0.");
+      return;
+    }
+
+    try {
+      const {program, provider} = getProgram()
+      const winnerKeypair = winners.map((item) => new PublicKey(item.candidPubKey))
+      const amountArr = amounts.map((item) => new BN(item * web3.LAMPORTS_PER_SOL))
+      const [escrowPda] = await anchor.web3.PublicKey.findProgramAddress(
+        [Buffer.from("escrow"), wallet?.publicKey?.toBuffer()],
+        program.programId
+      );
+      const [vaultPda] = await anchor.web3.PublicKey.findProgramAddress(
+        [Buffer.from("escrow_vault"),wallet?.publicKey?.toBuffer()],
+        program.programId
+      );
+
+      await program.methods.initializeEscrow(winnerKeypair, amountArr)
+      .accountsStrict({
+        host: wallet.publicKey,
+        escrow: escrowPda,
+        escrowVault: vaultPda,
+        systemProgram: anchor.web3.SystemProgram.programId,
+      })
+      .rpc();
+
+      console.log("Heck yeah")
+      alert("Passed transaction.")
+    } catch (err ){
+      alert("Couldn't create an escrow")
+      console.log(err)
+      return
+    }
+
     try {
       const response = await axios.post(
         `${window.location.origin}/api/app/finishBounty`,
         {
           id: bountyId,
-          winners: winners.map((winner) => winner.candidPubKey),
+          winners: winners.map((item) => item.candidPubKey ),
+          prizes: amounts
         }
       );
 
@@ -114,32 +207,39 @@ const BountySubmissionsTable = () => {
         <button
           onClick={handleFinishBounty}
           className={`text-black bg-emerald-400 p-4 rounded-xl transition-all duration-300 ${
-            winners.length === 0 ? "opacity-50 cursor-not-allowed" : "hover:bg-emerald-500"
+            winners.length === 0 || amounts.some(amount => amount <= 0)
+              ? "opacity-50 cursor-not-allowed"
+              : "hover:bg-emerald-500"
           }`}
-          disabled={winners.length === 0}
+          disabled={winners.length === 0 || amounts.some(amount => amount <= 0)}
         >
           Finish Bounty
         </button>
       </div>
-      <input
-        type="text"
-        placeholder="Search by public key"
-        value={searchTerm}
-        onChange={handleSearch}
-        className="p-2 mb-4 rounded-lg bg-zinc-800 text-white border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-      />
       {winners.length > 0 && (
         <div className="bg-zinc-800 p-4 rounded-lg shadow-md">
           <h2 className="text-emerald-500 font-bold mb-4">Selected Winners</h2>
+          <h3 className="text-emerald-400 mb-2">Total Amount: {getTotalAmount().toFixed(2)}</h3>
           <ul>
-            {winners.map((winner) => (
+            {winners.map((winner, index) => (
               <li
                 key={winner.id}
                 className="flex justify-between items-center p-2 hover:bg-zinc-700 rounded-lg"
               >
-                {winner.candidPubKey.slice(0, 4) +
-                  "..." +
-                  winner.candidPubKey.slice(-4)}
+                <span>
+                  {winner.candidPubKey.slice(0, 4) +
+                    "..." +
+                    winner.candidPubKey.slice(-4)}
+                </span>
+                <input
+                  type="number"
+                  value={amounts[index]}
+                  onChange={(e) => handleAmountChange(index, e.target.value)}
+                  className="w-24 p-1 mr-2 bg-zinc-700 text-white rounded"
+                  min="0.01"
+                  step="0.01"
+                  required
+                />
                 <button
                   onClick={() => handleRemoveWinner(winner)}
                   className="text-red-500 ml-4 hover:text-red-600 transition-colors duration-300"

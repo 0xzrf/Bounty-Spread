@@ -6,7 +6,14 @@ import CurrentBounties from "./ContentComp/CurrentBounties";
 import Admin from "./ContentComp/Admin";
 import axios from "axios";
 import Cookies from "js-cookie";
+import DispenseBounty from "./ContentComp/DispenseBounty";
 export const runtime = "edge";
+
+type Bounty = {
+  name: string;
+  imageUrl: string;
+  id: number;
+}
 
 export default function MainContent({
   selectedButton,
@@ -20,8 +27,7 @@ export default function MainContent({
     freeRemaining: number;
   } | null>(null);
   const cookie = Cookies.get("token");
-
-  const DEPLOYED_LINK_URL = process.env.NEXT_PUBLIC_DEPLOYED_LINK;
+  const [bounties, setBounties] = useState()
 
   useEffect(() => {
     (async () => {
@@ -63,6 +69,8 @@ export default function MainContent({
         return <ProMember />;
       case "admin":
         return <Admin userEmail={userData?.email} />;
+      case "dispenseBounty":
+        return <DispenseBounty isPaid={userData?.isPaid as boolean} />
       
       default:
         return <Welcome />;

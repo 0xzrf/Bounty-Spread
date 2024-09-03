@@ -1,0 +1,261 @@
+{
+    "address": "C79k8QRKM2TsRuiZ7JPPagyZXnaoGoHsCbPUuUgMiodj",
+    "metadata": {
+      "name": "dispenser_program",
+      "version": "0.1.0",
+      "spec": "0.1.0",
+      "description": "Created with Anchor"
+    },
+    "instructions": [
+      {
+        "name": "initialize_escrow",
+        "discriminator": [
+          243,
+          160,
+          77,
+          153,
+          11,
+          92,
+          48,
+          209
+        ],
+        "accounts": [
+          {
+            "name": "host",
+            "writable": true,
+            "signer": true
+          },
+          {
+            "name": "escrow",
+            "writable": true,
+            "pda": {
+              "seeds": [
+                {
+                  "kind": "const",
+                  "value": [
+                    101,
+                    115,
+                    99,
+                    114,
+                    111,
+                    119
+                  ]
+                },
+                {
+                  "kind": "account",
+                  "path": "host"
+                }
+              ]
+            }
+          },
+          {
+            "name": "escrow_vault",
+            "writable": true,
+            "pda": {
+              "seeds": [
+                {
+                  "kind": "const",
+                  "value": [
+                    101,
+                    115,
+                    99,
+                    114,
+                    111,
+                    119,
+                    95,
+                    118,
+                    97,
+                    117,
+                    108,
+                    116
+                  ]
+                },
+                {
+                  "kind": "account",
+                  "path": "host"
+                }
+              ]
+            }
+          },
+          {
+            "name": "system_program",
+            "address": "11111111111111111111111111111111"
+          }
+        ],
+        "args": [
+          {
+            "name": "winners",
+            "type": {
+              "vec": "pubkey"
+            }
+          },
+          {
+            "name": "prizes",
+            "type": {
+              "vec": "u64"
+            }
+          }
+        ]
+      },
+      {
+        "name": "withdraw_prize",
+        "discriminator": [
+          125,
+          86,
+          6,
+          204,
+          176,
+          159,
+          61,
+          119
+        ],
+        "accounts": [
+          {
+            "name": "escrow",
+            "writable": true,
+            "pda": {
+              "seeds": [
+                {
+                  "kind": "const",
+                  "value": [
+                    101,
+                    115,
+                    99,
+                    114,
+                    111,
+                    119
+                  ]
+                },
+                {
+                  "kind": "account",
+                  "path": "escrow.host",
+                  "account": "Escrow"
+                }
+              ]
+            }
+          },
+          {
+            "name": "escrow_vault",
+            "writable": true,
+            "pda": {
+              "seeds": [
+                {
+                  "kind": "const",
+                  "value": [
+                    101,
+                    115,
+                    99,
+                    114,
+                    111,
+                    119,
+                    95,
+                    118,
+                    97,
+                    117,
+                    108,
+                    116
+                  ]
+                },
+                {
+                  "kind": "account",
+                  "path": "escrow.host",
+                  "account": "Escrow"
+                }
+              ]
+            }
+          },
+          {
+            "name": "winner",
+            "writable": true,
+            "signer": true
+          },
+          {
+            "name": "system_program",
+            "address": "11111111111111111111111111111111"
+          }
+        ],
+        "args": [
+          {
+            "name": "winner_pubkey",
+            "type": "pubkey"
+          }
+        ]
+      }
+    ],
+    "accounts": [
+      {
+        "name": "Escrow",
+        "discriminator": [
+          31,
+          213,
+          123,
+          187,
+          186,
+          22,
+          218,
+          155
+        ]
+      }
+    ],
+    "errors": [
+      {
+        "code": 6000,
+        "name": "Unauthorized",
+        "msg": "Unauthorized: Caller is not one of the selected winners."
+      },
+      {
+        "code": 6001,
+        "name": "MismatchedPrizesAndWinners",
+        "msg": "Mismatched number of prizes and winners."
+      },
+      {
+        "code": 6002,
+        "name": "PrizeAlreadyClaimed",
+        "msg": "The prize has already been claimed."
+      },
+      {
+        "code": 6003,
+        "name": "TooManyWinners",
+        "msg": "Too many winners exceeding the maximum limit."
+      }
+    ],
+    "types": [
+      {
+        "name": "Escrow",
+        "type": {
+          "kind": "struct",
+          "fields": [
+            {
+              "name": "host",
+              "type": "pubkey"
+            },
+            {
+              "name": "escrow_vault",
+              "type": "pubkey"
+            },
+            {
+              "name": "hashed_winners",
+              "type": {
+                "vec": {
+                  "array": [
+                    "u8",
+                    32
+                  ]
+                }
+              }
+            },
+            {
+              "name": "prizes",
+              "type": {
+                "vec": "u64"
+              }
+            },
+            {
+              "name": "total_amount",
+              "type": "u64"
+            }
+          ]
+        }
+      }
+    ]
+  }

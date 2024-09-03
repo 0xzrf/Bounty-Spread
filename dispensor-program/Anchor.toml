@@ -4,14 +4,17 @@
 resolution = true
 skip-lint = false
 
+[programs.devnet]
+dispensor_program = "C79k8QRKM2TsRuiZ7JPPagyZXnaoGoHsCbPUuUgMiodj"
+
 [programs.localnet]
-dispensor_program = "8V1tcPcvW2LhkKou4rDpKdaXWVeKtyuvtihrBzWgMfgA"
+dispensor_program = "C79k8QRKM2TsRuiZ7JPPagyZXnaoGoHsCbPUuUgMiodj"
 
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "Localnet"
+cluster = "Devnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]

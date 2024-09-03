@@ -49,9 +49,8 @@ export default function Sidebar({
           <ul className="space-y-4 font-medium">
             <li>
               <div
-                className={`flex hover:cursor-pointer items-center p-3 rounded-lg text-white transition group ${
-                  selectedButton == "currentBounties" && "bg-emerald-400"
-                }`}
+                className={`flex hover:cursor-pointer items-center p-3 rounded-lg text-white transition group ${selectedButton == "currentBounties" && "bg-emerald-400"
+                  }`}
                 onClick={() => router.push("/dashboard/currentBounties")}
               >
                 <svg
@@ -69,9 +68,8 @@ export default function Sidebar({
             </li>
             <li>
               <div
-                className={`flex items-center hover:cursor-pointer p-3 rounded-lg text-white transition group ${
-                  selectedButton == "newBounty" && "bg-emerald-400"
-                }`}
+                className={`flex items-center hover:cursor-pointer p-3 rounded-lg text-white transition group ${selectedButton == "newBounty" && "bg-emerald-400"
+                  }`}
                 onClick={() => router.push("/dashboard/newBounty")}
               >
                 <svg
@@ -88,9 +86,27 @@ export default function Sidebar({
             </li>
             <li>
               <div
-                className={`flex items-center p-3 hover:cursor-pointer rounded-lg text-white transition group ${
-                  selectedButton == "proMember" && "bg-emerald-400"
-                }`}
+                className={`flex items-center p-3 hover:cursor-pointer rounded-lg text-white transition group ${selectedButton == "proMember" && "bg-emerald-400"
+                  }`}
+                onClick={() => router.push("/dashboard/dispenseBounty")}
+              >
+                <svg
+                  className="w-6 h-6 text-gray-400 transition duration-150 group-hover:text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2Zm1 13h-2v-4H8l4-4 4 4h-3Z" />
+                  <path d="M12 4a8 8 0 1 1-8 8 8.011 8.011 0 0 1 8-8m0-2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2Z" />
+                </svg>
+                <span className="ml-4">Dispense Bounties</span>
+              </div>
+            </li>
+            <li>
+              <div
+                className={`flex items-center p-3 hover:cursor-pointer rounded-lg text-white transition group ${selectedButton == "proMember" && "bg-emerald-400"
+                  }`}
                 onClick={() => router.push("/dashboard/proMember")}
               >
                 <svg
@@ -116,9 +132,8 @@ export default function Sidebar({
                   {pubkey?.slice(0, 6) + "..." + pubkey?.slice(36, -1)}
                 </span>
                 <svg
-                  className={`w-4 h-4 ml-2 transition-transform transform ${
-                    isOpen ? "rotate-180" : "rotate-0"
-                  }`}
+                  className={`w-4 h-4 ml-2 transition-transform transform ${isOpen ? "rotate-180" : "rotate-0"
+                    }`}
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
