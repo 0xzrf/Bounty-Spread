@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import { Check, X } from "lucide-react";
-import IDL from "../../../../dispenser-program/target/idl/dispenser_program.json";
-import { DispenserProgram } from "../../../../dispenser-program/target/types/dispenser_program";
+import IDL from "../../../components/app/programData/idl.json";
+import { DispenserProgram } from "../../../components/app/programData/type";
 import { Connection, PublicKey, Keypair, SystemProgram } from "@solana/web3.js";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import * as anchor from "@coral-xyz/anchor"
