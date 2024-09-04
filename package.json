@@ -28,8 +28,6 @@
     "@tsndr/cloudflare-worker-jwt": "^2.5.3",
     "clsx": "^2.1.1",
     "dotenv": "^16.4.5",
-    "flowbite": "^2.5.1",
-    "flowbite-react": "^0.10.1",
     "framer-motion": "^11.3.30",
     "js-cookie": "^3.0.5",
     "locomotive-scroll": "^4.1.4",

@@ -24,7 +24,7 @@ function Navbar() {
   async function signAndSend() {
     try {
       const message = new TextEncoder().encode(
-        `You're a verified exceliWorker`
+        `You're signing to BountySpread`
       );
       const signature = await signMessage?.(message);
       console.log(signature);
