@@ -50,6 +50,7 @@ const UploadImage = ({uploading, setUploading,imagePreview,setImagePreview}:Uplo
             console.log(preSignedUrl,"::::",formData);
             const res = await axios.post(preSignedUrl, formData);
 
+            console.log(`${CLOUDFRONT_URL}${response.data.fields.key}`)
             setImagePreview(`${CLOUDFRONT_URL}${response.data.fields.key}`);
             setUploading(false)
 

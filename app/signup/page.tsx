@@ -43,7 +43,7 @@ const signUpForm = () => {
     });
 
     if (!response.data.success) {
-      alert("W!");
+      alert("User already exists with the username or email");
     } else {
       router.push("/dashboard/newBounty");
     }
