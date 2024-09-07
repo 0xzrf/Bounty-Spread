@@ -110,11 +110,10 @@ function Products() {
   };
 
   return (
-    <div className="mt-20 relative">
+    <div className="mt-40">
       <div className="flex justify-center">
         <SplitText text="FEATURES" />
       </div>
-
       {vars.map((elem, i) => {
         return <Product val={elem} count={i} mover={movePos} setPos={setPos} />;
       })}

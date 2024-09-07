@@ -2,3 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
+.blink.x-dark {
+    --blink-shadow-container: 0px 2px 8px 0px rgba(52, 211, 153, 0.22), 0px 1px 48px 0px rgba(52, 211, 153, 0.24); /* Emerald shadow */
+  }

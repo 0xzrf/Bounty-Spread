@@ -78,7 +78,7 @@ function Navbar() {
         >
           <div className="flex gap-12 font-extralight text-sm justify-center">
             <BountySpreadLogo />
-            {["Home", "", "Explore Bounties"].map((elem, i) => {
+            {["Features", "", "Explore Blinks"].map((elem, i) => {
               return (
                 <React.Fragment key={i}>
                   {elem.length ? (
@@ -105,7 +105,7 @@ function Navbar() {
             />
 
             <Button
-              text="Create a bounty"
+              text="Create a blink ->"
               link={cookie ? "/dashboard/newBounty" : "/signup"}
             />
           </div>
