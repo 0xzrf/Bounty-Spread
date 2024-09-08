@@ -39,13 +39,13 @@ export default function Home() {
     }
   };
 
-  const actionApiUrl  = 'https://dial.to/?action=solana-action%3Ahttp%3A%2F%2Flocalhost%3A3000%2Fapi%2Fapp%2Fsponsor%2Faction%3Fid%3Dweb2&cluster=devnet'; // H
+  const actionApiUrl  = `https://dial.to/?action=solana-action%3A${encodeURIComponent(window.location.origin)}%2Fapi%2Fapp%2Fsponsor%2Faction%3Fid%3Dweb2&cluster=devnet`; // H
   const actionApiUrl2 = 'https://dial.to/?action=solana-action:https://api-mainnet.magiceden.dev/actions/buyNow/Ahz7A16sxw7FhjBPkVdTVvRNje5i2NDEsq67y7jcqaoy';
-  const actionApiUrl3 = 'https://dial.to/?action=solana-action%3Ahttp%3A%2F%2Flocalhost%3A3000%2Fapi%2Fapp%2Fsponsor%2Faction%3Fid%3Dml&cluster=devnet';
+  const actionApiUrl3 = `https://dial.to/?action=solana-action%3A${encodeURIComponent(window.location.origin)}%2Fapi%2Fapp%2Fsponsor%2Faction%3Fid%3Dml&cluster=devnet`;
   const actionApiUrl4= 'https://dial.to/?action=solana-action:https://hermans.club/api/actions/presale/phasetwo';
-  const actionApiUrl5 = 'https://dial.to/?action=solana-action%3Ahttp%3A%2F%2Flocalhost%3A3000%2Fapi%2Fapp%2Fsponsor%2Faction%3Fid%3Dweb3&cluster=devnet';
+  const actionApiUrl5 = `https://dial.to/?action=solana-action%3A${encodeURIComponent(window.location.origin)}%2Fapi%2Fapp%2Fsponsor%2Faction%3Fid%3Dweb3&cluster=devnet`;
   const actionApiUrl6 = 'https://dial.to/?action=solana-action:https://100xdevsblink.me/api/actions/payments';
-  const actionApiUrl7 = 'https://dial.to/?action=solana-action%3Ahttp%3A%2F%2Flocalhost%3A3000%2Fapi%2Fapp%2Factions%3Fid%3D6a6548a0-fb3a-4217-9608-71fbe9250056&cluster=devnet';
+  const actionApiUrl7 = `https://dial.to/?action=solana-action%3A${encodeURIComponent(window.location.origin)}%2Fapi%2Fapp%2Factions%3Fid%3D6a6548a0-fb3a-4217-9608-71fbe9250056&cluster=devnet`;
   
   // useAction initiates registry, adapter and fetches the action.
   console.log("I ran till this>")
