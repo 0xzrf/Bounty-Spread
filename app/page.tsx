@@ -28,11 +28,13 @@ export default function Home() {
   const featureRef = useRef(null)
   const scrollToMarquees = () => {
     if (marqueeRef.current) {
+      //@ts-ignore
       marqueeRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
   const scrollToFeatures = () => {
     if (featureRef.current) {
+      //@ts-ignore
       featureRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
@@ -108,8 +110,11 @@ export default function Home() {
 </div>
         
         }
-
-      <Products featureRef={featureRef} />
+      {/* //@ts-ignore */}
+      
+      <div ref={featureRef} >
+       <Products />
+      </div>
       <Cards />
       <Footer />
     </div>

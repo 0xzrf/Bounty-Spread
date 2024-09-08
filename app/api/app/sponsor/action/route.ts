@@ -1,6 +1,7 @@
 import { ActionGetResponse, ActionPostRequest, ActionPostResponse, ACTIONS_CORS_HEADERS, ActionParameter, ActionParameterType } from "@solana/actions";
 import { NextRequest, NextResponse } from "next/server";
 
+export const runtime = 'edge';
 
 export const GET = (req: NextRequest) => {
     let res: ActionGetResponse;
