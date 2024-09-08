@@ -93,8 +93,8 @@ export default function Home() {
       <Navbar scrollToMarquees= {scrollToMarquees} scrollToFeatures={scrollToFeatures} />
       <Work />
       <Stripes />
+      <div ref={marqueeRef} className="relative flex h-[100vh] w-[100vw] py-10  items-center justify-center overflow-hidden mt-[-40px] mb-[-250px]">
        { (action && action2 && action3 && action4 && action5 && action6 &&  action7) && 
-  <div ref={marqueeRef} className="relative flex h-[100vh] w-[100vw] py-10  items-center justify-center overflow-hidden mt-[-40px] mb-[-250px]">
   <Marquee >
     {
       [action, action2, action3, action4, action5, action6, action7].map((item, index) => (
@@ -107,12 +107,12 @@ export default function Home() {
       ))
     }
   </Marquee>
-</div>
         
-        }
+      }
+      </div>
       {/* //@ts-ignore */}
       
-      <div ref={featureRef} >
+      <div className="lg:mt-40 xl:mt-60  max-lg:mt-30" ref={featureRef} >
        <Products />
       </div>
       <Cards />

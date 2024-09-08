@@ -110,7 +110,7 @@ function Products() {
   };
 
   return (
-    <div className="mt-40">
+    <div className="">
       <div className="flex justify-center">
         <SplitText text="FEATURES" />
       </div>
