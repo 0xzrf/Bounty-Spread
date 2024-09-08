@@ -11,7 +11,7 @@ import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 
 export const runtime = "edge";
 
-function Navbar({scrollToMarquees}) {
+function Navbar({scrollToMarquees, scrollToFeatures}) {
   const router = useRouter();
   const { publicKey, signMessage, wallets } = useWallet();
   const [index, setIndex] = useState(0);
@@ -86,6 +86,8 @@ function Navbar({scrollToMarquees}) {
                       onClick={() => {
                         if (i ==2 ) {
                           scrollToMarquees()
+                        } else if (i == 0) {
+                          scrollToFeatures()
                         }
                         setIndex(i)}}
                       className="text-white hover:cursor-pointer flex items-center text-"

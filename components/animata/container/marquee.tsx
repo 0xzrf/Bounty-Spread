@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { Action, Blink } from "@dialectlabs/blinks";
 
 interface MarqueeProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
@@ -31,13 +30,12 @@ interface MarqueeProps extends React.HTMLAttributes<HTMLDivElement> {
    * @default true
    */
   applyMask?: boolean;
-  action: Action[]
 }
 
 export default function Marquee({
-  action,
+  children,
   vertical = false,
-  repeat = 7,
+  repeat = 5,
   pauseOnHover = false,
   reverse = false,
   className,
@@ -48,7 +46,7 @@ export default function Marquee({
     <div
       {...props}
       className={cn(
-        "group relative flex h-[30vw] w-full p-2 [--duration:7s] [--gap:50px] [gap:var(--gap)]",
+        "group relative flex h-full w-full p-2 [--duration:10s] [--gap:14px] [gap:var(--gap)]",
         {
           "flex-col": vertical,
           "flex-row": !vertical,
@@ -56,19 +54,17 @@ export default function Marquee({
         className,
       )}
     >
-      {action?.map((act, index) => (
+      {Array.from({ length: repeat }).map((_, index) => (
         <div
           key={`item-${index}`}
           className={cn("flex shrink-0 [gap:var(--gap)]", {
             "group-hover:[animation-play-state:paused]": pauseOnHover,
             "[animation-direction:reverse]": reverse,
-            "animate-marquee-horizontal flex-row h-[10rem] mb-16": !vertical,
+            "animate-marquee-horizontal flex-row": !vertical,
             "animate-marquee-vertical flex-col": vertical,
           })}
         >
-          <div className=" w-80">
-            <Blink  action={act} stylePreset="x-dark" websiteText={new URL("https://github.com/").hostname} />
-           </div>
+          {children}
         </div>
       ))}
       {applyMask && (

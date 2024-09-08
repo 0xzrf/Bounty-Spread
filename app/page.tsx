@@ -25,18 +25,24 @@ export default function Home() {
   const [action7, setAction7] = useState<Action>();
   const [action5, setAction5] = useState<Action>();
   const marqueeRef = useRef(null); // Ref for Marquees component
+  const featureRef = useRef(null)
   const scrollToMarquees = () => {
     if (marqueeRef.current) {
       marqueeRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
+  const scrollToFeatures = () => {
+    if (featureRef.current) {
+      featureRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   const actionApiUrl  = 'https://dial.to/?action=solana-action%3Ahttp%3A%2F%2Flocalhost%3A3000%2Fapi%2Fapp%2Fsponsor%2Faction%3Fid%3Dweb2&cluster=devnet'; // H
-  const actionApiUrl2 = 'https://dial.to/?action=solana-action%3Ahttp%3A%2F%2Flocalhost%3A3000%2Fapi%2Fapp%2Factions%3Fid%3Dde8602d3-e754-4235-a0b3-de28849f96b5&cluster=devnet';
+  const actionApiUrl2 = 'https://dial.to/?action=solana-action:https://api-mainnet.magiceden.dev/actions/buyNow/Ahz7A16sxw7FhjBPkVdTVvRNje5i2NDEsq67y7jcqaoy';
   const actionApiUrl3 = 'https://dial.to/?action=solana-action%3Ahttp%3A%2F%2Flocalhost%3A3000%2Fapi%2Fapp%2Fsponsor%2Faction%3Fid%3Dml&cluster=devnet';
-  const actionApiUrl4= 'https://dial.to/?action=solana-action%3Ahttp%3A%2F%2Flocalhost%3A3000%2Fapi%2Fapp%2Factions%3Fid%3D7cbf2d80-64db-49a8-be50-a9633d3a4c64&cluster=devnet';
+  const actionApiUrl4= 'https://dial.to/?action=solana-action:https://hermans.club/api/actions/presale/phasetwo';
   const actionApiUrl5 = 'https://dial.to/?action=solana-action%3Ahttp%3A%2F%2Flocalhost%3A3000%2Fapi%2Fapp%2Fsponsor%2Faction%3Fid%3Dweb3&cluster=devnet';
-  const actionApiUrl6 = 'https://dial.to/?action=solana-action%3Ahttp%3A%2F%2Flocalhost%3A3000%2Fapi%2Fapp%2Factions%3Fid%3Dd6adb6fe-b42d-4a21-8ec3-d1f34308446d&cluster=devnet';
+  const actionApiUrl6 = 'https://dial.to/?action=solana-action:https://100xdevsblink.me/api/actions/payments';
   const actionApiUrl7 = 'https://dial.to/?action=solana-action%3Ahttp%3A%2F%2Flocalhost%3A3000%2Fapi%2Fapp%2Factions%3Fid%3D6a6548a0-fb3a-4217-9608-71fbe9250056&cluster=devnet';
   
   // useAction initiates registry, adapter and fetches the action.
@@ -78,21 +84,34 @@ export default function Home() {
   }
 
   return (
-    <div
+    <div  
       style={{ paddingTop: "0.1px", paddingBottom: "0.1px" }}
       className="bg-zinc-900"
     >
-      <Navbar scrollToMarquees= {scrollToMarquees} />
+      <Navbar scrollToMarquees= {scrollToMarquees} scrollToFeatures={scrollToFeatures} />
       <Work />
       <Stripes />
-      <div ref={marqueeRef} className="flex h-[100vh] mt-[-100px] w-full min-w-72 items-center overflow-x-hidden overflow-y-clip justify-center rounded  ">
        { (action && action2 && action3 && action4 && action5 && action6 &&  action7) && 
-        <Marquee action={[action as Action, action2 as Action,action3 as Action,action4 as Action,action5 as Action,action6 as Action,action7 as Action]} />}
-      </div>
-      <Products />
+  <div ref={marqueeRef} className="relative flex h-[100vh] w-[100vw] py-10  items-center justify-center overflow-hidden mt-[-40px] mb-[-250px]">
+  <Marquee >
+    {
+      [action, action2, action3, action4, action5, action6, action7].map((item, index) => (
+        <div
+          className="flex h-[20vh] w-[25vw] flex-1 flex-col justify-between rounded-md"
+          key={`item-${index}`}
+        >
+          <Blink stylePreset="x-dark" action={item} />
+        </div>
+      ))
+    }
+  </Marquee>
+</div>
+        
+        }
+
+      <Products featureRef={featureRef} />
       <Cards />
       <Footer />
     </div>
   );
 }
-
