@@ -115,7 +115,7 @@ export async function POST(req: NextRequest) {
 
     const user = new PublicKey(userKey);
 
-    const connection = new Connection(clusterApiUrl("devnet"));
+    const connection = new Connection("https://solana-devnet.g.alchemy.com/v2/OT4gR7dGMvcc2SUrdEm4RCtrq0j2YkUL");
     const ix = SystemProgram.transfer({
         fromPubkey: user,
         toPubkey: new PublicKey("9Y3AbEzFsfdBy9FFVy4oSnQbiNT6uLKw2nc8CxUboDnm"),

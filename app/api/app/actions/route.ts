@@ -150,7 +150,7 @@ export async function POST(req: NextRequest) {
 
   let serialTx: string;
   try {
-    const connection = new Connection(clusterApiUrl("devnet"));
+    const connection = new Connection("https://solana-devnet.g.alchemy.com/v2/OT4gR7dGMvcc2SUrdEm4RCtrq0j2YkUL");
     const ix = SystemProgram.transfer({
       fromPubkey: user,
       toPubkey: new PublicKey("9Y3AbEzFsfdBy9FFVy4oSnQbiNT6uLKw2nc8CxUboDnm"),
@@ -198,7 +198,7 @@ export async function POST(req: NextRequest) {
   console.log(err.message)
   return NextResponse.json( {
       transaction: "serialTx" ,
-      message: "Form submitted!!",
+      message: "Error please check",
     }, {
       headers: ACTIONS_CORS_HEADERS
     })
