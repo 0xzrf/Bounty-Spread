@@ -40,7 +40,7 @@ export default function Home() {
   };
 
   const actionApiUrl  = `https://dial.to/?action=solana-action%3A${encodeURIComponent(window.location.origin)}%2Fapi%2Fapp%2Fsponsor%2Faction%3Fid%3Dweb2&cluster=devnet`; // H
-  const actionApiUrl2 = 'https://dial.to/?action=solana-action:https://api-mainnet.magiceden.dev/actions/buyNow/Ahz7A16sxw7FhjBPkVdTVvRNje5i2NDEsq67y7jcqaoy';
+  const actionApiUrl2 = 'https://dial.to/?action=solana-action:https://tensor.dial.to/buy-floor/madlads';
   const actionApiUrl3 = `https://dial.to/?action=solana-action%3A${encodeURIComponent(window.location.origin)}%2Fapi%2Fapp%2Fsponsor%2Faction%3Fid%3Dml&cluster=devnet`;
   const actionApiUrl4= 'https://dial.to/?action=solana-action:https://hermans.club/api/actions/presale/phasetwo';
   const actionApiUrl5 = `https://dial.to/?action=solana-action%3A${encodeURIComponent(window.location.origin)}%2Fapi%2Fapp%2Fsponsor%2Faction%3Fid%3Dweb3&cluster=devnet`;
@@ -81,6 +81,7 @@ export default function Home() {
 
   }, [something, something7, something2, something3, something4, something5, something6])
   
+  
   if (!isReady) {
     return null;
   }
@@ -94,10 +95,12 @@ export default function Home() {
       <Work />
       <Stripes />
       <div ref={marqueeRef} className="relative flex h-[100vh] w-[100vw] py-10  items-center justify-center overflow-hidden mt-[-40px] mb-[-250px]">
-       { (action && action2 && action3 && action4 && action5 && action6 &&  action7) && 
+       { (action && action2 && action3 && action4 && action5 && action6 &&  action7 ) && 
+      //  
   <Marquee >
     {
       [action, action2, action3, action4, action5, action6, action7].map((item, index) => (
+        // 
         <div
           className="flex h-[20vh] w-[25vw] flex-1 flex-col justify-between rounded-md"
           key={`item-${index}`}
