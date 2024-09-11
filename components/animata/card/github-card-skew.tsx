@@ -83,7 +83,7 @@ export default function GithubCardSkew({
     <div
       ref={containerRef}
       className={cn(
-        "flex max-w-80 transform-gpu flex-col gap-2 rounded-3xl border border-border bg-zinc-900 p-10 text-zinc-200 shadow-lg transition-transform ease-linear will-change-transform",
+        "flex max-w-80 transform-gpu flex-col gap-2 rounded-3xl border border-border bg-zinc-900 p-6 text-zinc-200 shadow-lg transition-transform ease-linear will-change-transform",
         className
       )}
       style={{
@@ -111,11 +111,11 @@ export default function GithubCardSkew({
         containerRef.current.style.setProperty("--y", "0deg");
       }}
     >
-      <h1 className={`font-mono text-${headSize} tracking-tight`}>{heading}</h1>
+      <h1 className={`font-mono text-${headSize} h-[11vh] flex items-center w-fit tracking-tight`}>{heading}</h1>
 
       <p className="text-xl font-medium text-zinc-400">{title}</p>
 
-      <span className="mt-4 text-sm text-zinc-400">{subtitle}</span>
+      <span className=" text-sm h-[7vh] text-zinc-400">{subtitle}</span>
     </div>
   );
 }

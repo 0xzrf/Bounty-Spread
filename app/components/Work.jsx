@@ -71,7 +71,7 @@ function Tagline() {
       <div className="w-full flex justify-center items-center h-screen bg-zinc-900 py-10">
         <div className="text-center max-w-screen-lg mx-auto mt-[-750px]">
           <motion.h1
-            className="text-white text-nowrap font-bold text-[6vw] md:text-[5vw] leading-tight mb-4"
+            className="text-white text-nowrap font-bold text-[5vw] md:text-[5vw] leading-tight mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.0 }}

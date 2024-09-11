@@ -69,8 +69,8 @@ function Products() {
           create a blink in up to 2 hours(And 5 if you're pro user ;))
         </div>
       ),
-      buttonText: "Make it now ->",
-      buttonLink: "/makeBlink",
+      buttonText: "w ->",
+      buttonLink: "/dashboard/newBounty",
     },
     {
       title: (
