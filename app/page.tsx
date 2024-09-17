@@ -7,6 +7,7 @@ import Stripes from "./components/Stripes";
 import Marquee from "@/components/animata/container/marquee";
 import Cards from "./components/Cards";
 import Footer from "./components/Footer";
+import TrialBounty from "./components/TrialBounty";
 import '@dialectlabs/blinks/index.css';
 import { useEffect, useState, useRef } from 'react';
 import LocomotiveScroll from "locomotive-scroll";
@@ -113,8 +114,8 @@ export default function Home() {
         
       }
       </div>
+      <TrialBounty />
       {/* //@ts-ignore */}
-      
       <div className="lg:mt-40 xl:mt-60  max-lg:mt-30" ref={featureRef} >
        <Products />
       </div>
