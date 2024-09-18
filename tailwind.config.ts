@@ -1,4 +1,9 @@
 import type { Config } from "tailwindcss";
+import defaultTheme from "tailwindcss/defaultTheme";
+import colors from "tailwindcss/colors";
+const {
+	default: flattenColorPalette,
+  } = require("tailwindcss/lib/util/flattenColorPalette");
 
 const config: Config = {
     darkMode: ["class"],
@@ -10,6 +15,10 @@ const config: Config = {
   ],
   theme: {
   	extend: {
+		transitionTimingFunction: {
+			slow: "cubic-bezier(.405, 0, .025, 1)",
+			"minor-spring": "cubic-bezier(0.18,0.89,0.82,1.04)",
+		},
   		keyframes: {
   			'pop-blob': {
   				'0%': {
@@ -103,8 +112,20 @@ const config: Config = {
   	}
   },
   plugins: [
-    require("tailwindcss-animate")
+    require("tailwindcss-animate"),
+	addVariablesForColors,
   ],
 
 };
+
+function addVariablesForColors({ addBase, theme }: any) {
+	let allColors = flattenColorPalette(theme("colors"));
+	let newVars = Object.fromEntries(
+	  Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
+	);
+   
+	addBase({
+	  ":root": newVars,
+	});
+  }
 export default config;

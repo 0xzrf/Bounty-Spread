@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { Check, Upload, ChevronDown } from 'lucide-react';
-import axios from 'axios';
 import BlinkCard from './app/BlinkCard';
 import { toast, Toaster } from 'sonner'
 import { useAction, Action, Blink } from '@dialectlabs/blinks';
@@ -70,22 +69,19 @@ const TrialBounty: React.FC = () => {
   const isSubmitDisabled = centerContent.length === 0;
 
   return (
-    <div className="mt-40 ">
-      <h2 className="text-zinc-100 font-bold text-6xl mb-10 flex justify-center">Try creating your own Blink!</h2>
+    <div className="mt-20 md:mt-40 px-4 md:px-0">
+      <h2 className="text-zinc-100 font-bold text-4xl md:text-6xl mb-6 md:mb-10 text-center">Try creating your own Blink!</h2>
       {
         action ?
           <div className="flex justify-center items-center">
-            <div
-              className="w-[30vw] rounded-md"
-            >
+            <div className="w-full md:w-[30vw] rounded-md">
               <Blink stylePreset="x-dark" action={action} />
             </div>
-
           </div>
           :
-          <div className="flex bg-zinc-800 text-zinc-100 min-h-[55vh] p-1">
+          <div className="flex flex-col md:flex-row bg-zinc-800 text-zinc-100 min-h-[55vh] p-1">
             {/* Left Section */}
-            <div className="w-[30vw] p-4 border-r border-zinc-700">
+            <div className="w-full md:w-[30vw] p-4 border-b md:border-b-0 md:border-r border-zinc-700">
               <h2>
                 Name*
               </h2>
@@ -168,10 +164,10 @@ const TrialBounty: React.FC = () => {
             </div>
 
             {/* Center Section */}
-            <div className='w-[40vw]'>
+            <div className='w-full md:w-[40vw] mt-4 md:mt-0'>
               <BlinkCard inputContent={centerContent} name={name} description={description} submitText={submitText} />
               <button
-                className="bg-emerald-400 text-zinc-800 rounded w-3/4 p-1 flex justify-center items-center mx-auto mt-6 hover:bg-emerald-300 transition-colors"
+                className="bg-emerald-400 text-zinc-800 rounded w-full md:w-3/4 p-2 md:p-1 flex justify-center items-center mx-auto mt-6 hover:bg-emerald-300 transition-colors"
                 onClick={handleSubmit}
                 disabled={isSubmitDisabled}
               >
@@ -181,7 +177,7 @@ const TrialBounty: React.FC = () => {
 
 
             {/* Right Section */}
-            <div className="w-[30vw] p-4 border-l border-zinc-700">
+            <div className="w-full md:w-[30vw] p-4 border-t md:border-t-0 md:border-l border-zinc-700 mt-4 md:mt-0">
               <h2 className="font-bold mb-2 text-lg">Instructions</h2>
               <ul className="text-base p-1">
                 <li>- Choose input type or button to shape your bounty's interface</li>

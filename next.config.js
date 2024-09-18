@@ -6,6 +6,11 @@ const nextConfig = {
     ACCESS_KEY_PASSWORD: process.env.ACCESS_KEY_PASSWORD,
     JWT_SECRET: process.env.JWT_SECRET,
   },
+  images: {
+    domains: [
+      "api.microlink.io", // Microlink Image Preview
+    ],
+  }
 };
 
 if (process.env.NODE_ENV === 'development') {

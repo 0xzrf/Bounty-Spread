@@ -90,33 +90,32 @@ export default function Home() {
   return (
     <div  
       style={{ paddingTop: "0.1px", paddingBottom: "0.1px" }}
-      className="bg-zinc-900"
+      className="bg-zinc-900 overflow-x-hidden"
     >
-      <Navbar scrollToMarquees= {scrollToMarquees} scrollToFeatures={scrollToFeatures} />
+      <Navbar scrollToMarquees={scrollToMarquees} scrollToFeatures={scrollToFeatures} />
       <Work />
       <Stripes />
-      <div ref={marqueeRef} className="relative flex h-[100vh] w-[100vw] py-10  items-center justify-center overflow-hidden mt-[-40px] mb-[-250px]">
+      <div ref={marqueeRef} className="relative hidden md:flex h-[100vh] w-full py-10 items-center justify-center overflow-hidden mt-[-40px] mb-[-250px]">
        { (action && action2 && action3 && action4 && action5 && action6 &&  action7 ) && 
-      //  
-  <Marquee>
-    {
-      [action, action2, action3, action4, action5, action6, action7].map((item, index) => (
-        // 
-        <div
-          className="flex h-[20vh] w-[25vw] flex-1 flex-col justify-between rounded-md"
-          key={`item-${index}`}
-        >
-          <Blink stylePreset="x-dark" action={item} />
-        </div>
-      ))
-    }
-  </Marquee>
-        
+        <Marquee>
+          {
+            [action, action2, action3, action4, action5, action6, action7].map((item, index) => (
+              <div
+                className="flex h-[20vh] w-[25vw] flex-1 flex-col justify-between rounded-md"
+                key={`item-${index}`}
+              >
+                <Blink stylePreset="x-dark" action={item} />
+              </div>
+            ))
+          }
+        </Marquee>
       }
       </div>
-      <TrialBounty />
+      <div id="trialBounty">
+        <TrialBounty />
+      </div>
       {/* //@ts-ignore */}
-      <div className="lg:mt-40 xl:mt-20  max-lg:mt-10" ref={featureRef} >
+      <div className="mt-10 lg:mt-40 xl:mt-20" ref={featureRef}>
        <Products />
       </div>
       <Cards />

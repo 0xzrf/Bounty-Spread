@@ -1,30 +1,33 @@
 import React from 'react'
 import Button from './Button'
-import { motion } from 'framer-motion'
+import SwapTextCard from '@/components/animata/card/swap-text-card'
 
 export const runtime = "edge";
 
-function Product({val, mover, count, setPos}) {
+function Product({ product }) {
   return (
-    <motion.div
-      onMouseEnter={() => {mover(count)}}
-      onMouseLeave={() => {
-        if (count === 0 || count === 3){
-          setPos(null)
-        }
-      }}
-      className="w-full h-[18rem] ease-out"
-    >
-      <div  className="max-w-screen-xl p-10 mx-auto text-white flex justify-between">
-        <h1 className="text-[3vw] max-w-fit">{val.title}</h1>
-        <div className="w-1/3">
-            <h1 className="mb-4 text-[0.9vw] leading-none">{val.description}</h1>
-            <div className="flex  text-black gap-6">
-           { val.buttonLink && <Button link={val.buttonLink} text={val.buttonText} />}
-            </div>
-        </div>
+    <div className="min-w-screen-xl mx-auto px-4">
+      <div className="flex flex-col md:flex-row gap-8 justify-center">
+        <SwapTextCard
+          initialText={product.card1.description}
+          finalText={product.card1.details}
+          title={product.card1.title}
+        />
+        <SwapTextCard
+          initialText={product.card2.description}
+          finalText={product.card2.details}
+          title={product.card2.title}
+        />
       </div>
-    </motion.div>
+      <div className="mt-6 flex flex-col sm:w-fit sm:mx-auto sm:text-center sm:flex-row justify-center gap-4 sm:gap-6">
+        {product.card1.buttonLink && (
+          <Button link={product.card1.buttonLink} disabled={true} text={product.card1.buttonText} className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white mb-2 sm:mb-0 text-xs sm:text-lg md:text-base lg:text-lg xl:text-xl" />
+        )}
+        {product.card2.buttonLink && (
+          <Button link={product.card2.buttonLink} text={product.card2.buttonText} className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white text-base sm:text-lg md:text-xl" />
+        )}
+      </div>
+    </div>
   )
 }
 
