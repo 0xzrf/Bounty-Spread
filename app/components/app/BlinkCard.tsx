@@ -34,6 +34,7 @@ const Card = ({ name,imageUrl, description, inputContent, submitText, className 
                 ))}
                
                 <button
+                    disabled={true}
                     type="submit"
                     className="w-full py-2 bg-blue-600 text-white text-sm sm:text-base font-semibold rounded-lg hover:bg-blue-700 transition duration-300"
                 >
