@@ -5,6 +5,7 @@ import NewBounty from "./ContentComp/NewBounty";
 import CurrentBounties from "./ContentComp/CurrentBounties";
 import Admin from "./ContentComp/Admin";
 import axios from "axios";
+import {toast, Toaster} from "sonner"
 import Cookies from "js-cookie";
 import DispenseBounty from "./ContentComp/DispenseBounty";
 export const runtime = "edge";
@@ -32,7 +33,7 @@ export default function MainContent({
   useEffect(() => {
     (async () => {
       if (!cookie) {
-        alert("Sign in first please");
+        toast("Sign in first please");
       } else {
         const response = await axios.get(
           `${window.location.origin}/api/app/user`,
@@ -81,6 +82,7 @@ export default function MainContent({
       <div className="border-4 border-dashed  border-emerald-400 rounded-lg text-white p-10">
         {userData ? renderContent() : <div className="min-h-screen"></div>}
       </div>
+      <Toaster/>
     </div>
   );
 }

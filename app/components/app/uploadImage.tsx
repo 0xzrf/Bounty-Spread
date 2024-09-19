@@ -15,8 +15,6 @@ interface UploadProps {
 }
 
 const UploadImage = ({uploading, setUploading,imagePreview,setImagePreview}:UploadProps) => {
-  const DEPLOYED_LINK_URL = process.env.NEXT_PUBLIC_DEPLOYED_LINK;
-
     async function chooseFile(e: React.ChangeEvent<HTMLInputElement>) {
         setUploading(true);
 
@@ -77,16 +75,6 @@ const UploadImage = ({uploading, setUploading,imagePreview,setImagePreview}:Uplo
             onChange={chooseFile}
             className="hidden"
           />
-
-          {imagePreview && (
-            <div className="mt-4">
-              <img
-                src={imagePreview}
-                alt="Preview"
-                className="w-full h-64 object-cover rounded-md"
-              />
-            </div>
-          )}
     </div>
 }
 

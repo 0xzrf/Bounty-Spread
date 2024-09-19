@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import axios from "axios"
+import {toast, Toaster} from "sonner"
 
 type Bounty = {
   name: string;
@@ -46,13 +47,13 @@ const UnverifiedBounties: React.FC<UnverifiedBountiesProps> = ({ bounties }) => 
                     })
 
                     if (!response.data.success) {
-                      alert("Unable to update the user")
+                      toast("Unable to update the user")
                       return
                     }
                     setIndexes(prevData => {
                       return [...prevData, index]
                     })
-                    alert("verified")
+                    toast("verified")
                   }} className="bg-emerald-400 text-white py-1 px-3 rounded">
                     {indexes.includes(index) ? "Verified" : "Verify"}
                   </button>

@@ -8,6 +8,7 @@ import { DispenserProgram } from "../../../components/app/programData/type";
 import { Connection, PublicKey, Keypair, SystemProgram } from "@solana/web3.js";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import * as anchor from "@coral-xyz/anchor"
+import {toast, Toaster} from "sonner"
 
 import {
   Provider,
@@ -109,7 +110,7 @@ const BountySubmissionsTable = () => {
       setWinners([...winners, submission]);
       setAmounts([...amounts, 0]);
     } else {
-      alert("You can only select up to 5 winners.");
+      toast("You can only select up to 5 winners.");
     }
   };
 
@@ -138,7 +139,7 @@ const BountySubmissionsTable = () => {
 
   const handleFinishBounty = async () => {
     if (amounts.some((amount) => amount <= 0)) {
-      alert("All amounts must be greater than 0.");
+      toast("All amounts must be greater than 0.");
       return;
     }
     const id = Math.floor(Math.random() * 1000)
@@ -167,9 +168,9 @@ const BountySubmissionsTable = () => {
       .rpc();
 
       console.log("Heck yeah")
-      alert("Passed transaction.")
+      toast("Passed transaction.")
     } catch (err ){
-      alert("Couldn't create an escrow")
+      toast("Couldn't create an escrow")
       console.log(err)
       return
     }
@@ -186,13 +187,13 @@ const BountySubmissionsTable = () => {
       );
 
       if (!response.data.success) {
-        alert(response.data.msg);
+        toast(response.data.msg);
         return;
       }
-      alert(response.data.msg);
+      toast(response.data.msg);
       router.push("/dashboard/dispenseBounty");
     } catch (err) {
-      alert("Internal server error");
+      toast("Internal server error");
       return;
     }
   };

@@ -3,6 +3,7 @@ import WalletButton from "../WalletButton";
 import { useRouter } from "next/navigation";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useState } from "react";
+import {toast, Toaster} from "sonner"
 import axios from "axios";
 import Cookies from "js-cookie";
 export const runtime = "edge";
@@ -27,12 +28,12 @@ export default function NotSignedIn() {
       );
 
       if (!response.data.success) {
-        alert("Invalid user, please sign in ");
+        toast("Invalid user, please sign in ");
         router.push("/signin");
       }
       router.push("/dashboard");
     } catch (err) {
-      alert("Unable to verify User");
+      toast("Unable to verify User");
       return;
     }
   }
@@ -56,6 +57,7 @@ export default function NotSignedIn() {
           <WalletButton />
         </div>
       </div>
+      <Toaster/>
     </div>
   );
 }

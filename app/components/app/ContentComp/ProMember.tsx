@@ -36,7 +36,7 @@ const ProMembershipPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-zinc-900 text-white p-8">
+    <div className="min-h-screen bg-zinc-900 text-white p-8 rounded-md">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl font-bold text-center mb-12">Become a Pro Member</h1>
         

@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
 export const runtime = "edge";
+import {toast, Toaster} from "sonner"
+
 
 const signUpForm = () => {
   const router = useRouter();
@@ -43,7 +45,7 @@ const signUpForm = () => {
     });
 
     if (!response.data.success) {
-      alert("User already exists with the username or email");
+      toast("User already exists with the username or email");
     } else {
       router.push("/dashboard/newBounty");
     }
@@ -105,20 +107,6 @@ const signUpForm = () => {
             />
           </div>
 
-          {/* <div>
-        <label htmlFor="password" className="block text-sm font-medium text-zinc-300 mb-2">Password</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={form.password}
-          onChange={handleChange}
-          className="w-full px-4 py-3 bg-zinc-700 0 rounded-lg border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:border-transparent transition duration-200"
-          placeholder="••••••••"
-          required
-        />
-      </div> */}
-
           <div>
             <WalletMultiButton
               style={{
@@ -140,7 +128,10 @@ const signUpForm = () => {
         <p className="mt-6 text-center text-zinc-400 text-sm">
           Please Signup before creating your first customizable Blink!
         </p>
+       
       </div>
+     <Toaster />
+
     </div>
   );
 };

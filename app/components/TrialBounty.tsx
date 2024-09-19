@@ -57,9 +57,8 @@ const TrialBounty: React.FC = () => {
       console.log('Form submitted:', centerContent);
       console.log(centerContent.map((item, ix) => `{"type": ${item.type}, ""text": ${item.text}}`).join("|"))
       setAction(something as Action)
-      console.log('Action:', action);
 
-      toast.success('Your blink will be displayed on the screen soon⏰');
+      toast.success('Blink created!!');
     } else {
       toast.error('Error creating your blink');
 
@@ -70,7 +69,7 @@ const TrialBounty: React.FC = () => {
 
   return (
     <div className="mt-20 md:mt-40 px-4 md:px-0">
-      <h2 className="text-zinc-100 font-bold text-4xl md:text-6xl mb-6 md:mb-10 text-center">Try creating your own Blink!</h2>
+      <h2 className="text-zinc-100 rounded-md font-bold text-4xl md:text-6xl mb-6 md:mb-10 text-center">Try creating your own Blink!</h2>
       {
         action ?
           <div className="flex justify-center items-center">
@@ -165,9 +164,9 @@ const TrialBounty: React.FC = () => {
 
             {/* Center Section */}
             <div className='w-full md:w-[40vw] mt-4 md:mt-0'>
-              <BlinkCard inputContent={centerContent} name={name} description={description} submitText={submitText} />
+              <BlinkCard className="h-" inputContent={centerContent} name={name} description={description} submitText={submitText} />
               <button
-                className="bg-emerald-400 text-zinc-800 rounded w-full md:w-3/4 p-2 md:p-1 flex justify-center items-center mx-auto mt-6 hover:bg-emerald-300 transition-colors"
+                className="bg-emerald-400 text-zinc-800 my-5 w-1/2 md:w-1/2 rounded-lg p-2 md:p-1 flex justify-center items-center mx-auto mt-6 hover:bg-emerald-300 transition-colors"
                 onClick={handleSubmit}
                 disabled={isSubmitDisabled}
               >

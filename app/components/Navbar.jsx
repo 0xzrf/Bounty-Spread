@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { Menu, X } from 'lucide-react';
+import {toast, Toaster} from "sonner"
 
 export const runtime = "edge";
 
@@ -39,14 +40,14 @@ function Navbar({scrollToMarquees, scrollToFeatures}) {
       );
 
       if (!response.data.success) {
-        alert("Invalid user creds");
+        toast.error("Invalid User credentials")
         router.push("/signup");
         return;
       }
-      alert(response.data.msg);
+      toast.success(response.data.msg);
       router.push("/dashboard/newBounty");
     } catch (err) {
-      alert("Unable to verify User");
+      toast.error("Unable to verify User");
       return;
     }
   }

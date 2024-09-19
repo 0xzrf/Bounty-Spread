@@ -3,6 +3,8 @@ import AdminLayout from "./Admin/AdminLayout";
 import UnverifiedBounties from "./Admin/UnverifiedBounties";
 import axios from "axios";
 import Welcome from "../ContentComp/Welcome";
+import {toast, Toaster} from "sonner"
+
 export const runtime = "edge";
 
 const AdminPage = ({ userEmail }: { userEmail: string | undefined }) => {
@@ -20,7 +22,7 @@ const AdminPage = ({ userEmail }: { userEmail: string | undefined }) => {
       );
 
       if (!reponse.data.success) {
-        alert("Invalid request");
+        toast("Invalid request");
       }
 
       setBounties(reponse.data.bounties);
@@ -32,6 +34,7 @@ const AdminPage = ({ userEmail }: { userEmail: string | undefined }) => {
       {userEmail == "someone@gmail.com" || userEmail == "gloom@gmail.com" ? (
         <AdminLayout>
           <UnverifiedBounties bounties={bounties} />
+          <Toaster/>
         </AdminLayout>
       ) : (
         <div>
