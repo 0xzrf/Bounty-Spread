@@ -107,8 +107,10 @@ export const GET = async (req: NextRequest) => {
     str += `{${ele}}|`;
   });
 
+  let imageUrl = userData?.imageUrl || "https://wallpapercave.com/wp/wp9800926.jpg";
+
   const response: ActionGetResponse = {
-    icon: userData?.imageUrl as string,
+    icon: imageUrl as string,
     title: userData?.name as string,
     label: "Ignored",
     description: userData?.description as string,

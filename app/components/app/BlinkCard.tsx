@@ -25,7 +25,8 @@ const Card = ({ name,imageUrl, description, inputContent, submitText, className 
                 {inputContent?.map((item, index) => (
                     <div key={index}>
                         <input
-                            type={item.type}
+                            disabled={true}
+                            type={item.type.toLowerCase()}
                             placeholder={item.text}
                             className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base text-gray-900 bg-[#1F2226] border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
                         />

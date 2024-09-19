@@ -333,6 +333,8 @@ export default function NewBounty({
                       }
 
                       toast("Blink in queue to be verified⏱️");
+                      setTimeout(() => {
+                      }, 3000)
                       router.push("/dashboard/currentBounties");
                     } catch (error) {
                       console.error("Error submitting form:", error);
