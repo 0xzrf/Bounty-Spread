@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import {toast, Toaster} from "sonner"
 
 type BountyType = "Grant" | "Project" | "Bounty";
 export const runtime = "edge";
@@ -115,10 +116,10 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
         <td className="py-2 px-4 border-t border-zinc-700">
           {formatDate(bounty.createdAt)}
         </td>
-        <td className="py-2 px-4 border-t border-zinc-700">
+        {bounty.isVerified && (<td className="py-2 px-4 border-t border-zinc-700">
           {bounty.sumbissions?.length}
-        </td>
-        <td className="py-2 px-4 border-t border-zinc-700">
+        </td>)}
+        {bounty.isVerified &&( <td className="py-2 px-4 border-t border-zinc-700">
           <a
             href={`https://dial.to/?action=solana-action%3A${encodeURIComponent(window.location.origin)}%2Fapi%2Fapp%2Factions%3Fid%3D${bounty.id}&cluster=devnet`}
             className="text-emerald-500 hover:text-emerald-400"
@@ -127,7 +128,19 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
           >
             View
           </a>
-        </td>
+        </td>)}
+        {bounty.isVerified && (<td className="py-2 px-4 border-t border-zinc-700">
+          <button
+            onClick={() => {
+              const href = `https://dial.to/?action=solana-action%3A${encodeURIComponent(window.location.origin)}%2Fapi%2Fapp%2Factions%3Fid%3D${bounty.id}&cluster=devnet`;
+              navigator.clipboard.writeText(href);
+              toast("Link copied to clipboard!");
+            }}
+            className="text-emerald-500 hover:text-emerald-400"
+          >
+            Copy
+          </button>
+        </td>)}
       </tr>
     ));
   };
@@ -165,6 +178,9 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
         <h2 className="text-emerald-500 font-semibold mb-4">
           Unverified Bounties
         </h2>
+        <h3 className="text-emerald-300 font-semibold mb-4">
+          To view the blinks & unfurlling on X, please wait for them to get verified.
+        </h3>
         <div className="flex justify-between mb-4">
           {(["Grant", "Project", "Bounty"] as BountyType[]).map((type) => (
             <button
@@ -188,7 +204,7 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
               <th className="py-2 px-4 text-left">Bounty Name</th>
               <th className="py-2 px-4 text-left">Type</th>
               <th className="py-2 px-4 text-left">Active</th>
-              <th className="py-2 px-4 text-left">Created At</th>
+              <th className="py-2 px-4 text-left">Created At</th>              
             </tr>
           </thead>
           <tbody>{renderTableContent(unverifiedBounties)}</tbody>
@@ -224,11 +240,13 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
               <th className="py-2 px-4 text-left">Type</th>
               <th className="py-2 px-4 text-left">Active</th>
               <th className="py-2 px-4 text-left">Created At</th>
+              <th className="py-2 px-4 text-left">Submissions</th>
             </tr>
           </thead>
           <tbody>{renderTableContent(verifiedBounties)}</tbody>
         </table>
       </div>
+      <Toaster/>
     </div>
   );
 };

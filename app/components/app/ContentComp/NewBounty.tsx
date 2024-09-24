@@ -107,7 +107,7 @@ export default function NewBounty({
             </div>
           ) : ""}
           <label htmlFor="choices" className="block text-lg mb-2">
-            The blink is for:
+            The blink is for:<span className="text-red-500">*</span>
           </label>
           <select
             id="choices"
@@ -127,7 +127,7 @@ export default function NewBounty({
           <label htmlFor="textInput" className="block text-lg mt-4 mb-2">
             {selectedValue === ""
               ? "Choose the type of blink"
-              : `Write a name for your ${selectedValue}`}
+              : <h1>Write a name for your {selectedValue}<span className="text-red-500">*</span></h1>}
           </label>
           <input
             id="textInput"
@@ -141,7 +141,7 @@ export default function NewBounty({
           <label htmlFor="textInput" className="block text-lg mt-4 mb-2">
             {selectedValue === ""
               ? "Choose the type of blink"
-              : `Write the description for your ${selectedValue}`}
+              : <h1>Write a description for your {selectedValue}<span className="text-red-500">*</span></h1>}
           </label>
           <input
             id="textInput"
@@ -157,7 +157,7 @@ export default function NewBounty({
           <label htmlFor="textInput" className="block text-lg mt-4 mb-2">
             {selectedValue === ""
               ? "Choose the type of blink"
-              : `Write the Amount for your ${selectedValue}`}
+              : <h1>Write the Amount for your {selectedValue}<span className="text-red-500">*</span></h1>}
           </label>
           <input
             id="textInput"
@@ -173,7 +173,7 @@ export default function NewBounty({
           />
           {/* DateTime Input Field */}
           <label htmlFor="dateTimeInput" className="block text-lg mt-4 mb-2">
-            Select when will the bounty end:
+            Select when will the bounty end:<span className="text-red-500">*</span>
           </label>
           <input
             id="dateTimeInput"
@@ -182,7 +182,7 @@ export default function NewBounty({
             onChange={handleDateTimeChange}
             className="block w-full p-2.5 bg-zinc-700 text-white border border-emerald-400 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400"
           />
-
+       
           {/* Image Upload Input Field */}
           <UploadImage
             uploading={uploading}
@@ -212,7 +212,7 @@ export default function NewBounty({
               <div className="flex flex-col md:flex-row gap-4">
                 <div className="flex-1">
                   <label htmlFor="questionInput" className="block text-lg mb-2 text-white">
-                    Question to ask the user:
+                    Question to ask the user:<span className="text-red-500">*</span>
                   </label>
                   <input
                     id="questionInput"

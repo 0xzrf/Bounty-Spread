@@ -60,7 +60,7 @@ const UploadImage = ({uploading, setUploading,imagePreview,setImagePreview}:Uplo
 
     return <div>
         <label htmlFor="imageUpload" className="block text-lg mt-4 mb-2">
-            Upload an image for your blink:
+            Upload an image for your blink<span className="text-red-500">*</span>:
           </label>
           <label
             htmlFor="imageUpload"
