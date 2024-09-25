@@ -55,6 +55,8 @@ export const POST = async (req: NextRequest) => {
                 types,
                 interval: new Date(interval),
                 hostId: host.id as number,
+                isVerified: true,
+                isActive: true
             }
         })
 
@@ -71,6 +73,7 @@ export const POST = async (req: NextRequest) => {
         })
 
     } catch (err) {
+        console.log(err);
         return NextResponse.json({
             msg: "Error creating bounty"
         }, {
