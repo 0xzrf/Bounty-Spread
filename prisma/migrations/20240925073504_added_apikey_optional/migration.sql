@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Host" ALTER COLUMN "apiKey" DROP NOT NULL;
