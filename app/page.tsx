@@ -23,7 +23,6 @@ export default function Home() {
   const [action3, setAction3] = useState<Action>();
   const [action4, setAction4] = useState<Action>();
   const [action6, setAction6] = useState<Action>();
-  const [action7, setAction7] = useState<Action>();
   const [action5, setAction5] = useState<Action>();
   const marqueeRef = useRef(null); // Ref for Marquees component
   const featureRef = useRef(null)
@@ -46,7 +45,7 @@ export default function Home() {
   const actionApiUrl4 = 'https://dial.to/?action=solana-action:https://hermans.club/api/actions/presale/phasetwo';
   const actionApiUrl5 = `https://dial.to/?action=solana-action%3A${encodeURIComponent(window.location.origin)}%2Fapi%2Fapp%2Fsponsor%2Faction%3Fid%3Dweb3&cluster=devnet`;
   const actionApiUrl6 = 'https://dial.to/?action=solana-action:https://100xdevsblink.me/api/actions/payments';
-  const actionApiUrl7 = `https://dial.to/?action=solana-action%3A${encodeURIComponent(window.location.origin)}%2Fapi%2Fapp%2Factions%3Fid%3D6a6548a0-fb3a-4217-9608-71fbe9250056&cluster=devnet`;
+  
 
   // useAction initiates registry, adapter and fetches the action.
   console.log("I ran till this>")
@@ -57,7 +56,7 @@ export default function Home() {
   const { action: something4 } = useAction({ url: actionApiUrl4, adapter });
   const { action: something5 } = useAction({ url: actionApiUrl5, adapter });
   const { action: something6 } = useAction({ url: actionApiUrl6, adapter });
-  const { action: something7 } = useAction({ url: actionApiUrl7, adapter });
+  
   useEffect(() => {
     let scroll: LocomotiveScroll | undefined;
     import("locomotive-scroll").then((locomotiveModule) => {
@@ -78,9 +77,7 @@ export default function Home() {
     setAction4(something4 as Action);
     setAction5(something5 as Action);
     setAction6(something6 as Action);
-    setAction7(something7 as Action);
-
-  }, [something, something7, something2, something3, something4, something5, something6])
+  }, [something, something2, something3, something4, something5, something6])
 
 
   if (!isReady) {
@@ -96,10 +93,10 @@ export default function Home() {
           <Work />
           <Stripes />
           <div ref={marqueeRef} className="relative hidden md:flex h-[100vh] w-full py-10 items-center justify-center overflow-hidden mt-[-40px] mb-[-250px]">
-            {(action && action2 && action3 && action4 && action5 && action6 && action7) &&
+            {(action && action2 && action3 && action4 && action5 && action6) &&
               <Marquee>
                 {
-                  [action, action2, action3, action4, action5, action6, action7].map((item, index) => (
+                  [action, action2, action3, action4, action5, action6].map((item, index) => (
                     <div
                       className="flex h-[20vh] w-[25vw] flex-1 flex-col justify-between rounded-md"
                       key={`item-${index}`}
