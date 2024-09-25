@@ -2,6 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/utils";
 export const runtime = 'edge';
 
+// Define CORS headers
+const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "*", // Or specify your allowed origin
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
+export const OPTIONS = async (req: NextRequest) => {
+  return NextResponse.json({}, { headers: CORS_HEADERS });
+};
 
 export const POST = async (req: NextRequest) => {
     const apiKey = req.headers.get("AUTHORIZATION");
@@ -67,8 +77,13 @@ export const POST = async (req: NextRequest) => {
 
         return NextResponse.json({
             msg: "Blink created successfully",
+            success: true,
             blinkInfo: response
-        }, {
+        }, 
+         {
+            headers: {
+                ...CORS_HEADERS,
+            },
             status: 200
         })
 
@@ -77,6 +92,7 @@ export const POST = async (req: NextRequest) => {
         return NextResponse.json({
             msg: "Error creating bounty"
         }, {
+            headers: CORS_HEADERS,
             status: 500
         })
     }
