@@ -46,7 +46,7 @@ function Subheading() {
             title={"Escrow secured txns"}
             subtitle={(
               <div>
-                Distribute rewards with <LinkPreview url="https://github.com/Praharx/dispenser_program" className="text-white">our secure escrow program <Github strokeWidth={0.75} className="border rounded-full p-0.5 mx-auto" /></LinkPreview>
+                Distribute rewards with <a href="https://github.com/Praharx/dispenser_program" className="text-white">our secure escrow program <Github strokeWidth={0.75} className="border rounded-full p-0.5 mx-auto" /></a>
               </div>
             )}
           />
