@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import {toast, Toaster} from "sonner"
+import { toast, Toaster } from "sonner"
 
 type BountyType = "Grant" | "Project" | "Bounty";
 export const runtime = "edge";
@@ -21,9 +21,6 @@ interface BountiesTableProps {
   bounties: Bounty[];
   isPaid: boolean;
 }
-
-const DEPLOYED_LINK_URL = process.env.NEXT_PUBLIC_DEPLOYED_LINK;
-
 export default function CurrentBounties({ isPaid }: { isPaid: boolean }) {
   const [bounties, setBounties] = useState<Bounty[]>([]);
 
@@ -102,24 +99,31 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
 
     return getFilteredBounties(bountiesArray).map((bounty) => (
       <tr
-        onClick={() => {
-          router.push(`/dashboard/currentBounties/${bounty.id}`);
-        }}
         className="hover:bg-gray-500 hover:cursor-pointer"
         key={bounty.id}
       >
-        <td className="py-2 px-4 border-t border-zinc-700">{bounty.name}</td>
-        <td className="py-2 px-4 border-t border-zinc-700">{bounty.type}</td>
-        <td className="py-2 px-4 border-t border-zinc-700">
+        <td
+          onClick={() => {
+            router.push(`/dashboard/currentBounties/${bounty.id}`);
+          }}
+          className="py-2 px-4 border-t border-zinc-700">{bounty.name}</td>
+        <td onClick={() => {
+          router.push(`/dashboard/currentBounties/${bounty.id}`);
+        }} className="py-2 px-4 border-t border-zinc-700">{bounty.type}</td>
+        <td onClick={() => {
+          router.push(`/dashboard/currentBounties/${bounty.id}`);
+        }} className="py-2 px-4 border-t border-zinc-700">
           {bounty.isActive ? "Yes" : "No"}
         </td>
-        <td className="py-2 px-4 border-t border-zinc-700">
+        <td onClick={() => {
+          router.push(`/dashboard/currentBounties/${bounty.id}`);
+        }} className="py-2 px-4 border-t border-zinc-700">
           {formatDate(bounty.createdAt)}
         </td>
         {bounty.isVerified && (<td className="py-2 px-4 border-t border-zinc-700">
           {bounty.sumbissions?.length}
         </td>)}
-        {bounty.isVerified &&( <td className="py-2 px-4 border-t border-zinc-700">
+        {bounty.isVerified && (<td className="py-2 px-4 border-t border-zinc-700">
           <a
             href={`https://dial.to/?action=solana-action%3A${encodeURIComponent(window.location.origin)}%2Fapi%2Fapp%2Factions%3Fid%3D${bounty.id}&cluster=devnet`}
             className="text-emerald-500 hover:text-emerald-400"
@@ -188,11 +192,10 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
               onClick={() =>
                 setSelectedType(selectedType === type ? null : type)
               }
-              className={`px-4 py-2 rounded ${
-                selectedType === type
+              className={`px-4 py-2 rounded ${selectedType === type
                   ? "bg-emerald-500 text-white"
                   : "bg-zinc-700 text-white"
-              }`}
+                }`}
             >
               {type} ({unverifiedCounts[type] || 0})
             </button>
@@ -204,7 +207,7 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
               <th className="py-2 px-4 text-left">Bounty Name</th>
               <th className="py-2 px-4 text-left">Type</th>
               <th className="py-2 px-4 text-left">Active</th>
-              <th className="py-2 px-4 text-left">Created At</th>              
+              <th className="py-2 px-4 text-left">Created At</th>
             </tr>
           </thead>
           <tbody>{renderTableContent(unverifiedBounties)}</tbody>
@@ -223,11 +226,10 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
               onClick={() =>
                 setSelectedType(selectedType === type ? null : type)
               }
-              className={`px-4 py-2 rounded ${
-                selectedType === type
+              className={`px-4 py-2 rounded ${selectedType === type
                   ? "bg-emerald-500 text-white"
                   : "bg-zinc-700 text-white"
-              }`}
+                }`}
             >
               {type} ({verifiedCounts[type] || 0})
             </button>
@@ -246,7 +248,7 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
           <tbody>{renderTableContent(verifiedBounties)}</tbody>
         </table>
       </div>
-      <Toaster/>
+      <Toaster />
     </div>
   );
 };
