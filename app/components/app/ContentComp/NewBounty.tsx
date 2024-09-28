@@ -34,6 +34,7 @@ export default function NewBounty({
   const [dateTime, setDateTime] = useState("");
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState();
+  const [submitText, setSubmitText] = useState<string|null>(null);
   const [isExceeding, setIsExceeding] = useState(false);
   const DEPLOYED_LINK_URL = process.env.NEXT_PUBLIC_DEPLOYED_LINK;
   const [questions, setQuestions] = useState<QuestionAnswers[]>([]);
@@ -182,6 +183,18 @@ export default function NewBounty({
             onChange={handleDateTimeChange}
             className="block w-full p-2.5 bg-zinc-700 text-white border border-emerald-400 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400"
           />
+          <label htmlFor="dateTimeInput" className="block text-lg mt-4 mb-2">
+            submission text for the blink:<span className="text-red-500">*</span>
+          </label>
+          <input
+            id="submitText"
+            type="text"
+            value={submitText || ""}
+            onChange={(e) => {
+              setSubmitText(e.target.value);
+            }}
+            className="block w-full p-2.5 bg-zinc-700 text-white border border-emerald-400 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400"
+          />
        
           {/* Image Upload Input Field */}
           <UploadImage
@@ -202,7 +215,7 @@ export default function NewBounty({
           Preview Blink
         </h1>
         {/*@ts-ignore */}
-          <Card name={textInput} imageUrl={imagePreview} description={description} inputContent={questions.map((item) =>{ return {type: item.type, text: item.question}})} submitText={`Submit & win ${amount ? amount : "0"} USD`} className="" />
+          <Card name={textInput} submitText={submitText} imageUrl={imagePreview} description={description} inputContent={questions.map((item) =>{ return {type: item.type, text: item.question}})} className="" />
         </div>
       </div>
       <div className="w-full h-full  text-left">
