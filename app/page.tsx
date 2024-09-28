@@ -115,7 +115,6 @@ export default function Home() {
           <div className="mt-10 lg:mt-40 xl:mt-20" ref={featureRef}>
             <Products />
           </div>
-          <Cards />
           <Footer />
         </div>
           );

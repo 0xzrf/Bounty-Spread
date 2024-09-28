@@ -151,32 +151,6 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
 
   return (
     <div className="flex flex-col gap-10 min-h-screen w-full">
-      {!isPaid && (
-        <div className="flex items-center justify-center bg-zinc-700 text-emerald-400 p-4 rounded-md border border-yellow-400">
-          <svg
-            className="w-6 h-6 mr-2 text-emerald-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M13 16h-1v-4h-1m1-4h.01M12 12h.01M12 8h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"
-            ></path>
-          </svg>
-          <span className="font-bold">
-            To verify your Bounties faster, become a{" "}
-            <Link href={"/dashboard/proMember"} className="underline">
-              Pro Member
-            </Link>{" "}
-            today!
-          </span>
-        </div>
-      )}
-
       {/* Unverified Bounties */}
       <div className="w-full bg-zinc-900 p-4 min-h-[50vh] rounded-lg shadow-md">
         <h2 className="text-emerald-500 font-semibold mb-4">

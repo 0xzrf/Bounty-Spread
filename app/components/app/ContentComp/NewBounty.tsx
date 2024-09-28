@@ -217,7 +217,15 @@ export default function NewBounty({
           Preview Blink
         </h1>
         {/*@ts-ignore */}
-          <Card name={textInput} submitText={submitText} imageUrl={imagePreview} description={description} inputContent={questions.map((item) =>{ return {type: item.type, text: item.question}})} className="" />
+          <Card 
+            name={textInput} 
+            submitText={submitText as string} 
+            imageUrl={imagePreview as string} 
+            description={description} 
+            //@ts-ignore
+            inputContent={questions.map((item) => ({ type: item.type, text: item.question }))} 
+            className="" 
+          />
         </div>
       </div>
       <div className="w-full h-full  text-left">
@@ -375,12 +383,6 @@ export default function NewBounty({
                   ) : "Sumbit blink"}
                 </button>
               </div>
-              
-              {!isPaid && (
-                <div className="mt-4 flex justify-start">
-                  <SelfContainedCreditDisplay userCredit={freeRemaining} />
-                </div>
-              )}
             </div>
           </div>
         )}
