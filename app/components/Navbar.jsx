@@ -10,6 +10,7 @@ import Cookies from "js-cookie";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { Menu, X } from 'lucide-react';
 import {toast, Toaster} from "sonner"
+import { useCookies } from "next-client-cookies";
 
 export const runtime = "edge";
 
@@ -45,7 +46,10 @@ function Navbar({scrollToMarquees, scrollToFeatures}) {
         return;
       }
       toast.success(response.data.msg);
-      router.push("/dashboard/newBounty");
+      localStorage.setItem("token", response.data.token)
+      setTimeout(()=> {
+        router.push("/dashboard/newBounty");
+      },4000)
     } catch (err) {
       toast.error("Unable to verify User");
       return;
@@ -183,6 +187,7 @@ function Navbar({scrollToMarquees, scrollToFeatures}) {
 export default Navbar;
 
 function WalletDropdown({ publicKey, signAndSend }) {
+  const cookies = useCookies();
   const [isOpen, setIsOpen] = useState(false);
   const { setVisible: setModalVisible } = useWalletModal();
   const [isLoading, setIsLoading] = useState({
@@ -248,7 +253,7 @@ function WalletDropdown({ publicKey, signAndSend }) {
             aria-orientation="vertical"
             aria-labelledby="options-menu"
           >
-            {publicKey != "Signin" && (
+            {(publicKey != "Signin" && !localStorage.getItem("token")) && (
               <button
                 onClick={handleSignIn}
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left"
@@ -258,6 +263,16 @@ function WalletDropdown({ publicKey, signAndSend }) {
                 Sign In
               </button>
             )}
+            {
+              (publicKey != "Signin" && localStorage.getItem("token") )&& 
+              <button
+              onClick={() => {cookies.remove("token") ; localStorage.removeItem("token")}}
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left"
+              role="menuitem"
+            >
+              Sign Out
+            </button>
+            }
             <button
               onClick={() => setModalVisible(true)}
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left"
@@ -270,8 +285,19 @@ function WalletDropdown({ publicKey, signAndSend }) {
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left"
               role="menuitem"
             >
-              Disconnect
+              Disconnect wallet
             </button>
+             {
+              localStorage.getItem("token") && (
+                <button
+              onClick={() => router.push("/dashboard/currentBounties")}
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left"
+              role="menuitem"
+            >
+              Dashboard
+            </button>
+              )
+            }
           </div>
         </div>
       )}
