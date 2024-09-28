@@ -5,10 +5,11 @@ import { cookies } from "next/headers";
 export const runtime = 'edge';
 
 export const POST = async (req: NextRequest) => {
-    const { type, name, description, interval, questions, imageUrl, amount }: {
+    const { type, name, description, interval, questions, imageUrl, amount, submitText }: {
         type: "Grant" | "Project" | "Bounty",
         name: string,
         description: string,
+        submitText: string,
         interval: string,
         questions: {
             question: string,
@@ -17,6 +18,8 @@ export const POST = async (req: NextRequest) => {
         imageUrl: string,
         amount: number
     } = await req.json();
+
+    console.log(submitText);
   
     const token = cookies().get("token")
     
@@ -52,7 +55,8 @@ export const POST = async (req: NextRequest) => {
                     hostId: userId as number,
                     types: typeArr,
                     imageUrl,
-                    amount
+                    amount,
+                    submitText
                 }
             })
 

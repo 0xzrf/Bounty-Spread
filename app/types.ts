@@ -12,5 +12,6 @@ export const createBountyType = z.object({
     name: z.string(),
     description: z.string(),
     interval: z.string(),
-    amount: z.number()
+    amount: z.number(),
+    submitText: z.string()
 })

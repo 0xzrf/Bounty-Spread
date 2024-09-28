@@ -311,7 +311,7 @@ export default function NewBounty({
               <div className="flex justify-start">
                 <button
                   className={`rounded-lg text-white font-bold text-lg p-4 transition-colors ${
-                    isSubmitting || !selectedValue || questions.length === 0 || textInput === "" || description === "" || dateTime === "" || !imagePreview || freeRemaining <= 0
+                    isSubmitting || !selectedValue || questions.length === 0 || textInput === "" || description === "" || dateTime === "" || !imagePreview || freeRemaining <= 0 || !submitText
                       ? "bg-gray-400 cursor-not-allowed"
                       : "bg-emerald-400 hover:bg-emerald-500"
                   }`}
@@ -326,8 +326,10 @@ export default function NewBounty({
                         description,
                         interval: dateTime,
                         amount,
+                        submitText
                       });
 
+                      console.log(formData.data); 
                       if (!formData.success) {
                         toast("Validation failed!");
                         console.log(formData.error.message);
@@ -347,8 +349,8 @@ export default function NewBounty({
 
                       toast("Blink in queue to be verified⏱️");
                       setTimeout(() => {
+                        router.push("/dashboard/currentBounties");
                       }, 3000)
-                      router.push("/dashboard/currentBounties");
                     } catch (error) {
                       console.error("Error submitting form:", error);
                       toast("An error occurred while submitting the form");

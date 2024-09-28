@@ -47,6 +47,7 @@ export const GET = async (req: NextRequest) => {
       imageUrl: true,
       isActive: true,
       isVerified: true,
+      submitText: true,
     },
   });
 
@@ -118,7 +119,7 @@ export const GET = async (req: NextRequest) => {
       actions: [
         {
           href: `/api/app/actions?id=${id}&email={email}&data=${str}`,
-          label: `Submit & win ${userData?.amount} USD`,
+          label:  userData?.submitText as string,
           parameters: params,
         },
       ],
