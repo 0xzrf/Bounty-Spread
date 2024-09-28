@@ -144,16 +144,18 @@ export default function NewBounty({
               ? "Choose the type of blink"
               : <h1>Write a description for your {selectedValue}<span className="text-red-500">*</span></h1>}
           </label>
-          <input
+          <textarea
             id="textInput"
-            type="text"
             value={description}
-            onChange={(e: any) => {
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
               setDescription(e.target.value);
+              e.target.style.height = 'auto';
+              e.target.style.height = `${e.target.scrollHeight}px`;
             }}
-            className="block w-full p-2.5 bg-zinc-700 text-white border border-emerald-400 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400"
+            className="block w-full p-2.5 bg-zinc-700 text-white border border-emerald-400 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400 overflow-hidden"
             placeholder="Enter some text"
             disabled={selectedValue === ""}
+            style={{ minHeight: '100px', resize: 'none' }}
           />
           <label htmlFor="textInput" className="block text-lg mt-4 mb-2">
             {selectedValue === ""
@@ -329,7 +331,7 @@ export default function NewBounty({
                         submitText
                       });
 
-                      console.log(formData.data); 
+                      console.log(formData.data);
                       if (!formData.success) {
                         toast("Validation failed!");
                         console.log(formData.error.message);
@@ -359,7 +361,7 @@ export default function NewBounty({
                     }
                   }}
                   disabled={
-                    isSubmitting || !selectedValue || questions.length === 0 || textInput === "" || description === "" || dateTime === "" || !imagePreview || freeRemaining <= 0
+                    isSubmitting || !selectedValue || questions.length === 0 || textInput === "" || description === "" || dateTime === "" || !imagePreview
                   }
                 >
                   {isSubmitting ? (
@@ -370,11 +372,7 @@ export default function NewBounty({
                       </svg>
                       Submitting...
                     </span>
-                  ) : freeRemaining <= 0 ? (
-                    "Pay $7"
-                  ) : (
-                    "Submit Blink"
-                  )}
+                  ) : "Sumbit blink"}
                 </button>
               </div>
               

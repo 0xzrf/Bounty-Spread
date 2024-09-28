@@ -16,9 +16,20 @@ const Card = ({ name,imageUrl, description, inputContent, submitText, className 
             </div>
 
             {/* Description */}
-            <p className="text-gray-400 text-xs sm:text-sm mb-4">
-                {description == '' ? '<Blink Description>' : description}
-            </p>
+            <textarea 
+                value={description == '' ? '<Blink Description>' : description} 
+                disabled 
+                className="text-gray-400 bg-[#1F2226] w-full border-none text-xs sm:text-sm mb-4 resize-none overflow-hidden"
+                style={{ height: 'auto', minHeight: '2rem' }}
+                ref={(textareaRef) => {
+                    if (textareaRef) {
+                        textareaRef.style.height = 'auto';
+                        textareaRef.style.height = textareaRef.scrollHeight + 'px';
+                    }
+                }}
+            >
+                
+            </textarea>
 
             {/* Form */}
             <form className="space-y-3 sm:space-y-4">
