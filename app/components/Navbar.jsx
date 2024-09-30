@@ -6,7 +6,6 @@ import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { Menu, X } from 'lucide-react';
 import {toast, Toaster} from "sonner"
@@ -21,8 +20,9 @@ function Navbar({scrollToMarquees, scrollToFeatures}) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef(null);
+  const cookies = useCookies();
 
-  const cookie = Cookies.get("token");
+  const cookie = cookies.get("token");
 
   async function signAndSend() {
     try {
@@ -78,6 +78,8 @@ function Navbar({scrollToMarquees, scrollToFeatures}) {
         setIsMobileMenuOpen(false);
       }
     };
+
+    if (!cookies.get("token")) localStorage.removeItem("token")
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -187,6 +189,7 @@ function Navbar({scrollToMarquees, scrollToFeatures}) {
 export default Navbar;
 
 function WalletDropdown({ publicKey, signAndSend }) {
+  const router = useRouter()
   const cookies = useCookies();
   const [isOpen, setIsOpen] = useState(false);
   const { setVisible: setModalVisible } = useWalletModal();
@@ -253,7 +256,7 @@ function WalletDropdown({ publicKey, signAndSend }) {
             aria-orientation="vertical"
             aria-labelledby="options-menu"
           >
-            {(publicKey != "Signin" && !localStorage.getItem("token")) && (
+            {(publicKey != "Signin" && !localStorage.getItem("token") && !cookies.get("token")) && (
               <button
                 onClick={handleSignIn}
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left"
@@ -264,7 +267,7 @@ function WalletDropdown({ publicKey, signAndSend }) {
               </button>
             )}
             {
-              (publicKey != "Signin" && localStorage.getItem("token") )&& 
+              (publicKey != "Signin" && localStorage.getItem("token") && cookies.get("token") )&& 
               <button
               onClick={() => {cookies.remove("token") ; localStorage.removeItem("token")}}
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left"
@@ -288,7 +291,7 @@ function WalletDropdown({ publicKey, signAndSend }) {
               Disconnect wallet
             </button>
              {
-              localStorage.getItem("token") && (
+              (localStorage.getItem("token") && cookies.get("token")) && (
                 <button
               onClick={() => router.push("/dashboard/currentBounties")}
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left"
