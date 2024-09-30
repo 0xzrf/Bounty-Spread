@@ -30,12 +30,12 @@ model Bounties {
   name        String              @unique
   amount      Int
   imageUrl    String
-  isVerified  Boolean             @default(false)
+  isVerified  Boolean             @default(true)
   type        String
   sumbissions BountySubmissions[]
   description String
   createdAt   DateTime            @default(now())
-  isActive    Boolean             @default(false)
+  isActive    Boolean             @default(true)
   interval    DateTime
   hostId      Int
   hostRel     Host                @relation(fields: [hostId], references: [id])

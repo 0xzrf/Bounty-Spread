@@ -152,7 +152,7 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
   return (
     <div className="flex flex-col gap-10 min-h-screen w-full">
       {/* Unverified Bounties */}
-      <div className="w-full bg-zinc-900 p-4 min-h-[50vh] rounded-lg shadow-md">
+      {/* <div className="w-full bg-zinc-900 p-4 min-h-[50vh] rounded-lg shadow-md">
         <h2 className="text-emerald-500 font-semibold mb-4">
           Unverified Bounties
         </h2>
@@ -186,12 +186,12 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
           </thead>
           <tbody>{renderTableContent(unverifiedBounties)}</tbody>
         </table>
-      </div>
+      </div> */}
 
       {/* Verified Bounties */}
       <div className="w-full bg-zinc-900 p-4 min-h-[50vh] rounded-lg shadow-md">
         <h2 className="text-emerald-500 font-semibold mb-4">
-          Verified Bounties
+          Active Bounties
         </h2>
         <div className="flex justify-between mb-4">
           {(["Grant", "Project", "Bounty"] as BountyType[]).map((type) => (

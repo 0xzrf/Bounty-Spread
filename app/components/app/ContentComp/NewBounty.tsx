@@ -357,7 +357,7 @@ export default function NewBounty({
                         return;
                       }
 
-                      toast("Blink in queue to be verified⏱️");
+                      toast("Your blink is ready✅");
                       setTimeout(() => {
                         router.push("/dashboard/currentBounties");
                       }, 3000)
