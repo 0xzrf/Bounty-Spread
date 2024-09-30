@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
         })
 
         const token = await jwt.sign({ email }, JWT_SECRET);
-        cookies().set("token", token);
+        cookies().set("token", token, { maxAge: 60 * 60 * 24 * 7 });
     } catch (err: any) {
         console.log(err);
         return NextResponse.json({ msg: err.message })

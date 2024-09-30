@@ -41,7 +41,7 @@ export const POST = async (req: NextRequest) => {
 
     const token = await jwt.sign({ email: isUser.email }, JWT_SECRET as string)
 
-    cookies().set("token", token)
+    cookies().set("token", token, { maxAge: 60 * 60 * 24 * 7 })
 
     return NextResponse.json({
         msg: "Successfully Signed in",
