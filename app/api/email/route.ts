@@ -2,6 +2,8 @@ import { type NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import Mail from 'nodemailer/lib/mailer';
 
+export const runtime = 'edge';
+
 export interface incomingData {
   email: string,
   type: string,
