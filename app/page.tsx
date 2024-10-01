@@ -13,6 +13,7 @@ import { useEffect, useState, useRef } from 'react';
 import LocomotiveScroll from "locomotive-scroll";
 import { Action, Blink, useAction } from "@dialectlabs/blinks";
 import { useActionSolanaWalletAdapter } from "@dialectlabs/blinks/hooks/solana"
+import { FormDemo } from "./components/Form";
 
 export const runtime = "edge";
 
@@ -115,6 +116,7 @@ export default function Home() {
           <div className="mt-10 lg:mt-40 xl:mt-20" ref={featureRef}>
             <Products />
           </div>
+          <FormDemo header="Give your feedback" subheader="We prioritize your feedback to improve our product." secondText="Feedback"/>
           <Footer />
         </div>
           );
