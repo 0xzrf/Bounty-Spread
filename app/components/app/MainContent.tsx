@@ -8,6 +8,7 @@ import axios from "axios";
 import {toast, Toaster} from "sonner"
 import Cookies from "js-cookie";
 import DispenseBounty from "./ContentComp/DispenseBounty";
+import Integrate from "../Integrate";
 export const runtime = "edge";
 
 type Bounty = {
@@ -72,7 +73,8 @@ export default function MainContent({
         return <Admin userEmail={userData?.email} />;
       case "dispenseBounty":
         return <DispenseBounty isPaid={userData?.isPaid as boolean} />
-      
+      case "integrate":
+        return <Integrate />
       default:
         return <Welcome />;
     }

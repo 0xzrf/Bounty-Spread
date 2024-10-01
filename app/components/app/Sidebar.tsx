@@ -103,6 +103,25 @@ export default function Sidebar({
                 <span className="ml-4">Dispense Bounties</span>
               </div>
             </li>
+            <li>
+              <div
+                className={`flex items-center p-3 hover:cursor-pointer rounded-lg text-white transition group ${selectedButton == "dispenseBounty" && "bg-emerald-400"
+                  }`}
+                onClick={() => router.push("/dashboard/integrate")}
+              >
+                <svg
+                  className="w-6 h-6 text-gray-400 transition duration-150 group-hover:text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2Zm1 13h-2v-4H8l4-4 4 4h-3Z" />
+                  <path d="M12 4a8 8 0 1 1-8 8 8.011 8.011 0 0 1 8-8m0-2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2Z" />
+                </svg>
+                <span className="ml-4">Integrate BountySpread</span>
+              </div>
+            </li>
           </ul>
           <div className="relative w-full h-full">
             <div className="flex h-full justify-end w-full items-end">

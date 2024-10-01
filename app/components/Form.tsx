@@ -8,7 +8,7 @@ import {toast, Toaster} from "sonner";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
-export function FormDemo({header, subheader, secondText,}: {header: string, subheader: string, secondText: string}) {
+export function FormDemo({header, subheader, secondText, className}: {header: string, subheader: string, secondText: string, className?: string}) {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false); // Add loading state
@@ -31,7 +31,7 @@ export function FormDemo({header, subheader, secondText,}: {header: string, subh
   };
 
   return (
-    <div className="max-w-md mt-8 w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-zinc-900 border border-zinc-800">
+    <div className={`max-w-md mt-8 w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-zinc-900 border border-zinc-800 ${className && className}`}>
       <h2 className="font-bold text-xl text-neutral-200">
         {header}
       </h2>
