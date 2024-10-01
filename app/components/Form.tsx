@@ -1,31 +1,35 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Label } from "@/components/ui/ace-label";
 import { Input } from "@/components/ui/ace-input";
 import { cn } from "@/lib/utils";
-import {
-  IconBrandGithub,
-  IconBrandGoogle,
-  IconBrandOnlyfans,
-} from "@tabler/icons-react";
-// on the onSubmit function just call the function from other file:
-// sendEmail(formData);
-
-import { sendEmail } from "@/lib/send-email";
+import axios from "axios";
+import {toast, Toaster} from "sonner";
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 
-// the type we are gonna make for email make them formData interface.
-export type formData = {
-    email: string;
-    message: string;
-}
+export function FormDemo({header, subheader, secondText,}: {header: string, subheader: string, secondText: string}) {
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false); // Add loading state
 
+  const handleSubmit = async () => {
+    setLoading(true); // Set loading to true when submit starts
+    const data = {email, message, type: secondText == "Feedback"?"Feedback":"Integration request"}
+    const response = await axios.post('/api/email', data);
 
-export function FormDemo({header, subheader, secondText}: {header: string, subheader: string, secondText: string}) {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("Form submitted");
+    if(!response?.data?.success){
+        toast.error("Form not submitted. Please try again.");
+        setLoading(false); // Set loading to false if submission fails
+        return;
+    }
+
+    toast.success("Form submitted successfully!");
+    setLoading(false); // Set loading to false after success
+    console.log(data);
+    console.log(email, message);
   };
+
   return (
     <div className="max-w-md mt-8 w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-zinc-900 border border-zinc-800">
       <h2 className="font-bold text-xl text-neutral-200">
@@ -39,19 +43,32 @@ export function FormDemo({header, subheader, secondText}: {header: string, subhe
 
         <LabelInputContainer className="mb-4">
           <Label htmlFor="email">Email Address</Label>
-          <Input id="email" placeholder="johndoe@gmail.coms" type="email" />
+          <Input value={email} onChange={(e) => setEmail(e.target.value)} id="email" placeholder="johndoe@gmail.coms" type="email"  />
         </LabelInputContainer>  
         <LabelInputContainer className="mb-4">
           <Label htmlFor="password">{secondText}</Label>
-          <Input id="password" placeholder="The site looks awesome!" type="password" />
+          <Input value={message} onChange={(e) => setMessage(e.target.value)} id="password" placeholder="The site looks awesome!" />
         </LabelInputContainer>
         <div className="bg-gradient-to-r from-transparent via-neutral-700 to-transparent my-8 h-[1px] w-full" />
         <div className="flex justify-center">
-            <Button className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105">
+          {loading ? (
+            <Button className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out transform hover:scale-105">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
+              >
+                Loading...
+              </motion.div>
+            </Button>
+          ) : (
+            <Button disabled={!email || !message} onClick={e => {e.preventDefault(); handleSubmit()}} className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105">
               Submit
             </Button>
-          </div> 
+          )}
+        </div> 
       </form>
+      <Toaster />
     </div>
   );
 }
