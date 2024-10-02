@@ -1,5 +1,4 @@
 /** @type {import('next').NextConfig} */
-const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 const nextConfig = {
   reactStrictMode: false,
@@ -12,24 +11,7 @@ const nextConfig = {
     domains: [
       "api.microlink.io", // Microlink Image Preview
     ],
-  },
-  webpack: (config, { isServer }) => {
-    // Add polyfills only for client-side code
-    if (!isServer) {
-      config.resolve.fallback = {
-        fs: false, // Since 'fs' is server-side only, we explicitly disable it
-        net: false, // Disabling unnecessary modules for client-side
-        tls: false,
-        crypto: require.resolve("crypto-browserify"),
-      };
-
-      // Apply the NodePolyfillPlugin
-      config.plugins.push(new NodePolyfillPlugin());
-    }
-
-    return config;
   }
-  
 };
 
 if (process.env.NODE_ENV === 'development') {

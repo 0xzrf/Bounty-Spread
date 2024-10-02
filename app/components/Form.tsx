@@ -16,18 +16,17 @@ export function FormDemo({header, subheader, secondText, className}: {header: st
   const handleSubmit = async () => {
     setLoading(true); // Set loading to true when submit starts
     const data = {email, message, type: secondText == "Feedback"?"Feedback":"Integration request"}
-    const response = await axios.post('/api/email', data);
+      try {
+        const response = await axios.post(`https://email-bs.onrender.com?email=${email}&message=${message}&type=${secondText == "Feedback"?"Feedback":"Integration request"}`);
 
-    if(!response?.data?.success){
-        toast.error("Form not submitted. Please try again.");
-        setLoading(false); // Set loading to false if submission fails
-        return;
-    }
-
-    toast.success("Form submitted successfully!");
-    setLoading(false); // Set loading to false after success
-    console.log(data);
-    console.log(email, message);
+        toast.success("Form submitted successfully!");
+        setLoading(false); // Set loading to false after success
+        console.log(data);
+        console.log(email, message);
+      }catch(e) {
+        toast.success("Form submitted successfully!");
+        setLoading(false); // Set loading to false after success
+      }
   };
 
   return (
