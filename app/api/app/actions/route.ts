@@ -185,6 +185,7 @@ export async function POST(req: NextRequest) {
         candidPubKey: userKey,
         question: question?.questions as string[],
         answers: answer,
+        username: username as string,
       },
     });
 

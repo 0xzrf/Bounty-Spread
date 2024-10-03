@@ -3,6 +3,9 @@ import { clusterApiUrl, Connection, PublicKey, SystemProgram, Transaction } from
 import { ActionGetResponse, ActionPostRequest, ActionPostResponse, ACTIONS_CORS_HEADERS, ActionParameter, ActionParameterType, LinkedAction } from "@solana/actions";
 import { prisma } from "@/lib/utils";
 import { number } from "zod";
+import { BN, Program, web3 } from "@coral-xyz/anchor";
+import IDL from "@/app/components/app/programData/idl.json";
+import { DispenserProgram } from "@/app/components/app/programData/type";
 
 interface STBody {
     listingId: string,
@@ -33,7 +36,8 @@ export const GET = async (req: NextRequest) => {
             isActive: true,
             isVerified: true,
             winners: true,
-            prizes: true
+            prizes: true,
+            usernames: true
         }
     })
 
@@ -53,12 +57,21 @@ export const GET = async (req: NextRequest) => {
         })
     }
 
+    let actions = [] as LinkedAction[];
+
+    for (let i = 0; i < userData?.winners.length; i++) {
+        actions.push({
+            href: `/api/app/actions?id=${id}}`,
+            label: `${userData?.winners[i].slice(0, 3) + "..." + userData?.winners[i].slice(40, -1)}`,
+        })
+    }
+
     try {
         const response: ActionGetResponse = {
             icon: userData?.imageUrl as string,
             title: userData?.name as string,
             label: "Ignored",
-            description: "Congratulations to all the winners! || Claim your prize",
+            description: `Congratulations to all the winners! || Respective winners can claim their prizes: ${userData?.usernames.join(", ")}`,
             links: {
                 actions: [
                     {

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
-
 type BountyType = "Grant" | "Project" | "Bounty";
 export const runtime = "edge";
 
@@ -124,7 +123,7 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
         <td className="py-2 px-4 border-t border-zinc-700">{bounty.name}</td>
         <td className="py-2 px-4 border-t border-zinc-700">{bounty.type}</td>
         <td className="py-2 px-4 border-t border-zinc-700">
-          {bounty.isActive ? "Yes" : "No"}
+          Yes
         </td>
         <td className="py-2 px-4 border-t border-zinc-700">
           {formatDate(bounty.createdAt)}

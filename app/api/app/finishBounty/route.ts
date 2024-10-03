@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 export const runtime = "edge"
 
 export const POST = async (req: NextRequest) => {
-    const {id, winners, prizes, escrowId} : {id: string, winners: string[], prizes: number[], escrowId: number} = await req.json();
+    const {id, winners, prizes, escrowId, usernames} : {id: string, winners: string[], prizes: number[], escrowId: number, usernames: string[]} = await req.json();
     
     if (!id || winners.length == 0 || prizes.length == 0 || winners.length != prizes.length) {
         return NextResponse.json({
@@ -32,7 +32,8 @@ export const POST = async (req: NextRequest) => {
                 isActive: false,
                 winners,
                 prizes,
-                escrow_id: escrowId
+                escrow_id: escrowId,
+                usernames: usernames as string[]
             }
         })
         

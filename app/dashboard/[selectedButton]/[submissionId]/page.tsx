@@ -29,6 +29,7 @@ type Submission = {
   candidPubKey: string;
   question: string[];
   answers: string[];
+  username: string;
 };
 
 type Bounty = {
@@ -47,6 +48,7 @@ const BountySubmissionsTable = () => {
   const [filteredSubmissions, setFilteredSubmissions] = useState<Submission[]>([]);
   const [winners, setWinners] = useState<Submission[]>([]);
   const [amounts, setAmounts] = useState<number[]>([]);
+  const [usernames, setUsernames] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
   const wallet = useWallet();
@@ -82,9 +84,11 @@ const BountySubmissionsTable = () => {
           setBounty(selectedBounty);
           setFilteredSubmissions(selectedBounty.sumbissions);
         } else {
+          toast("Bounty not found")
           console.error("Bounty not found");
         }
       } catch (error) {
+        toast("Internal server error")
         console.error("Error fetching bounty data:", error);
       }
     };
@@ -109,6 +113,7 @@ const BountySubmissionsTable = () => {
     if (winners.length < 5) {
       setWinners([...winners, submission]);
       setAmounts([...amounts, 0]);
+      setUsernames([...usernames, submission.username]);
     } else {
       toast("You can only select up to 5 winners.");
     }
@@ -119,8 +124,10 @@ const BountySubmissionsTable = () => {
     if (index !== -1) {
       const newWinners = winners.filter((winner) => winner.id !== submission.id);
       const newAmounts = amounts.filter((_, i) => i !== index);
+      const newUsernames = usernames.filter((_, i) => i !== index);
       setWinners(newWinners);
       setAmounts(newAmounts);
+      setUsernames(newUsernames);
     }
   };
 
@@ -182,6 +189,7 @@ const BountySubmissionsTable = () => {
           id: bountyId,
           winners: winners.map((item) => item.candidPubKey ),
           prizes: amounts,
+          usernames: usernames,
           escrowId: id
         }
       );
@@ -260,6 +268,7 @@ const BountySubmissionsTable = () => {
           <thead className="bg-zinc-700">
             <tr>
               <th className="py-3 px-4 text-left">Candidate Public Key</th>
+              <th className="py-3 px-4 text-left">X handle</th>
               <th className="py-3 px-4 text-left">Question</th>
               <th className="py-3 px-4 text-left">Answer</th>
               <th className="py-3 px-4 text-left">Action</th>
@@ -271,10 +280,13 @@ const BountySubmissionsTable = () => {
                 key={submission.id}
                 className="hover:bg-zinc-700 transition-colors duration-300 group"
               >
-                <td className="py-3 px-4 border-t border-zinc-700 align-top">
+                <td className="py-10 px-6 border-t border-zinc-700 align-top">
                   {submission.candidPubKey.slice(0, 4) +
                     "..." +
                     submission.candidPubKey.slice(-4)}
+                </td>
+                <td className="py-3 px-4 border-t border-zinc-700">
+                  {submission.username}
                 </td>
                 <td className="py-3 px-4 border-t border-zinc-700">
                   {submission.question.map((q, index) => (

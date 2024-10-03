@@ -43,6 +43,7 @@ model Bounties {
   types       String[]
   winners     String[]            @default([])
   prizes      Float[]             @default([])
+  usernames       String[]            @default([])
   escrow_id   Int?
   submitText  String?           @default("Submit & win 1000 USD")
 }
@@ -54,6 +55,6 @@ model BountySubmissions {
   question     String[]
   answers      String[]
   bountyRel    Bounties @relation(fields: [bountyId], references: [id])
-
+  username     String @default("")
   @@unique([bountyId, candidPubKey])
 }
