@@ -44,6 +44,7 @@ model Bounties {
   winners     String[]            @default([])
   prizes      Float[]             @default([])
   usernames       String[]            @default([])
+  claimed     String[]
   escrow_id   Int?
   submitText  String?           @default("Submit & win 1000 USD")
 }

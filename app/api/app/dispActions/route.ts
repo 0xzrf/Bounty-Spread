@@ -116,7 +116,42 @@ export async function POST(req: NextRequest) {
     hostId = parseInt(hostId as string)
     const escrowIdBN = new BN(parseInt(escrowId as string))
     const user = new PublicKey(userKey);
+
+    const bountyInfo = await prisma.bounties.findFirst({
+        where: {
+            id: id as string
+        },
+        select: {
+            claimed: true,
+            winners: true
+        }
+    })
+
+    if (bountyInfo?.claimed.includes(userKey)) {
+        return NextResponse.json({
+            transaction: "serialTx",
+            message: "Already claimed"
+        }, {
+            headers: ACTIONS_CORS_HEADERS,
+            status: 403
+        })
+    }
     
+    if (bountyInfo?.claimed.length == bountyInfo?.winners.length) {
+        await prisma.bounties.delete({
+            where: {
+                id: id as string
+            }
+        })
+        return NextResponse.json({
+            transaction: "serialTx",
+            message: "Bounty finished"
+        }, {
+            headers: ACTIONS_CORS_HEADERS,
+            status: 403
+        })
+    }
+
     try {
         const hostInfo = await prisma.host.findFirst({
             where: {
@@ -153,6 +188,18 @@ export async function POST(req: NextRequest) {
           instructions: [ix],
         }).compileToV0Message();
         const transaction = new web3.VersionedTransaction(messageV0);
+
+        await prisma.bounties.update({
+            where: {
+                id: id as string
+            },
+            data: {
+                claimed: {
+                    push: userKey
+                },
+
+            }
+        })
 
           const response: ActionPostResponse = await createPostResponse({
             fields: {
