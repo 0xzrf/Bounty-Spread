@@ -19,7 +19,10 @@ export default function RootLayout({ children }) {
         />
       </head>
       <AppWalletProvider>
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          {children}
+          <script src="https://widget.mercuryo.io/embed.2.0.js"></script>
+        </body>
       </AppWalletProvider>
     </html>
   );

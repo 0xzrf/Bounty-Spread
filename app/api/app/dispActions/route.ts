@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import { clusterApiUrl, Connection, PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
-import { ActionGetResponse, ActionPostRequest, ActionPostResponse, ACTIONS_CORS_HEADERS, ActionParameter, ActionParameterType, LinkedAction } from "@solana/actions";
+import { clusterApiUrl, Connection, PublicKey, SystemProgram, Transaction, Keypair } from "@solana/web3.js";
+import { ActionGetResponse, ActionPostRequest, ActionPostResponse, ACTIONS_CORS_HEADERS, ActionParameter, ActionParameterType, LinkedAction, createPostResponse } from "@solana/actions";
 import { prisma } from "@/lib/utils";
 import { number } from "zod";
 import { BN, Program, web3 } from "@coral-xyz/anchor";
 import IDL from "@/app/components/app/programData/idl.json";
 import { DispenserProgram } from "@/app/components/app/programData/type";
+const idlObject = JSON.parse(JSON.stringify(IDL))
+const connection = new web3.Connection("https://api.devnet.solana.com")
+const program = new Program<DispenserProgram>(idlObject, {
+    connection
+})
 
 interface STBody {
     listingId: string,
@@ -37,7 +42,9 @@ export const GET = async (req: NextRequest) => {
             isVerified: true,
             winners: true,
             prizes: true,
-            usernames: true
+            escrow_id: true,
+            usernames: true,
+            hostId: true
         }
     })
 
@@ -75,7 +82,7 @@ export const GET = async (req: NextRequest) => {
             links: {
                 actions: [
                     {
-                        href: `/api/app/dispActions?id=${id}`,
+                        href: `/api/app/dispActions?id=${id}&escrow_id=${userData?.escrow_id}&hostId=${userData?.hostId}`,
                         label: "Claim Prize",
                     }
                 ]
@@ -102,51 +109,72 @@ export async function POST(req: NextRequest) {
     const userKey = postRequest.account;
 
     const { searchParams } = req.nextUrl;
-
+    console.log("started the post request of dispAction")
     const id = searchParams.get("id");
-    console.log("id:", id);
-
+    const escrowId = searchParams.get("escrow_id");
+    let hostId:number | string = searchParams.get("hostId") as string;
+    hostId = parseInt(hostId as string)
+    const escrowIdBN = new BN(parseInt(escrowId as string))
     const user = new PublicKey(userKey);
-
-    const connection = new Connection("https://solana-devnet.g.alchemy.com/v2/OT4gR7dGMvcc2SUrdEm4RCtrq0j2YkUL");
-    const ix = SystemProgram.transfer({
-        fromPubkey: user,
-        toPubkey: new PublicKey("9Y3AbEzFsfdBy9FFVy4oSnQbiNT6uLKw2nc8CxUboDnm"),
-        lamports: 100
-    })
-    const tx = new Transaction();
-    tx.feePayer = user;
-    const bh = (await connection.getLatestBlockhash({ commitment: "finalized" })).blockhash;
-    console.log(`blockhash ${bh}`)
-    tx.recentBlockhash = bh
-    const serialTx = tx.serialize({ requireAllSignatures: false, verifySignatures: false }).toString("base64");
-
+    
     try {
+        const hostInfo = await prisma.host.findFirst({
+            where: {
+                id: hostId
+            },
+            select: {
+                publicKey: true
+            }
+        })
+        const hostBuffer = new PublicKey(hostInfo?.publicKey as string)
+        const [escrowPda, escrowBump] = await web3.PublicKey.findProgramAddress(
+            [Buffer.from("escrow"), hostBuffer.toBuffer(), escrowIdBN?.toArrayLike(Buffer, "le", 8)], 
+            program.programId
+          );
+          const [vaultPda, vaultBump] = await web3.PublicKey.findProgramAddress(
+            [Buffer.from("escrow_vault"), hostBuffer.toBuffer(), escrowIdBN.toArrayLike(Buffer, "le", 8)],
+            program.programId
+          );
 
+        const ix = await program.methods.withdrawPrize(escrowIdBN, new PublicKey(userKey))
+          .accountsStrict({
+            escrow: escrowPda,
+            escrowVault: vaultPda,
+            winner: new PublicKey(userKey),
+            systemProgram: web3.SystemProgram.programId,
+          })
+          .instruction()
+          const blockhash = await connection
+          .getLatestBlockhash({ commitment: "max" })
+          .then((res) => res.blockhash);
+        const messageV0 = new web3.TransactionMessage({
+          payerKey: new PublicKey(userKey),
+          recentBlockhash: blockhash,
+          instructions: [ix],
+        }).compileToV0Message();
+        const transaction = new web3.VersionedTransaction(messageV0);
+
+          const response: ActionPostResponse = await createPostResponse({
+            fields: {
+                transaction,
+                message: "Claimed reward"
+            }
+          })
+
+          return NextResponse.json(response, {
+            headers: ACTIONS_CORS_HEADERS
+          });
 
     } catch (err) {
-        console.error(err)
+        console.error("An error occured", err)
         return NextResponse.json({
-            transaction: serialTx,
-            message: "Failed to participate"
+            transaction: "serialTx",
+            message: "Failed to claim reward"
         }, {
             headers: ACTIONS_CORS_HEADERS,
             status: 403
         })
     }
-
-    console.log(userKey);
-
-
-
-    const response: ActionPostResponse = {
-        transaction: serialTx,
-        message: "Form submitted!!",
-
-    }
-
-
-    return NextResponse.json(response, { headers: ACTIONS_CORS_HEADERS });
 }
 
 export async function OPTIONS(req: Request) {

@@ -17,7 +17,7 @@ export function FormDemo({header, subheader, secondText, className}: {header: st
     setLoading(true); // Set loading to true when submit starts
     const data = {email, message, type: secondText == "Feedback"?"Feedback":"Integration request"}
       try {
-        const response = await axios.post(`https://email-bs.onrender.com?email=${email}&message=${message}&type=${secondText == "Feedback"?"Feedback":"Integration request"}`);
+        const response = await axios.post(`http://email-bs.onrender.com?email=${email}&message=${message}&type=${secondText == "Feedback"?"Feedback":"Integration request"}`);
 
         toast.success("Form submitted successfully!");
         setLoading(false); // Set loading to false after success
