@@ -69,7 +69,7 @@ const TrialBounty: React.FC = () => {
 
   return (
     <div className="mt-20 md:mt-40 px-4 md:px-0">
-      <h2 className="text-zinc-100 rounded-md font-bold text-4xl md:text-6xl mb-6 md:mb-10 text-center">Try creating your own Blink!</h2>
+      <h2 className="text-zinc-100 rounded-xl font-bold text-4xl md:text-6xl mb-6 md:mb-10 text-center">Try creating your own Blink!</h2>
       {
         action ?
           <div className="flex justify-center items-center">
@@ -80,87 +80,88 @@ const TrialBounty: React.FC = () => {
           :
           <div className="flex flex-col md:flex-row bg-zinc-800 text-zinc-100 min-h-[55vh] p-1">
             {/* Left Section */}
-            <div className="w-full md:w-[30vw] p-4 border-b md:border-b-0 md:border-r border-zinc-700">
-              <h2>
-                Name*
-              </h2>
-              <input
-                className="w-full bg-zinc-700 p-2 rounded focus:outline-none focus:ring-2 focus:ring-emerald-400"
-                maxLength={70}
-                placeholder="Bounty Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-
-              <h2>
-                Description*
-              </h2>
-              <input
-                className="w-full bg-zinc-700 p-2 rounded focus:outline-none focus:ring-2 focus:ring-emerald-400"
-                maxLength={70}
-                placeholder="Bounty Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-              <h2>
-                Submit Text*
-              </h2>
-              <input
-                className="w-full bg-zinc-700 p-2 rounded focus:outline-none focus:ring-2 focus:ring-emerald-400"
-                maxLength={70}
-                placeholder="Submit Text"
-                value={submitText}
-                onChange={(e) => setSubmitText(e.target.value)}
-              />
-
-              <h2 className="font-bold mb-2">Input</h2>
-              <div className="relative">
-                <button
-                  className="w-full bg-zinc-700 p-2 rounded flex justify-between items-center hover:bg-zinc-600 transition-colors"
-                  onClick={() => setShowDropdown(!showDropdown)}
-                >
-                  {selectedType || 'Select input type'}
-                  <ChevronDown size={20} />
-                </button>
-                {showDropdown && (
-                  <div className="absolute w-full bg-zinc-700 mt-1 rounded shadow-lg">
-                    {['email', 'number', 'text'].map((type) => (
-                      <div
-                        key={type}
-                        className="p-2 hover:bg-zinc-600 cursor-pointer transition-colors"
-                        onClick={() => handleTypeSelect(type as InputType)}
-                      >
-                        {type}
-                      </div>
-                    ))}
+            <div className="w-full md:w-[30vw] space-y-4 p-4 border-b md:border-b-0 md:border-r border-zinc-700">
+              <div>
+                <h2 className="text-lg"> 
+                  Name<span className="text-red-500">*</span>
+                </h2>
+                <input
+                  className="w-full bg-zinc-700 p-2 rounded focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                  maxLength={70}
+                  placeholder="Solana & CoinDCX Grant"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+            <div>
+                <h2 className="text-lg">
+                  Description<span className="text-red-500">*</span>
+                </h2>
+                <input
+                  className="w-full bg-zinc-700 p-2 rounded focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                  maxLength={70}
+                  placeholder="Bring Solana to the masses"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              
+            </div>
+              <div>
+                <h2 className="text-lg">
+                  Submit Text<span className="text-red-500">*</span>
+                </h2>
+                <input
+                  className="w-full bg-zinc-700 p-2 rounded focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                  maxLength={70}
+                  placeholder="Build the next Solana app and win $1000"
+                  value={submitText}
+                  onChange={(e) => setSubmitText(e.target.value)}
+                />
+              </div>
+              <div>
+                <h2 className="font-bold text-lg mb-2">Input</h2>
+                <div className="relative">
+                  <button
+                    className="w-full bg-zinc-700 p-2 rounded flex justify-between items-center hover:bg-zinc-600 transition-colors"
+                    onClick={() => setShowDropdown(!showDropdown)}
+                  >
+                    {selectedType || 'Select input type'}
+                    <ChevronDown size={20} />
+                  </button>
+                  {showDropdown && (
+                    <div className="absolute w-full bg-zinc-700 mt-1 rounded shadow-lg">
+                      {['email', 'number', 'text'].map((type) => (
+                        <div
+                          key={type}
+                          className="p-2 hover:bg-zinc-600 cursor-pointer transition-colors"
+                          onClick={() => handleTypeSelect(type as InputType)}
+                        >
+                          {type}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                {selectedType && (
+                  <div className="mt-4">
+                    <input
+                      className="w-full bg-zinc-700 p-2 rounded focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                      maxLength={70}
+                      placeholder={selectedType === 'button' ? 'Button text' : 'Input label'}
+                      value={inputText}
+                      onChange={handleInputChange}
+                    />
+                    <button
+                      onClick={handleCheckClick}
+                      className="mt-2 bg-emerald-400 text-zinc-800 p-2 rounded w-full flex justify-center items-center hover:bg-emerald-300 transition-colors"
+                    >
+                      <Check size={20} />
+                    </button>
                   </div>
                 )}
               </div>
-              <h2 className="font-bold mt-4 mb-2">Button</h2>
-              <button
-                className="bg-emerald-400 text-zinc-800 p-2 rounded w-full hover:bg-emerald-300 transition-colors"
-                onClick={() => handleTypeSelect('button')}
-              >
-                Add Button
-              </button>
-              {selectedType && (
-                <div className="mt-4">
-                  <input
-                    className="w-full bg-zinc-700 p-2 rounded focus:outline-none focus:ring-2 focus:ring-emerald-400"
-                    maxLength={70}
-                    placeholder={selectedType === 'button' ? 'Button text' : 'Input label'}
-                    value={inputText}
-                    onChange={handleInputChange}
-                  />
-                  <button
-                    onClick={handleCheckClick}
-                    className="mt-2 bg-emerald-400 text-zinc-800 p-2 rounded w-full flex justify-center items-center hover:bg-emerald-300 transition-colors"
-                  >
-                    <Check size={20} />
-                  </button>
-                </div>
-              )}
-            </div>
+
+              </div>
 
             {/* Center Section */}
             <div className='w-full md:w-[40vw] mt-4 md:mt-0'>
@@ -178,9 +179,9 @@ const TrialBounty: React.FC = () => {
             {/* Right Section */}
             <div className="w-full md:w-[30vw] p-4 border-t md:border-t-0 md:border-l border-zinc-700 mt-4 md:mt-0">
               <h2 className="font-bold mb-2 text-lg">Instructions</h2>
-              <ul className="text-base p-1">
-                <li>- Choose input type or button to shape your bounty's interface</li>
-                <li>- Enter question(max 70 chars)</li>
+              <ul className="text-base space-y-4 p-1">
+                <li>- You can customize name, description and submit text and the input fields of your bounty</li>
+                <li>- Enter question by clicking on the input type you want to add and adding the question in the input field</li>
                 <li>- Click check button to add</li>
                 <li>- Submit to preview the bounty</li>
               </ul>

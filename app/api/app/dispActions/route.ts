@@ -53,39 +53,19 @@ export const GET = async (req: NextRequest) => {
         })
     }
 
-    // if (!userData.isActive){
-    //     const response: ActionGetResponse = {
-    //         description: "Submission closed",
-    //         icon: "https://imgs.search.brave.com/4jrmq74DXMRXOQoamba5WnCwQPlmckEnsjQkEnBib7M/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTU1/Mzg0OTMzL3Bob3Rv/L2NvbXB1dGVyLXNo/b3dpbmctYW4tZXJy/b3ItbWVzc2FnZS5q/cGc_cz02MTJ4NjEy/Jnc9MCZrPTIwJmM9/c05UdTlCQW81OEhP/MkZOSWpzRXNuTWY1/X2R0S2ZPSVVoUGNj/VzR1Nml0Zz0",
-    //         title: "404 Not found :(",
-    //         label: "Submission closed",
-    //         disabled: true,
-    //         error: {
-    //             message: "Submission for this Bounty has been closed by the Host"
-    //         }
-    //     }
-    //     return NextResponse.json(response, {
-    //         headers: ACTIONS_CORS_HEADERS
-    //     })
-    // }
-
-    let actions = [] as LinkedAction[];
-
-    for (let i = 0; i < userData?.winners.length; i++) {
-        actions.push({
-            href: `/api/app/actions?id=${id}}`,
-            label: `${userData?.winners[i].slice(0, 3) + "..." + userData?.winners[i].slice(40, -1)}`,
-        })
-    }
     try {
-
         const response: ActionGetResponse = {
             icon: userData?.imageUrl as string,
             title: userData?.name as string,
             label: "Ignored",
             description: "Congratulations to all the winners! || Claim your prize",
             links: {
-                actions: actions
+                actions: [
+                    {
+                        href: `/api/app/dispActions?id=${id}`,
+                        label: "Claim Prize",
+                    }
+                ]
             }
         }
 

@@ -84,16 +84,15 @@ export const GET = async (req: NextRequest) => {
   }
 
   // @ts-ignore
-  let params: ActionParameter[] = [];
+  let params: ActionParameter[] = [{
+    type: "text",
+    label: "What is your X username?(important)",
+    name: "username",
+    required: true,
+  }];
   let ques = [];
 
-  params.push({
-    type: "email",
-    label: "Give your email Id",
-    name: "email",
-    required: true,
-  });
-
+  
   for (let i = 0; i < (userData?.questions.length as number); i++) {
     params.push({
       type: userData?.types[i].toLowerCase() as ActionParameterType,
@@ -118,7 +117,7 @@ export const GET = async (req: NextRequest) => {
     links: {
       actions: [
         {
-          href: `/api/app/actions?id=${id}&email={email}&data=${str}`,
+          href: `/api/app/actions?id=${id}&username={username}&data=${str}`,
           label:  userData?.submitText as string,
           parameters: params,
         },
@@ -138,8 +137,8 @@ export async function POST(req: NextRequest) {
 
   const { searchParams } = req.nextUrl;
 
-  const email = searchParams.get("email");
-  console.log("email", email);
+  const username = searchParams.get("username");
+  console.log("email", username);
 
   const id = searchParams.get("id");
   console.log("id:", id);
