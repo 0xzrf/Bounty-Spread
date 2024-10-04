@@ -15,8 +15,11 @@ const MercuryoWidget = (publicKey: string) => {
       widget_id: 'a8c1dead-ed5f-4740-b9ce-c4ea7721c93b',
       type: 'buy',
       address: publicKey,
+      network: 'SOLANA',
+      currency: 'SOL',
       signature: signature,
-      currency: "SOL"
+      fiatAmount: 100,
+      fiatCurreny: 'USD',
     };
 
     console.log(params);
