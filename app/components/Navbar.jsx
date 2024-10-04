@@ -137,6 +137,7 @@ function Navbar({scrollToMarquees, scrollToFeatures}) {
             <WalletDropdown
               publicKey={publicKey ? publicKey.toString() : "Signin"}
               signAndSend={signAndSend}
+              style={{textAlign: "center"}}
             />
             <Button
               text="Sign up ->"
@@ -218,7 +219,7 @@ function WalletDropdown({ publicKey, signAndSend }) {
           if (publicKey != "Signin") setIsOpen(!isOpen);
         }}
       >
-        <h1 className="text-xs sm:text-sm">
+        <h1 className="text-xs text-center w-full  sm:text-sm">
           {publicKey == "Signin" ? (
             <WalletMultiButton
               style={{
@@ -233,13 +234,14 @@ function WalletDropdown({ publicKey, signAndSend }) {
                 textAlign: "center",
               }}
             >
-              <h1 className="text-sm ml-20 sm:ml-0 sm:text-sm">Connect Wallet</h1>
+              <h1 className="text-sm sm:ml-0 sm:text-sm">Connect Wallet</h1>
             </WalletMultiButton>
           ) : (
             `${
               isLoading.isLoading
                 ? isLoading.loadingText
-                : "Wallet:" +
+                :
+                 "Wallet:" +
                   publicKey?.slice(0, 3) +
                   "..." +
                   publicKey?.slice(38, -1)

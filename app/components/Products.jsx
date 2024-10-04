@@ -11,7 +11,7 @@ function Products() {
       card1: {
         title: "Winner Selection Made Simple",
         description: "Streamlined Winner Management",
-        details: "Choose winners directly from your bounty dashboard, Instantly send funds to winners' wallets on behalf of POW, Maintain fairness and clarity in prize distribution",
+        details: "Choose winners directly from your bounty dashboard, Send funds to winners after blinks' wallets on behalf of POW, Maintain fairness and clarity in prize distribution",
       },
       card2: {
         title: "Secure Escrow Integration",

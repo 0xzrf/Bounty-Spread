@@ -16,8 +16,8 @@ function Subheading() {
     <div className="w-full bg-zinc-900 mt-[-90vh] flex flex-col justify-center items-center py-10">
       <div className="text-center max-w-screen-lg mx-auto px-4">
         <h2 className="text-white font-mono text-[1.2rem] leading-relaxed tracking-normal">
-          With Blinks, you get results instantly. Our platform ensures you get
-          actionable blinks in just minutes.
+        Posting freelancing gigs made easier,
+        faster & cheaper.
         </h2>
       </div>
       <div className="mt-10">
@@ -33,10 +33,10 @@ function Subheading() {
       <div className="w-5xl mt-[5vh] flex flex-col sm:flex-row justify-center gap-3 text-white mx-auto mb-1 items-center">
         <div className="mb-8 sm:mb-0 sm:w-1/3 mx-4">
           <GithubCardSkew
-            heading={<h1 className="w-fit">Drastic Time Reduction</h1>}
+            heading={<h1 className="w-fit">SEAMLESS INTEGRATION</h1>}
             headSize="4xl"
-            title={"96x times faster"}
-            subtitle="Creating & registering blinks with dialect takes 48 hrs, with us it takes few minutes."
+            title={"No SOL? No Problem!"}
+            subtitle=<h1 className="leading-4">Simplified process for web2 users, onramping made easier through <span className="font-bold">Mercuryo</span>, allowing users to buy SOL directly.</h1>
           />
         </div>
         <div className="mb-8 sm:mb-0 sm:w-1/3 mx-4">

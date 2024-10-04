@@ -11,7 +11,7 @@ function Tagline() {
   const [showCursor, setShowCursor] = useState(true);
   const words = ["Faster", "Smarter", "In minutes"];
   const colors = ["text-yellow-400", "text-blue-400", "text-green-400"];
-  const changeWords = ["Bounties", "Projects", "Grants"];
+  const changeWords = ["Gigs", "Hiring", "Projects", "Grants"];
   const [changeWordIndex, setChangeWordIndex] = useState(0);
 
   useEffect(() => {
