@@ -127,6 +127,30 @@ export async function POST(req: NextRequest) {
         }
     })
 
+    if (bountyInfo?.claimed.length == bountyInfo?.winners.length) {
+        await prisma.$transaction(async(txn) => {
+            await txn.bountySubmissions.deleteMany({
+                where: {
+                    bountyId: id as string
+                }
+            })
+
+            await txn.bounties.delete({
+                where: {
+                    id: id as string
+                }
+            })
+        })
+
+       
+        return NextResponse.json({
+            transaction: "serialTx",
+            message: "Bounty finished"
+        }, {
+            headers: ACTIONS_CORS_HEADERS,
+            status: 403
+        })
+    }
     if (bountyInfo?.claimed.includes(userKey)) {
         return NextResponse.json({
             transaction: "serialTx",
@@ -136,21 +160,7 @@ export async function POST(req: NextRequest) {
             status: 403
         })
     }
-    
-    if (bountyInfo?.claimed.length == bountyInfo?.winners.length) {
-        await prisma.bounties.delete({
-            where: {
-                id: id as string
-            }
-        })
-        return NextResponse.json({
-            transaction: "serialTx",
-            message: "Bounty finished"
-        }, {
-            headers: ACTIONS_CORS_HEADERS,
-            status: 403
-        })
-    }
+
 
     try {
         const hostInfo = await prisma.host.findFirst({

@@ -150,7 +150,7 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
   };
 
   return (
-    <div className="flex flex-col gap-10 min-h-screen w-full">
+    <div className="flex flex-col gap-10 min-h-screen w-full p-10">
       {/* Unverified Bounties */}
       {/* <div className="w-full bg-zinc-900 p-4 min-h-[50vh] rounded-lg shadow-md">
         <h2 className="text-emerald-500 font-semibold mb-4">

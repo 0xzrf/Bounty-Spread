@@ -81,7 +81,7 @@ export default function MainContent({
   };
   return (
     <div className="ml-64 p-4 bg-zinc-800">
-      <div className="border-4 border-dashed  border-emerald-400 rounded-lg text-white p-10">
+      <div className="border-4 border-dashed  border-emerald-400 rounded-lg text-white">
         {userData ? renderContent() : <div className="min-h-screen"></div>}
       </div>
       <Toaster/>

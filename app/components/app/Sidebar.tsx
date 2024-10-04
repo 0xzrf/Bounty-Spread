@@ -46,7 +46,7 @@ export default function Sidebar({
           </div>
 
           {/* Menu Items */}
-          <ul className="space-y-4 font-medium">
+          <ul className="font-medium">
             <li>
               <div
                 className={`flex hover:cursor-pointer items-center p-3 rounded-lg text-white transition group ${selectedButton == "currentBounties" && "bg-emerald-400"

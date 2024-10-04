@@ -1,28 +1,29 @@
 "use client"
 
-import { useEffect,useRef } from "react";
+import { useWallet } from "@solana/wallet-adapter-react";
+import CreateSignature from "./CreateSignature";
 
-declare global {
-    interface Window {
-        mercuryoWidget: any
-    }
-}
+const MercuryoWidget = (publicKey: string) => {
+    
+    const secret = 'secret';
+    const baseUrl = 'https://exchange.mercuryo.io/';
 
-const MercuryoWidget = () => {
-    const widget = useRef(null);
-    const signature = sha21
-    useEffect(() => {
-      if (window.mercuryoWidget) {
-        window.mercuryoWidget.run({
-          widgetId: 'a8c1dead-ed5f-4740-b9ce-c4ea7721c93b',
-          host: widget.current,
-          signature: 
-        });
-      }
-    }, []);
-  
-    return <div ref={widget}></div>;
+    const signatureInput = `${publicKey}${secret}`;
+    const signature = CreateSignature(signatureInput);
+
+    const params = {
+      widget_id: 'a8c1dead-ed5f-4740-b9ce-c4ea7721c93b',
+      type: 'buy',
+      address: publicKey,
+      signature: signature,
+      currency: "SOL"
+    };
+
+    console.log(params);
+
+    const finalUrl = `${baseUrl}?${JSON.stringify(params)}&theme=haru_dark`;
+    return finalUrl;
   };
-  
+
   export default MercuryoWidget;
   

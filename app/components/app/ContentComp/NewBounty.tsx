@@ -186,7 +186,7 @@ export default function NewBounty({
             className="block w-full p-2.5 bg-zinc-700 text-white border border-emerald-400 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400"
           />
           <label htmlFor="dateTimeInput" className="block text-lg mt-4 mb-2">
-            submission text for the blink:<span className="text-red-500">*</span>
+            Submission text for the blink:<span className="text-red-500">*</span>
           </label>
           <input
             id="submitText"
@@ -321,7 +321,7 @@ export default function NewBounty({
               <div className="flex justify-start">
                 <button
                   className={`rounded-lg text-white font-bold text-lg p-4 transition-colors ${
-                    isSubmitting || !selectedValue || questions.length === 0 || textInput === "" || description === "" || dateTime === "" || !imagePreview || freeRemaining <= 0 || !submitText
+                    isSubmitting || !selectedValue || questions.length === 0 || textInput === "" || description === "" || dateTime === "" || !imagePreview || !submitText
                       ? "bg-gray-400 cursor-not-allowed"
                       : "bg-emerald-400 hover:bg-emerald-500"
                   }`}
