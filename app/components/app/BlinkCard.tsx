@@ -8,7 +8,7 @@ type InputType = 'email' | 'number' | 'text' | 'button';
 
 const Card = ({ name, imageUrl, description, inputContent, submitText, className }: { className?: string, name: string, imageUrl?: string, description: string, inputContent: FormItem[], submitText: string }) => {
     return (
-        <div className={`bg-[#1A1D21] shadow-lg mt-4 rounded-xl overflow-hidden w-full max-w-[320px] mx-auto 
+        <div className={`bg-[#1A1D21] mt-4 rounded-xl overflow-hidden w-full max-w-[320px] mx-auto 
                          border border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)] ${className}`}>
                             
             {/* Image */}

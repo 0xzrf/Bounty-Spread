@@ -34,7 +34,7 @@ export const GET = async (req: NextRequest) => {
         description: description as string,
         label: submitText as string,
         disabled: true,
-        icon: "https://images.unsplash.com/photo-1726503454447-6c67b92dcc52?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxM3x8fGVufDB8fHx8fA%3D%3D",
+        icon: "https://d70djocle7hv2.cloudfront.net//uploads/1/0.9516079316753869/image.jpg",
         links: {
             actions: [
                 {
