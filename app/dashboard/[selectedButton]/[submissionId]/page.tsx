@@ -8,7 +8,7 @@ import { DispenserProgram } from "../../../components/app/programData/type";
 import { Connection, PublicKey, Keypair, SystemProgram } from "@solana/web3.js";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import MercuryoWidget from "@/app/components/app/MercuryoWidget";
-import * as anchor from "@coral-xyz/anchor"
+import * as anchor from "@coral-xyz/anchor";
 import {toast, Toaster} from "sonner"
 
 import {
@@ -17,7 +17,6 @@ import {
   web3,
   utils,
   BN,
-  Wallet,
   setProvider,
   Program,
 } from "@coral-xyz/anchor";
@@ -99,7 +98,9 @@ const BountySubmissionsTable = () => {
     fetchBountyData();
   }, [parsedBountyId]);
   useEffect(() => {
-      setUrl(MercuryoWidget(wallet.publicKey?.toString() as string)) 
+    (async () => {
+      setUrl(await MercuryoWidget(wallet.publicKey?.toString() as string)) 
+    })()
   },[wallet.publicKey])
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -233,7 +234,7 @@ const BountySubmissionsTable = () => {
                 toast("Mercuryo widget not loaded")
                 return
               }
-              window.open(url, "_blank")
+              router.push(url)
             }}
             className="text-black hover:bg-emerald-500 bg-emerald-400 px-6 py-3 rounded-xl transition-all duration-300 font-semibold"
           >
