@@ -44,7 +44,7 @@ function Products() {
       card2: {
         title: "Multi token support with your native currency",
         description: "Pay in your native currency",
-        details: "Want to pay in your native currency? No problem. We support multiple tokens, including USDC, USDT, and more! You can just pay with your native currency Powered by Mercuryo to buy your favorite token!",
+        details: "Pay with your native currency using Mercuryo. We support multiple tokens including USDC, USDT, and more!",
         buttonText: "Create Blink ->",
         buttonLink: "/dashboard/createBlink",
       },

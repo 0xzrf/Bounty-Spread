@@ -21,10 +21,10 @@ function Product({ product }) {
       </div>
       <div className="mt-6 flex flex-col sm:w-fit sm:mx-auto sm:text-center sm:flex-row justify-center gap-4 sm:gap-6">
         {product.card1.buttonLink && (
-          <Button link={product.card1.buttonLink} disabled={true} text={product.card1.buttonText} className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white mb-2 sm:mb-0 text-xs sm:text-lg md:text-base lg:text-lg xl:text-xl" />
+          <Button link={product.card1.buttonLink} disabled={true} text={product.card1.buttonText} className="w-full sm:w-auto bg-zinc-800 hover:bg-zinc-800 text-white mb-2 sm:mb-0 text-xs sm:text-lg md:text-base lg:text-lg xl:text-xl" />
         )}
         {product.card2.buttonLink && (
-          <Button link={product.card2.buttonLink} text={product.card2.buttonText} className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white text-base sm:text-lg md:text-xl" />
+          <Button link={product.card2.buttonLink} text={product.card2.buttonText} className="w-full sm:w-auto bg-zinc-800 hover:bg-zinc-800 text-white text-base sm:text-lg md:text-xl" />
         )}
       </div>
     </div>

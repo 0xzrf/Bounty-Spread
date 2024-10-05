@@ -8,7 +8,7 @@ interface FlipTextCardProps {
 
 export default function SwapTextCard({ initialText, finalText, title }: FlipTextCardProps) {
   return (
-    <div className="group flex min-h-64 w-full flex-col justify-between rounded-3xl bg-zinc-800 p-6 md:max-w-[500px] transition-all duration-300 hover:bg-gray-900">
+    <div className="group flex min-h-64 w-full flex-col justify-between rounded-3xl bg-zinc-800 p-6 md:max-w-[500px] transition-all duration-300 hover:bg-zinc-800">
       <h5 className="mb-2 text-sm font-medium uppercase tracking-wide text-gray-500">{title}</h5>
       <div className="flex flex-col justify-between md:min-w-72">
         <div className="md:hidden">
