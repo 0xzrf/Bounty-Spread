@@ -15,6 +15,7 @@ const MercuryoWidget = async (publicKey: string) => {
       network: 'SOLANA', 
       currency: 'SOL',
       signature: signature,
+      fiatAmount: '300',
       fiatCurreny: 'USD',
     };
 
