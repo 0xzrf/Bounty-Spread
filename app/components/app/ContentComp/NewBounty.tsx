@@ -224,7 +224,7 @@ export default function NewBounty({
             description={description} 
             //@ts-ignore
             inputContent={questions.map((item) => ({ type: item.type, text: item.question }))} 
-            className="" 
+            className="min-w-[420px]" 
           />
         </div>
       </div>
