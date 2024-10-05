@@ -24,18 +24,31 @@ function Products() {
         title: "Seamless Data Integration",
         description: "Real-time Data Access",
         details: "Submissions and participant details are automatically integrated into your custom endpoint. Access real-time data without manual transfers, streamlining your workflow and decision-making process.",
-        buttonText: "Integrate Now ->",
-        buttonLink: "/dashboard/integration",
+
       },
       card2: {
         title: "Time-Efficient Blink Creation",
         description: "Streamlined Workflow",
         details: "Say goodbye to repetitive tasks. Create Blinks directly from our platform, eliminating the need to access Dialect for each creation. Save time and focus on what matters most.",
+
+      },
+    },
+    {
+      card1: {
+        title: "API Integration",
+        description: "Directly to your platform",
+        details: "Just want to create a blink? No problem. We have you covered. Our API allows you to create a blink in just a single line of code!",
+        buttonText: "Integrate Now ->",
+        buttonLink: "/dashboard/integration",
+      },
+      card2: {
+        title: "Multi token support with your native currency",
+        description: "Pay in your native currency",
+        details: "Want to pay in your native currency? No problem. We support multiple tokens, including USDC, USDT, and more! You can just pay with your native currency Powered by Mercuryo to buy your favorite token!",
         buttonText: "Create Blink ->",
         buttonLink: "/dashboard/createBlink",
       },
     },
-    // Add more product pairs as needed
   ];
 
   return (

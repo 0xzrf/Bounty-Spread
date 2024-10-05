@@ -165,6 +165,9 @@ const TrialBounty: React.FC = () => {
 
             {/* Center Section */}
             <div className='w-full md:w-[40vw] mt-4 md:mt-0'>
+              <h1 className="text-2xl font-bold text-white text-center">
+                Preview Blink
+              </h1>
               <BlinkCard className="h-" inputContent={centerContent} name={name} description={description} submitText={submitText} />
               <button
                 className="bg-emerald-400 text-zinc-800 my-5 w-1/2 md:w-1/2 rounded-lg p-2 md:p-1 flex justify-center items-center mx-auto mt-6 hover:bg-emerald-300 transition-colors"

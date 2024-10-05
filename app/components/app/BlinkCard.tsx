@@ -6,52 +6,45 @@ interface FormItem {
 }
 type InputType = 'email' | 'number' | 'text' | 'button';
 
-const Card = ({ name,imageUrl, description, inputContent, submitText, className }: { className?: string, name: string, imageUrl?:string,description: string, inputContent: FormItem[], submitText: string }) => {
+const Card = ({ name, imageUrl, description, inputContent, submitText, className }: { className?: string, name: string, imageUrl?: string, description: string, inputContent: FormItem[], submitText: string }) => {
     return (
-        <div className={`bg-[#1F2226] shadow-blue-400 my-4 p-4 sm:p-6 rounded-lg shadow-lg w-full max-w-[90vw] sm:max-w-sm mx-auto ${className}`}>
-            {/* Header */}
-            <div className="text-center mb-4">
-                <img src={imageUrl ? imageUrl : "https://wallpapercave.com/wp/wp9800926.jpg"} alt="Solana Foundation" className="mx-auto w-full mb-2" />
-                <h2 className="text-lg sm:text-xl font-semibold text-white">{name == '' ? '<Blink Name>' : name}</h2>
+        <div className={`bg-[#1A1D21] shadow-lg mt-4 rounded-xl overflow-hidden w-full max-w-[320px] mx-auto 
+                         border border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)] ${className}`}>
+                            
+            {/* Image */}
+            <div className="relative h-48 p-4 overflow-hidden">
+                <img src={imageUrl || "https://wallpapercave.com/wp/wp9800926.jpg"} alt={name} className="w-full rounded-xl h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
             </div>
 
-            {/* Description */}
-            <textarea 
-                value={description == '' ? '<Blink Description>' : description} 
-                disabled 
-                className="text-gray-400 bg-[#1F2226] w-full border-none text-xs sm:text-sm mb-4 resize-none overflow-hidden"
-                style={{ height: 'auto', minHeight: '2rem' }}
-                ref={(textareaRef) => {
-                    if (textareaRef) {
-                        textareaRef.style.height = 'auto';
-                        textareaRef.style.height = textareaRef.scrollHeight + 'px';
-                    }
-                }}
-            >
+            {/* Content */}
+            <div className="p-4">
+                {/* Title */}
+                <h2 className="text-lg font-semibold text-white truncate">{name || 'Blink Name'}</h2>
                 
-            </textarea>
+                {/* Description */}
+                <p className="text-sm mb-4 text-gray-400 line-clamp-2">{description || 'Blink Description'}</p>
 
-            {/* Form */}
-            <form className="space-y-3 sm:space-y-4">
-                {inputContent?.map((item, index) => (
-                    <div key={index}>
-                        <input
-                            disabled={true}
-                            type={item.type.toLowerCase()}
-                            placeholder={item.text}
-                            className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base text-gray-900 bg-[#1F2226] border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                        />
-                    </div>
-                ))}
-               
-                <button
-                    disabled={true}
-                    type="submit"
-                    className="w-full py-2 bg-blue-600 text-white text-sm sm:text-base font-semibold rounded-lg hover:bg-blue-700 transition duration-300"
-                >
-                    {submitText == '' || submitText == null ? '<Your Submit Text>' : submitText}
-                </button>
-            </form>
+                {/* Form */}
+                <form className="space-y-3">
+                    {inputContent?.map((item, index) => (
+                        <div key={index}>
+                            <input
+                                type={item.type.toLowerCase()}
+                                placeholder={item.text}
+                                className="w-full px-3 py-2 text-sm bg-[#2A2D31] text-gray-300 rounded-md border border-gray-700 focus:outline-none focus:border-blue-500"
+                            />
+                        </div>
+                    ))}
+                    
+                    <button
+                        type="submit"
+                        className="w-full py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition duration-300"
+                    >
+                        {submitText || 'Blink Text'}
+                    </button>
+                </form>
+            </div>
         </div>
     );
 };

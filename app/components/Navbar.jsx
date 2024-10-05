@@ -90,6 +90,7 @@ function Navbar({scrollToMarquees, scrollToFeatures}) {
   const navItems = [
     { name: "Features", onClick: scrollToFeatures },
     { name: "Explore Blinks", onClick: scrollToMarquees },
+    
   ];
 
   return (
