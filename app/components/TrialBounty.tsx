@@ -168,7 +168,7 @@ const TrialBounty: React.FC = () => {
               <h1 className="text-2xl font-bold text-white text-center">
                 Preview Blink
               </h1>
-              <BlinkCard className="h-" inputContent={centerContent} name={name} description={description} submitText={submitText} />
+              <BlinkCard className="min-w-[320px]" inputContent={centerContent} name={name} description={description} submitText={submitText} />
               <button
                 className="bg-emerald-400 text-zinc-800 my-5 w-1/2 md:w-1/2 rounded-lg p-2 md:p-1 flex justify-center items-center mx-auto mt-6 hover:bg-emerald-300 transition-colors"
                 onClick={handleSubmit}
