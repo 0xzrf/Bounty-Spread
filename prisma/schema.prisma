@@ -10,7 +10,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("DIRECT_URL")
 }
 
 model Host {
@@ -27,7 +27,7 @@ model Host {
 
 model Bounties {
   id          String              @id @default(uuid())
-  name        String              @unique
+  name        String              
   amount      Int
   imageUrl    String
   isVerified  Boolean             @default(true)
