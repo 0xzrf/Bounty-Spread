@@ -7,7 +7,7 @@ import { BN, Program, web3 } from "@coral-xyz/anchor";
 import IDL from "@/app/components/app/programData/idl.json";
 import { DispenserProgram } from "@/app/components/app/programData/type";
 const idlObject = JSON.parse(JSON.stringify(IDL))
-const connection = new web3.Connection("https://api.devnet.solana.com")
+const connection = new Connection("https://solana-devnet.g.alchemy.com/v2/OT4gR7dGMvcc2SUrdEm4RCtrq0j2YkUL");
 const program = new Program<DispenserProgram>(idlObject, {
     connection
 })
