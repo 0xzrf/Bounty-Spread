@@ -14,6 +14,7 @@ type Bounty = {
   prizes: number[];
   createdAt: string;
   type: BountyType;
+  claimed: string[];
 };
 
 interface BountiesTableProps {
@@ -129,7 +130,7 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
           {formatDate(bounty.createdAt)}
         </td>
         <td className="py-2 px-4 border-t border-zinc-700">
-          {bounty.sumbissions?.length}
+          {bounty.claimed?.length}
         </td>
         <td className="py-2 px-4 border-t border-zinc-700">
           {renderWinnersAndPrizes(bounty.winners, bounty.prizes)}
@@ -151,33 +152,7 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
   };
 
   return (
-    <div className="flex flex-col gap-10 min-h-screen w-full">
-      {!isPaid && (
-        <div className="flex items-center justify-center bg-zinc-700 text-emerald-400 p-4 rounded-md border border-yellow-400">
-          <svg
-            className="w-6 h-6 mr-2 text-emerald-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M13 16h-1v-4h-1m1-4h.01M12 12h.01M12 8h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9.03 4.03 9 9z"
-            ></path>
-          </svg>
-          <span className="font-bold">
-            To verify your Bounties faster, become a{" "}
-            <Link href={"/dashboard/proMember"} className="underline">
-              Pro Member
-            </Link>{" "}
-            today!
-          </span>
-        </div>
-      )}
-
+    <div className="flex flex-col gap-10 p-4 min-h-screen w-full">
       <div className="w-full bg-zinc-900 p-4 min-h-[50vh] rounded-lg shadow-md">
         <h2 className="text-emerald-500 font-semibold mb-4">
           Disbursed Bounties
@@ -205,7 +180,7 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
               <th className="py-2 px-4 text-left">Type</th>
               <th className="py-2 px-4 text-left">Active</th>
               <th className="py-2 px-4 text-left">Created</th>
-              <th className="py-2 px-4 text-left">Submissions</th>
+              <th className="py-2 px-4 text-left">Claimed by</th>
               <th className="py-2 px-4 text-left">Winners and Prizes</th>
               <th className="py-2 px-4 text-left">Actions</th>
             </tr>

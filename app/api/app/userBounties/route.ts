@@ -31,6 +31,7 @@ export const GET = async (req: NextRequest) => {
                 id: true,
                 hostId: true,
                 type: true,
+                claimed: true,
                 winners: true,
                 prizes: true,
             }

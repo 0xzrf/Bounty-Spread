@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState, useEffect } from "react";
 import Welcome from "./ContentComp/Welcome";
 import ProMember from "./ContentComp/ProMember";
@@ -9,6 +11,7 @@ import {toast, Toaster} from "sonner"
 import Cookies from "js-cookie";
 import DispenseBounty from "./ContentComp/DispenseBounty";
 import Integrate from "../Integrate";
+import { useRouter } from "next/navigation";
 export const runtime = "edge";
 
 type Bounty = {
@@ -29,12 +32,14 @@ export default function MainContent({
     freeRemaining: number;
   } | null>(null);
   const cookie = Cookies.get("token");
-  const [bounties, setBounties] = useState()
-
+  const router = useRouter()
   useEffect(() => {
     (async () => {
       if (!cookie) {
         toast("Sign in first please");
+        setTimeout(() => {
+          router.push("/");
+        }, 2000);
       } else {
         const response = await axios.get(
           `${window.location.origin}/api/app/user`,

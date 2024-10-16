@@ -44,7 +44,7 @@ export const GET = async (req: NextRequest) => {
             prizes: true,
             escrow_id: true,
             usernames: true,
-            hostId: true
+            hostId: true,
         }
     })
 
@@ -109,57 +109,67 @@ export async function POST(req: NextRequest) {
     const userKey = postRequest.account;
 
     const { searchParams } = req.nextUrl;
-    console.log("started the post request of dispAction")
+    
     const id = searchParams.get("id");
     const escrowId = searchParams.get("escrow_id");
     let hostId:number | string = searchParams.get("hostId") as string;
     hostId = parseInt(hostId as string)
     const escrowIdBN = new BN(parseInt(escrowId as string))
     const user = new PublicKey(userKey);
+    // let bountyInfo;
+    // try {
+    // bountyInfo = await prisma.bounties.findFirst({
+    //     where: {
+    //         id: id as string
+    //     },
+    //     select: {
+    //         claimed: true,
+    //         winners: true
+    //     }
+    // })
+    // } catch (err) {
+    //     return NextResponse.json({
+    //         transaction: "serialTx",
+    //         message: "Already claimed"
+    //     }, {
+    //         headers: ACTIONS_CORS_HEADERS,
+    //         status: 403
+    //     })
+    // }
 
-    const bountyInfo = await prisma.bounties.findFirst({
-        where: {
-            id: id as string
-        },
-        select: {
-            claimed: true,
-            winners: true
-        }
-    })
+    // if (bountyInfo?.claimed.length == bountyInfo?.winners.length) {
+    //     await prisma.$transaction(async(txn) => {
+    //         await txn.bountySubmissions.deleteMany({
+    //             where: {
+    //                 bountyId: id as string
+    //             }
+    //         })
 
-    if (bountyInfo?.claimed.length == bountyInfo?.winners.length) {
-        await prisma.$transaction(async(txn) => {
-            await txn.bountySubmissions.deleteMany({
-                where: {
-                    bountyId: id as string
-                }
-            })
-
-            await txn.bounties.delete({
-                where: {
-                    id: id as string
-                }
-            })
-        })
+    //         await txn.bounties.delete({
+    //             where: {
+    //                 id: id as string
+    //             }
+    //         })
+    //     })
 
        
-        return NextResponse.json({
-            transaction: "serialTx",
-            message: "Bounty finished"
-        }, {
-            headers: ACTIONS_CORS_HEADERS,
-            status: 403
-        })
-    }
-    if (bountyInfo?.claimed.includes(userKey)) {
-        return NextResponse.json({
-            transaction: "serialTx",
-            message: "Already claimed"
-        }, {
-            headers: ACTIONS_CORS_HEADERS,
-            status: 403
-        })
-    }
+    //     return NextResponse.json({
+    //         transaction: "serialTx",
+    //         message: "Bounty finished"
+    //     }, {
+    //         headers: ACTIONS_CORS_HEADERS,
+    //         status: 403
+    //     })
+    // }
+    // if (bountyInfo?.claimed.includes(userKey)) {
+    //     return NextResponse.json({
+    //         transaction: "serialTx",
+    //         message: "Already claimed"
+    //     }, {
+    //         headers: ACTIONS_CORS_HEADERS,
+    //         status: 403
+    //     })
+    // }
 
 
     try {
