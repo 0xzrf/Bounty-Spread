@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   ActionGetResponse,
+  ActionPostRequest,
   ACTIONS_CORS_HEADERS,
 } from "@solana/actions";
 
@@ -44,8 +45,20 @@ export const GET = async (req: NextRequest) => {
 export async function POST(req: NextRequest) {
 
   const { searchParams } = req.nextUrl;
+  const id = searchParams.get("id");
+  const body:ActionPostRequest = await req.json();
+
 
   const link = searchParams.get("link");
+
+  await prisma.bountySubmissions.create({
+    data: {
+      bountyId: id as string,
+      candidPubKey: body.account,
+      question: [],
+      answers: [],
+    }
+  })
   
     const response = {
         externalLink: link,
