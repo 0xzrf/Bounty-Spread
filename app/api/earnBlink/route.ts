@@ -4,31 +4,33 @@ import {
   ACTIONS_CORS_HEADERS,
 } from "@solana/actions";
 
+import { prisma } from "@/lib/utils";
 
-interface STBody {
-  listingId: string;
-  link: string;
-  tweet: string;
-  otherInfo: string;
-  ask: null;
-  eligibilityAnswers: null;
-  email: string;
-}
 export const runtime = "edge";
 
 export const GET = async (req: NextRequest) => {
-  
 
+  const { searchParams } = req.nextUrl;
+
+  const id = searchParams.get("id");
+  const link = searchParams.get("link");
+
+  const bountyData = await prisma.bounties.findFirst({
+    where:{
+      id: id as string
+    }
+  });
+  
   const response: ActionGetResponse = {
-    icon: "https://images.unsplash.com/photo-1721332149267-ef9b10eaacd9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxfHx8ZW58MHx8fHx8",
-    title: "Something",
+    icon: bountyData?.imageUrl as string,
+    title: bountyData?.name as string,
     label: "Ignored",
-    description: "This is soething",
+    description: bountyData?.description as string,
     links: {
       actions: [
         {
-          href: `/api/earnBlink`,
-          label:  "Button",
+          href: `/api/earnBlink?link=${link as string}`,
+          label: "Link to the Bounty",
         },
       ],
     },
@@ -40,14 +42,18 @@ export const GET = async (req: NextRequest) => {
 };
 
 export async function POST(req: NextRequest) {
+
+  const { searchParams } = req.nextUrl;
+
+  const link = searchParams.get("link");
+  
     const response = {
-        externalLink: `https://x.com/`,
+        externalLink: link,
         type: 'external-link',
     }
   return NextResponse.json(response, { headers: ACTIONS_CORS_HEADERS });
 
 }
-
 
 export async function OPTIONS(req: Request) {
   return new Response(null, { headers: ACTIONS_CORS_HEADERS });
