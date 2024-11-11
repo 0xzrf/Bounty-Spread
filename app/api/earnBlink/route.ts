@@ -17,11 +17,11 @@ export const GET = async (req: NextRequest) => {
   const link = searchParams.get("link");
 
   const bountyData = await prisma.bounties.findFirst({
-    where:{
+    where: {
       id: id as string
     }
   });
-  
+
   const response: ActionGetResponse = {
     icon: bountyData?.imageUrl as string,
     title: bountyData?.name as string,
@@ -30,7 +30,7 @@ export const GET = async (req: NextRequest) => {
     links: {
       actions: [
         {
-          href: `/api/earnBlink?link=${link as string}`,
+          href: `/api/earnBlink?link=${link as string}&id=${id as string}`,
           label: "Link to the Bounty",
         },
       ],
@@ -46,24 +46,32 @@ export async function POST(req: NextRequest) {
 
   const { searchParams } = req.nextUrl;
   const id = searchParams.get("id");
-  const body:ActionPostRequest = await req.json();
+  const body: ActionPostRequest = await req.json();
 
 
   const link = searchParams.get("link");
 
-  await prisma.bountySubmissions.create({
-    data: {
-      bountyId: id as string,
-      candidPubKey: body.account,
-      question: [],
-      answers: [],
+  const isUser = await prisma.bountySubmissions.findFirst({
+    where: {
+      candidPubKey: body.account
     }
   })
-  
-    const response = {
-        externalLink: link,
-        type: 'external-link',
-    }
+
+  if(!isUser) {
+    await prisma.bountySubmissions.create({
+      data: {
+        bountyId: id as string,
+        candidPubKey: body.account,
+        question: [],
+        answers: [],
+      }
+    })
+  }
+
+  const response = {
+    externalLink: link,
+    type: 'external-link',
+  }
   return NextResponse.json(response, { headers: ACTIONS_CORS_HEADERS });
 
 }

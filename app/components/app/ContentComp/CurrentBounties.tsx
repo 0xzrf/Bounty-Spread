@@ -125,7 +125,7 @@ const BountiesTable: React.FC<BountiesTableProps> = ({ bounties, isPaid }) => {
         </td>)}
         {bounty.isVerified && (<td className="py-2 px-4 border-t border-zinc-700">
           <a
-            href={`https://dial.to/?action=solana-action%3A${encodeURIComponent(window.location.origin)}%2Fapi%2Fapp%2Factions%3Fid%3D${bounty.id}&cluster=devnet`}
+            href={`https://x.com/intent/tweet?text=https://dial.to/?action=solana-action%3A${encodeURIComponent(window.location.origin)}%2Fapi%2Fapp%2Factions%3Fid%3D${bounty.id}&cluster=devnet`}
             className="text-emerald-500 hover:text-emerald-400"
             target="_blank"
             rel="noopener noreferrer"
